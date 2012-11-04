@@ -1,0 +1,73 @@
+h1. yerslider
+
+is a javascript object using jQuery that allows fluid responsive slideshows
+
+This documentation is incomplete and corrupting changes still may ahead!
+
+h2. Roadmap
+
+* default theme
+* touch gesture
+* different animations
+
+* [done] breackpoints for slidegroups
+* [done] slidegroups
+* [done] fluid slider
+
+Just ask me for your needs at mail@johannheyne.de or create a new issue.
+
+h2. Setup
+
+h3. Basic HTML
+
+<pre><code><div class="yerslider-wrap mysliderclass">
+    <div class="yerslider-mask">
+        <ul class="yerslider-slider">
+            <li class="yerslider-slide">
+                /* Slide Content */
+            </li>
+            <li class="yerslider-slide">
+                /* Slide Content */
+            </li>
+        </ul>
+    </div>
+</div>
+</code></pre>
+
+h3. Loading The Script
+
+Load the yerslider.js from the core folder. The best way is to load the script on dependecy of a slider on the page. The following script does this.
+
+<pre><code>if ( jQuery('.mysliderclass').length > 0 ) {
+
+    jQuery.ajax({
+        url: '/assets/yerslider/core/yerslider.js',
+        dataType: 'script',
+        cache: true,
+        async: true,
+        success: function () {
+            
+            /* define a slider here */
+        }
+    });
+}
+</code></pre>
+
+h3. Define A Slider
+
+<pre><code>var myslider = yerSlider;
+myslider.init({
+    sliderid: '.mysliderclass',
+    slidegap: 20,
+    slidegroupresp: {
+        0: 1,
+        300: 2,
+        600: 3
+    },
+    animationspeed: 1000
+});
+</code></pre>
+
+h3. Load the Slider Stylesheet
+
+There is a themefolder with an default theme. Inside there is the stylesheet with basic styles. Just copy the theme and make your additions to the styles. Then load the styles in the head of your html or use a preprozessor to add this to your existing basic stylesheet.
