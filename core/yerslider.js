@@ -28,7 +28,8 @@ var yerSlider = {
         nextbtn: true,
         prevbtn: true,
         nextclass: '.yerslider-next',
-        prevclass: '.yerslider-prev'
+        prevclass: '.yerslider-prev',
+        insidetablecellfix: true
     },
     
     status: {
@@ -103,7 +104,17 @@ var yerSlider = {
     
     set_slidermaskwidth: function () {
         
+        if ( this.param.insidetablecellfix ) {
+            this.obj.slider.hide();
+            this.obj.slidermask.css('width','100%');
+        }
+        
         this.status.slidermaskwidth = this.obj.slidermask.innerWidth();
+        
+        if ( this.param.insidetablecellfix ) {
+            this.obj.slidermask.css('width',this.obj.slidermask.width() + 'px');
+            this.obj.slider.show();
+        }
     },
     
     set_slidecount: function () {
