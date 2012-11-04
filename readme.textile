@@ -4,6 +4,8 @@ is a javascript object using jQuery that allows fluid responsive slideshows
 
 This documentation is incomplete and corrupting changes still may ahead!
 
+<iframe src="http://www.screenr.com/embed/qis7" width="650" height="396" frameborder="0"></iframe>
+
 h2. Roadmap
 
 * default theme
