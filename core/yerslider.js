@@ -29,7 +29,8 @@ var yerSlider = {
         prevbtn: true,
         nextclass: '.yerslider-next',
         prevclass: '.yerslider-prev',
-        insidetablecellfix: true
+        insidetablecellfix: true,
+        animationspeed: 1000
     },
     
     status: {
@@ -301,7 +302,7 @@ var yerSlider = {
         
         yerSlider.obj.slider.animate({
             'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
-        }, 1000, function () {
+        }, yerSlider.param.animationspeed, function () {
            yerSlider.status.isanimating = false;
         });
     },
