@@ -70,6 +70,15 @@ var yerSlider = {
         /* layout slider */
         
         this.obj.sliderwrap.css({
+            position: 'relative',
+            width: '100%'
+        });
+        
+        this.obj.slidermask.css({
+            position: 'relative',
+            width: '100%',
+            overflow: 'hidden',
+            'overflow-x': 'auto'
         });
         
         this.obj.slider.css({
@@ -195,13 +204,13 @@ var yerSlider = {
         if ( this.status.slidecount > this.param.slidegroup ) {
         
             if ( typeof this.obj.nextbtn !== 'object' && this.param.nextbtn ) {
-                this.obj.sliderwrap.append('<div class="js-yerslider-next ' + this.param.nextclass.replace( '.', '' ) + '">');
+                this.obj.sliderwrap.append('<div class="js-yerslider-next yerslider-prevnext ' + this.param.nextclass.replace( '.', '' ) + '">');
                 this.obj.nextbtn = jQuery( this.param.nextclass );
                 this.nextbtn_click();
             }
         
             if ( typeof this.obj.prevbtn !== 'object' && this.param.prevbtn ) {
-                this.obj.sliderwrap.append('<div class="js-yerslider-prev ' + this.param.prevclass.replace( '.', '' ) + '">');
+                this.obj.sliderwrap.append('<div class="js-yerslider-prev yerslider-prevnext ' + this.param.prevclass.replace( '.', '' ) + '">');
                 this.obj.prevbtn = jQuery( this.param.prevclass );
                 this.prevbtn_click();
             }

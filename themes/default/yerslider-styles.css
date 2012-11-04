@@ -1,60 +1,37 @@
-.yerslider-mask {
-	position: relative;
-	width: 100%;
-	overflow: hidden;
-	overflow-x: auto;
-}
-
-.yerslider-wrap:after {
-	content: "";
-	display: table;
-	clear: both;
-}
-
 .yerslider-wrap {
-	position: relative;
-	width: 100%;
-	border: 10px solid #ddd;
+	border: 10px solid #eee;
 }
 
 .yerslider-slider {
-	white-space: nowrap;
+	list-style-type: none;
 }
 
 .yerslider-slide {
-	display: inline-block;
-	margin-right: 3%;
-	width: 31.33333%;
-	vertical-align: top;
-	white-space: normal;
+	padding: 10px;
 }
 
-.yerslider-slide:last-child {
-	margin-right: 0;
+.yerslider-prevnext {
+	position: absolute;
+	z-index: 999;
+	width: 40px;
+	height: 40px;
+	top: 50%;
+	margin-top: -10px;
+	cursor: pointer;
+	border: 20px solid transparent;
+	opacity: 0.2;
 }
 
 .yerslider-next {
-	position: absolute;
-	z-index: 999;
-	width: 30px;
-	height: 40px;
-	top: 50%;
-	right: -20px;
-	margin-top: -20px;
-	background: #888;
-	background: rgba( 0, 0, 0, 0.5 );
-	cursor: pointer;
+	right: 0;
+	border-left: 20px solid black;
 }
 
 .yerslider-prev {
-	position: absolute;
-	z-index: 999;
-	width: 30px;
-	height: 40px;
-	top: 50%;
-	left: -20px;
-	margin-top: -20px;
-	background: #888;
-	background: rgba( 0, 0, 0, 0.5 );
-	cursor: pointer;
+	left: 0;
+	border-right: 20px solid black;
+}
+
+.yerslider-wrap:hover .yerslider-prevnext {
+	opacity: 0.8;
 }
