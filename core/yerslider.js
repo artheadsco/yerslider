@@ -352,8 +352,8 @@ var yerSlider = {
                 }
                 else {
                 
-                    if ( typeof p.d[ i ] !== 'undefined' && getLength( r[ i ] ) !== getLength( p.d[ i ] ) ) {
-                        r[ i ] = setDefaultParam({ p: r[ i ], d: p.d[ i ] });
+                    if ( typeof p.d[ i ] !== 'undefined' && yerSlider.helper.getLength( r[ i ] ) !== yerSlider.helper.getLength( p.d[ i ] ) ) {
+                        r[ i ] = yerSlider.helper.setDefaultParam({ p: r[ i ], d: p.d[ i ] });
                     }
                 }
             }
