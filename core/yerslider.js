@@ -324,11 +324,24 @@ var yerSlider = {
     
     animate_slider_to_current_position: function () {
         
+        // yerSlider.animate_slider_to_current_position_css();
+        
         yerSlider.obj.slider.animate({
             'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
         }, yerSlider.param.animationspeed, function () {
            yerSlider.status.isanimating = false;
         });
+    },
+    
+    animate_slider_to_current_position_css: function() {
+        
+        /* under development */
+        
+        yerSlider.obj.slider.css('-webkit-transition-duration', ( yerSlider.param.animationspeed / 1000 ).toFixed(1) + 's');
+
+        var value = '-' + Math.abs( ( yerSlider.status.slidewidth + yerSlider.param.slidegap ) ).toString();
+        
+        yerSlider.obj.slider.css( '-webkit-transform', 'translate3d(' + value + 'px,0px,0px)' );
     },
     
     helper: {
