@@ -81,16 +81,31 @@ var yerSlider = {
             'overflow-x': 'auto'
         });
         
+        /* remember font-size and line-height for the slides because
+        the font-size and line-height of the slider needs to be zero */
+        
+        var obj_slide_css = [];
+            
+            obj_slide_css.fontsize = this.obj.slide.css('font-size');
+            obj_slide_css.lineheight = this.obj.slide.css('line-height');
+        
         this.obj.slider.css({
             overflow: 'hidden',
             'white-space': 'nowrap',
-            position: 'relative'
+            position: 'relative',
+            'list-style-type': 'none',
+            padding: 0,
+            margin: 0,
+            'line-height': 0,
+            'font-size': 0
         });
         
         this.obj.slide.css({
             display: 'inline-block',
             'vertical-align': 'top',
-            'white-space': 'normal'
+            'white-space': 'normal',
+            'font-size': obj_slide_css.fontsize,
+            'line-height': obj_slide_css.lineheight
         });
         
         this.set_slidermaskwidth();
