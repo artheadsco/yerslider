@@ -46,12 +46,26 @@ body * {
 	right: 0;
 	border-left: 20px solid black;
 }
+.yerslider-next-inactive {
+	border-left: 20px solid red;
+}
 
 .yerslider-prev {
 	left: 0;
 	border-right: 20px solid black;
 }
+.yerslider-prev-inactive {
+	border-right: 20px solid red;
+}
 
 .yerslider-wrap:hover .yerslider-prevnext {
 	opacity: 0.8;
+}
+.yerslider-wrap:hover .yerslider-next-inactive {
+	opacity: 0.2;
+	cursor: default;
+}
+.yerslider-wrap:hover .yerslider-prev-inactive {
+	opacity: 0.2;
+	cursor: default;
 }
