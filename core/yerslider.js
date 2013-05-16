@@ -25,12 +25,15 @@ var yerSlider = {
         slidermaskclass: '.yerslider-mask',
         sliderclass: '.yerslider-slider',
         slideclass: '.yerslider-slide',
+        bulletswrapclass: '.yerslider-bullets-wrap',
+        bulletclass: '.yerslider-bullet',
         nextbtn: true,
         prevbtn: true,
         nextclass: '.yerslider-next',
         prevclass: '.yerslider-prev',
         insidetablecellfix: true,
-        animationspeed: 1000
+        animationspeed: 1000,
+        bullets: false
     },
     
     status: {
@@ -115,6 +118,9 @@ var yerSlider = {
         this.clon_slides();
         this.set_slidewidth();
         this.set_prevnext();
+        if ( this.param.bullets ) {
+            this.bullets();
+        }
         
         
         window.onresize = function(event) {
@@ -342,6 +348,11 @@ var yerSlider = {
         var value = '-' + Math.abs( ( yerSlider.status.slidewidth + yerSlider.param.slidegap ) ).toString();
         
         yerSlider.obj.slider.css( '-webkit-transform', 'translate3d(' + value + 'px,0px,0px)' );
+    },
+    
+    bullets: function () {
+          
+          this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
     },
     
     helper: {
