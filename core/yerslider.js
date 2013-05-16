@@ -2,10 +2,10 @@
  * yerSlider
  * A javascript object for slided content
  *
- * Copyright (c) 2012 Johann Heyne
+ * Copyright (c) 2013 Johann Heyne
  *
  * Version 1
- * Update 2012-10-23
+ * Update 2013-05-17
  *
  * Minimum requirements: jQuery v1.6+
  *
