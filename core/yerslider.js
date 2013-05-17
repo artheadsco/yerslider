@@ -47,7 +47,8 @@ var yerSlider = {
         isanimating: false,
         nextbtnclickable: false,
         prevbtnclickable: false,
-        bulletscount: 0
+        bulletscount: 0,
+        bulletcurrent: 0
     },
     
     obj: {
@@ -362,16 +363,19 @@ var yerSlider = {
                 
                 if ( !yerSlider.status.prevbtnclickable ) yerSlider.prevbtn_click();
             }
+            
+            yerSlider.set_bullet_current();
         })
         .removeClass( this.param.nextinactiveclass.replace( '.', '' ) );
                 
         this.status.nextbtnclickable = true;
+        
     },
     
     prevbtn_click: function () {
         
-            this.obj.prevbtn.on( 'click', function () {
-                
+        this.obj.prevbtn.on( 'click', function () {
+            
             if ( !yerSlider.status.isanimating ) {
                 
                 yerSlider.status.isanimating = true;
@@ -381,6 +385,8 @@ var yerSlider = {
                 
                 if ( !yerSlider.status.nextbtnclickable ) yerSlider.nextbtn_click();
             }
+            
+            yerSlider.set_bullet_current();
         })
         .removeClass( this.param.previnactiveclass.replace( '.', '' ) );
     
@@ -484,7 +490,29 @@ var yerSlider = {
             /* get amount of bullets */
         
             this.status.bulletscount = Math.ceil( this.status.slidecount / this.param.slidegroup );
+            
+            
+            /* current bullet index */
+            
+            this.set_bullet_current();
         }
+    },
+    
+    set_bullet_current: function () {
+        
+        var currentslideindex = this.status.currentslideindex;
+
+        /* translate clone current slide index into original index */
+
+        if ( currentslideindex + 1 > this.status.slidecount ) {
+
+            currentslideindex = currentslideindex - this.status.slidecount;
+        }
+
+
+        /* current bullet index */
+
+        this.status.bulletcurrent = Math.round( currentslideindex / this.param.slidegroup ) + 1;
     },
     
     helper: {
