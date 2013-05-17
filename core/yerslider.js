@@ -470,18 +470,21 @@ var yerSlider = {
                 
         */
         
-        /* do bullets-wrap html and object */
+        if ( this.param.bullets ) {
         
-        if ( this.param.bullets && typeof this.obj.bulletswrap !== 'object' ) {
+            /* do bullets-wrap html and object */
         
-            this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
-            this.obj.bulletswrap = this.obj.sliderwrap.find( this.param.bulletswrapclass.replace( '.', '' ) );
+            if ( typeof this.obj.bulletswrap !== 'object' ) {
+        
+                this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
+                this.obj.bulletswrap = this.obj.sliderwrap.find( this.param.bulletswrapclass.replace( '.', '' ) );
+            }
+        
+        
+            /* get amount of bullets */
+        
+            this.status.bulletscount = Math.ceil( this.status.slidecount / this.param.slidegroup );
         }
-        
-        
-        /* get amount of bullets */
-        
-        this.status.bulletscount = Math.ceil( this.status.slidecount / this.param.slidegroup );
     },
     
     helper: {
