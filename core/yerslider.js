@@ -151,6 +151,9 @@ var yerSlider = {
         
     },
     
+    
+    /* setup */
+    
     set_slidermaskwidth: function () {
         
         if ( this.param.insidetablecellfix ) {
@@ -204,24 +207,6 @@ var yerSlider = {
         }
     },
     
-    clon_slides: function () {
-        
-        var index = 0;
-        
-        for (var i = 0; i < this.status.slidegroupmax * 2; i++) {
-            
-            if ( index > this.status.slidecount ) {
-                index = 0;
-            }
-            
-            this.obj.slider.append( jQuery( this.obj.slide[ index ] ).clone() );
-            
-            index++;
-        }
-        
-        this.obj.slide = jQuery( this.param.slideclass );
-    },
-    
     set_slidewidth: function () {
         
         /*
@@ -250,8 +235,13 @@ var yerSlider = {
         }
     },
     
+    
+    /* prev next */
+    
     set_prevnext: function () {
         
+        
+        /* init */
         if ( this.status.slidecount > this.param.slidegroup ) {
         
             if ( typeof this.obj.nextbtn !== 'object' && this.param.nextbtn ) {
@@ -266,6 +256,8 @@ var yerSlider = {
             
             this.refresh_prevnext();
         }
+        
+        /* remove */
         else {
         
             if ( typeof this.obj.nextbtn === 'object' ) {
@@ -409,7 +401,7 @@ var yerSlider = {
     nextbtn_click_unbind: function () {
                 
         this.obj.nextbtn.unbind( 'click' )
-        .addClass( this.param.nextinactiveclass.replace( '.', '' ) );
+            .addClass( this.param.nextinactiveclass.replace( '.', '' ) );
         
         this.status.nextbtnclickable = false;
     },
@@ -417,55 +409,43 @@ var yerSlider = {
     prevbtn_click_unbind: function () {
 
         this.obj.prevbtn.unbind( 'click' )
-        .addClass( this.param.previnactiveclass.replace( '.', '' ) );
+            .addClass( this.param.previnactiveclass.replace( '.', '' ) );
         
         this.status.prevbtnclickable = false;
     },
     
-    get_sliderposition: function () {
-
-        //var pos = ( parseInt( yerSlider.status.currentslideindex * yerSlider.status.slidewidth, 10 ) + parseInt( yerSlider.param.slidegap * yerSlider.status.currentslideindex, 10 ) );
-        var pos = jQuery( this.obj.slide[ yerSlider.status.currentslideindex ] ).position().left;
-        return pos;
-    },
-    
-    proof_slider_current_index: function () {
+    refresh_prevnext: function () {
         
-        if ( this.status.slidecount - this.param.slidegroup > 0 && this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
-           
-            this.status.currentslideindex = this.status.slidecount - this.param.slidegroup;
+        /* bind click events if unbinded in general */
+        
+        if ( !this.status.nextbtnclickable ) this.nextbtn_click();
+        if ( !this.status.prevbtnclickable ) this.prevbtn_click();
+        
+        
+        /* remove inactive classes in general */
+        
+        this.obj.nextbtn.removeClass( this.param.nextinactiveclass.replace( '.', '' ) );
+        this.obj.prevbtn.removeClass( this.param.previnactiveclass.replace( '.', '' ) );
+        
+        
+        /* then unbind in some kind of slider situation */
+        
+        if ( this.param.loop === 'none' ) {
             
-            this.nextbtn_click_unbind();
-        }
-    },
-    
-    move_slider_to_current_index: function () {
-        yerSlider.obj.slider.css({
-            'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
-        });
-    },
-    
-    animate_slider_to_current_position: function () {
+            if ( this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
+            
+                this.nextbtn_click_unbind();
+            }
         
-        // yerSlider.animate_slider_to_current_position_css();
-        
-        yerSlider.obj.slider.animate({
-            'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
-        }, yerSlider.param.animationspeed, function () {
-           yerSlider.status.isanimating = false;
-        });
-    },
-    
-    animate_slider_to_current_position_css: function() {
-        
-        /* under development */
-        
-        yerSlider.obj.slider.css('-webkit-transition-duration', ( yerSlider.param.animationspeed / 1000 ).toFixed(1) + 's');
+            if ( this.status.currentslideindex <= 0 ) {
 
-        var value = '-' + Math.abs( ( yerSlider.status.slidewidth + yerSlider.param.slidegap ) ).toString();
-        
-        yerSlider.obj.slider.css( '-webkit-transform', 'translate3d(' + value + 'px,0px,0px)' );
+                this.prevbtn_click_unbind();
+            }
+        }  
     },
+    
+    
+    /* bullets */
     
     bullets: function () {
           
@@ -611,42 +591,77 @@ var yerSlider = {
         });
     },
     
-    refresh_prevnext: function () {
-        
-        /* check click bindings on init and resize */
-        
-        if ( !this.status.nextbtnclickable ) this.nextbtn_click();
-        if ( !this.status.prevbtnclickable ) this.prevbtn_click();
-        
-        
-        /* handle none loop clicks */
-        
-        if ( this.param.loop === 'none' ) {
-            
-             this.obj.nextbtn.removeClass( this.param.nextinactiveclass.replace( '.', '' ) );
-             this.obj.prevbtn.removeClass( this.param.previnactiveclass.replace( '.', '' ) );
-            
-            if ( this.status.nextbtnclickable && this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
-                
-                this.nextbtn_click_unbind();
-            }
-        
-            if ( this.status.prevbtnclickable && this.status.currentslideindex === 0 ) {
-                
-                this.prevbtn_click_unbind();
-            }
-        
-            if ( this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
-
-                this.nextbtn_click_unbind();
-            }
-        
-            if ( this.status.currentslideindex <= 0 ) {
-
-                this.prevbtn_click_unbind();
-            }
-        }  
+    
+    /* animation */
+    
+    move_slider_to_current_index: function () {
+        yerSlider.obj.slider.css({
+            'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
+        });
     },
+    
+    animate_slider_to_current_position: function () {
+        
+        // yerSlider.animate_slider_to_current_position_css();
+        
+        yerSlider.obj.slider.animate({
+            'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
+        }, yerSlider.param.animationspeed, function () {
+           yerSlider.status.isanimating = false;
+        });
+    },
+    
+    animate_slider_to_current_position_css: function() {
+        
+        /* under development */
+        
+        yerSlider.obj.slider.css('-webkit-transition-duration', ( yerSlider.param.animationspeed / 1000 ).toFixed(1) + 's');
+
+        var value = '-' + Math.abs( ( yerSlider.status.slidewidth + yerSlider.param.slidegap ) ).toString();
+        
+        yerSlider.obj.slider.css( '-webkit-transform', 'translate3d(' + value + 'px,0px,0px)' );
+    },
+    
+    
+    /* misc */
+    
+    clon_slides: function () {
+        
+        var index = 0;
+        
+        for (var i = 0; i < this.status.slidegroupmax * 2; i++) {
+            
+            if ( index > this.status.slidecount ) {
+                index = 0;
+            }
+            
+            this.obj.slider.append( jQuery( this.obj.slide[ index ] ).clone() );
+            
+            index++;
+        }
+        
+        this.obj.slide = jQuery( this.param.slideclass );
+    },
+    
+    get_sliderposition: function () {
+
+        //var pos = ( parseInt( yerSlider.status.currentslideindex * yerSlider.status.slidewidth, 10 ) + parseInt( yerSlider.param.slidegap * yerSlider.status.currentslideindex, 10 ) );
+        var pos = jQuery( this.obj.slide[ yerSlider.status.currentslideindex ] ).position().left;
+        return pos;
+    },
+    
+    proof_slider_current_index: function () {
+        
+        if ( this.status.slidecount - this.param.slidegroup > 0 && this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
+           
+            this.status.currentslideindex = this.status.slidecount - this.param.slidegroup;
+            
+            this.nextbtn_click_unbind();
+        }
+    },
+    
+    
+    /* helper */
     
     helper: {
         

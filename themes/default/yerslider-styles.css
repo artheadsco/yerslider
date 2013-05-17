@@ -14,9 +14,6 @@ body * {
 
 .yerslider-mask {
 	border: 10px solid #999;
-	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-	box-sizing: border-box;
 }
 .yerslider-slider {
 }
@@ -89,6 +86,7 @@ body * {
 	display: inline-block;
 	margin-left: 4px;
 	margin-right: 4px;
+	cursor: pointer;
 }
 .yerslider-bullet-current {
 	background-color: #444;
