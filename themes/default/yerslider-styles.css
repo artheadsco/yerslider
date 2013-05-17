@@ -74,3 +74,17 @@ body * {
 	opacity: 0.2;
 	cursor: default;
 }
+
+.yerslider-bullets-wrap {
+	text-align: center;
+}
+.yerslider-bullet {
+	width: 10px;
+	height: 10px;
+	background-color: #aaa;
+	display: inline-block;
+	margin: 4px;
+}
+.yerslider-bullet-current {
+	background-color: #444;
+}

@@ -27,6 +27,7 @@ var yerSlider = {
         slideclass: '.yerslider-slide',
         bulletswrapclass: '.yerslider-bullets-wrap',
         bulletclass: '.yerslider-bullet',
+        bulletcurrentclass: '.yerslider-bullet-current',
         nextbtn: true,
         prevbtn: true,
         nextclass: '.yerslider-next',
@@ -170,12 +171,24 @@ var yerSlider = {
     set_slidegroup: function () {
         
         var slidermaskwidth = this.obj.slidermask.innerWidth();
+        
         var temp = 0;
+        
         for ( var i in this.param.slidegroupresp ) {
+        
             if ( i <= this.status.slidermaskwidth ) {
+            
                 temp = this.param.slidegroupresp[ i ];
             }
         }
+        
+        if ( temp >= this.status.slidecount ) {
+        
+            temp = this.status.slidecount;
+            this.status.currentslideindex = 0;
+            this.move_slider_to_current_index();
+        }
+        
         this.param.slidegroup = temp;
     },
     
@@ -367,10 +380,17 @@ var yerSlider = {
                 yerSlider.next_slide();
                 yerSlider.animate_slider_to_current_position();
                 
-                if ( !yerSlider.status.prevbtnclickable ) yerSlider.prevbtn_click();
+                if ( !yerSlider.status.prevbtnclickable ) {
+                    
+                    yerSlider.prevbtn_click();
+                }
             }
             
-            yerSlider.set_bullet_current();
+            if ( yerSlider.param.bullets ) {
+            
+                yerSlider.set_bullet_current();
+                yerSlider.set_bullet_current_class();
+            }
         })
         .removeClass( this.param.nextinactiveclass.replace( '.', '' ) );
                 
@@ -389,10 +409,17 @@ var yerSlider = {
                 yerSlider.prev_slide();
                 yerSlider.animate_slider_to_current_position();
                 
-                if ( !yerSlider.status.nextbtnclickable ) yerSlider.nextbtn_click();
+                if ( !yerSlider.status.nextbtnclickable ) {
+                
+                    yerSlider.nextbtn_click();
+                }
             }
             
-            yerSlider.set_bullet_current();
+            if ( yerSlider.param.bullets ) {
+            
+                yerSlider.set_bullet_current();
+                yerSlider.set_bullet_current_class();
+            }
         })
         .removeClass( this.param.previnactiveclass.replace( '.', '' ) );
     
@@ -513,19 +540,28 @@ var yerSlider = {
           
         /* do bullets html and object */
 
-        if ( typeof this.obj.bullets !== 'object' ) {
-
-            this.obj.sliderwrap.find( this.param.bulletswrapclass ).append('<div class="' + this.param.bulletclass.replace( '.', '' ) + '">' + this.status.bulletscount + ' bullets</div>');
-            this.obj.bullets = this.obj.sliderwrap.find( this.param.bulletclass );
-        }
-
         if ( this.status.bulletscountcache !== this.status.bulletscount ) {
-
-            this.obj.bullets.empty()
-            .append('<div class="' + this.param.bulletclass.replace( '.', '' ) + '">' + this.status.bulletscount + ' bullets</div>');
             
+            var bullets = '';
+        
+            for ( var i = 1; i <= this.status.bulletscount; i++ ) {
+            
+                bullets += '<div class="' + this.param.bulletclass.replace( '.', '' ) + '" data-index="' + i + '"></div>';
+            }
+        
+            this.obj.bulletswrap.empty();
+        
+            if ( this.status.bulletscount > 1 ) {
+            
+                this.obj.bulletswrap.append( bullets );
+            }
+        
             this.status.bulletscountcache = this.status.bulletscount;
         }
+        
+        this.obj.bullets = this.obj.bulletswrap.find( this.param.bulletclass );
+        
+        this.set_bullet_current_class();
     },
     
     set_bullet_current: function () {
@@ -543,6 +579,15 @@ var yerSlider = {
         /* current bullet index */
 
         this.status.bulletcurrent = Math.round( currentslideindex / this.param.slidegroup ) + 1;
+    },
+    
+    set_bullet_current_class: function () {
+        
+        /* current bullet class */
+        
+        this.obj.bullets.removeClass( this.param.bulletcurrentclass.replace( '.', '' ) );
+        
+        this.obj.bulletswrap.find('[data-index="' + this.status.bulletcurrent + '"]').addClass( this.param.bulletcurrentclass.replace( '.', '' ) );
     },
     
     helper: {
