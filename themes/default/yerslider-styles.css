@@ -1,5 +1,5 @@
 body {
-	margin: 100px;
+	margin: 50px;
 }
 body * {
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -8,6 +8,11 @@ body * {
 }
 
 .yerslider-wrap {
+	padding: 40px 60px 20px 60px;
+	background-color: #eee;
+}
+
+.yerslider-mask {
 	border: 10px solid #999;
 }
 
@@ -15,7 +20,7 @@ body * {
 }
 
 .yerslider-slide {
-	background-color: #eee;
+	background-color: #ddd;
 }
 
 .yerslider-slide-inner {

@@ -48,14 +48,18 @@ var yerSlider = {
         nextbtnclickable: false,
         prevbtnclickable: false,
         bulletscount: 0,
-        bulletcurrent: 0
+        bulletscountcache: 0,
+        bulletcurrent: 0,
+        bulletschanged: false
     },
     
     obj: {
         sliderid: undefined,
         sliderwrap: undefined,
         slider: undefined,
-        slide: undefined
+        slide: undefined,
+        bulletswrap: undefined,
+        bullets: undefined
     },
     
     init: function ( p ) {
@@ -262,10 +266,12 @@ var yerSlider = {
             if ( typeof this.obj.nextbtn === 'object' ) {
                 this.obj.nextbtn.remove();
                 this.obj.nextbtn = undefined;
+                this.status.nextbtnclickable = false;
             }
             if ( typeof this.obj.prevbtn === 'object' ) {
                 this.obj.prevbtn.remove();
                 this.obj.prevbtn = undefined;
+                this.status.prevbtnclickable = false;
             }
         }
     },
@@ -418,7 +424,7 @@ var yerSlider = {
     
     proof_slider_current_index: function () {
         
-        if ( this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
+        if ( this.status.slidecount - this.param.slidegroup > 0 && this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
            
             this.status.currentslideindex = this.status.slidecount - this.param.slidegroup;
             
@@ -483,7 +489,7 @@ var yerSlider = {
             if ( typeof this.obj.bulletswrap !== 'object' ) {
         
                 this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
-                this.obj.bulletswrap = this.obj.sliderwrap.find( this.param.bulletswrapclass.replace( '.', '' ) );
+                this.obj.bulletswrap = this.obj.sliderwrap.find( this.param.bulletswrapclass );
             }
         
         
@@ -495,6 +501,30 @@ var yerSlider = {
             /* current bullet index */
             
             this.set_bullet_current();
+            
+            
+            /* bullet items */
+            
+            this.bullet_items();
+        }
+    },
+    
+    bullet_items: function () {
+          
+        /* do bullets html and object */
+
+        if ( typeof this.obj.bullets !== 'object' ) {
+
+            this.obj.sliderwrap.find( this.param.bulletswrapclass ).append('<div class="' + this.param.bulletclass.replace( '.', '' ) + '">' + this.status.bulletscount + ' bullets</div>');
+            this.obj.bullets = this.obj.sliderwrap.find( this.param.bulletclass );
+        }
+
+        if ( this.status.bulletscountcache !== this.status.bulletscount ) {
+
+            this.obj.bullets.empty()
+            .append('<div class="' + this.param.bulletclass.replace( '.', '' ) + '">' + this.status.bulletscount + ' bullets</div>');
+            
+            this.status.bulletscountcache = this.status.bulletscount;
         }
     },
     
