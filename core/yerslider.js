@@ -134,6 +134,9 @@ var yerSlider = {
             yerSlider.proof_slider_current_index();
             yerSlider.move_slider_to_current_index();
             yerSlider.set_prevnext();
+            if ( yerSlider.param.bullets ) {
+                yerSlider.bullets();
+            }
         };
         
     },
@@ -446,7 +449,35 @@ var yerSlider = {
     
     bullets: function () {
           
-          this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
+        /*
+            slidegroup
+            slidegroupmax
+            currentslideindex
+            slidecount
+
+            Anzahl der Bullets ist?
+                ceil( slidecount / slidegroup )
+            
+            Finde aktiven Bullet auch nach Änderung der Anzahl der Slides in einer Gruppe (slidegroup)!
+                ceil( currentslideindex / slidegroup )
+                
+            Bei Loop "appending" gibt es cloned Slides mit Index höher als die max Anzahl an Slides.
+                 Der Index der CloneSlides muss übersetzt werden in den originalen Inex.
+                 if ( currentslideindex + 1 > slidecount ) {
+                    currentslideindex = currentslideindex - slidecount;
+                 }
+                
+        */
+        
+        /* do bullets-wrap html and object */
+        
+        if ( this.param.bullets && typeof this.obj.bulletswrap !== 'object' ) {
+        
+            this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
+            this.obj.bulletswrap = this.obj.sliderwrap.find( this.param.bulletswrapclass.replace( '.', '' ) );
+        }
+        
+        
     },
     
     helper: {
