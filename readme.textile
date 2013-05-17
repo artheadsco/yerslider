@@ -1,4 +1,4 @@
-h1. yerslider
+h1. yerSlider
 
 is a javascript object using jQuery that allows fluid responsive slideshows.
 Watch a short "video":http://www.screenr.com/embed/qis7
@@ -10,9 +10,11 @@ This documentation is incomplete and corrupting changes still may ahead!
 h2. Roadmap
 
 * default theme
-* touch gesture
-* different animations
+* touch gestures
+* css3 animations
+* thumbs
 
+* [done] bullets
 * [done] breackpoints for slidegroups
 * [done] slidegroups
 * [done] fluid slider
@@ -64,10 +66,26 @@ myslider.init({
     slidegap: 20,
     slidegroupresp: {
         0: 1,
-        300: 2,
-        600: 3
+        400: 2,
+        800: 3
     },
-    animationspeed: 1000
+    animationspeed: 1000,
+    loop: 'none', /* appending, not-yet(rollback, from-first) */
+    nextbtn: true,
+    prevbtn: true,
+    bullets: false,
+    bulletclickable: true,
+    sliderwrapclass: '.yerslider-wrap',
+    slidermaskclass: '.yerslider-mask',
+    sliderclass: '.yerslider-slider',
+    slideclass: '.yerslider-slide',
+    nextclass: '.yerslider-next',
+    prevclass: '.yerslider-prev',
+    nextinactiveclass: '.yerslider-next-inactive',
+    previnactiveclass: '.yerslider-prev-inactive',
+    bulletswrapclass: '.yerslider-bullets-wrap',
+    bulletclass: '.yerslider-bullet',
+    bulletcurrentclass: '.yerslider-bullet-current',
 });
 </code></pre>
 
