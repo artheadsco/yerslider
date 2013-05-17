@@ -266,10 +266,12 @@ var yerSlider = {
             if ( typeof this.obj.nextbtn === 'object' ) {
                 this.obj.nextbtn.remove();
                 this.obj.nextbtn = undefined;
+                this.status.nextbtnclickable = false;
             }
             if ( typeof this.obj.prevbtn === 'object' ) {
                 this.obj.prevbtn.remove();
                 this.obj.prevbtn = undefined;
+                this.status.prevbtnclickable = false;
             }
         }
     },
@@ -422,7 +424,7 @@ var yerSlider = {
     
     proof_slider_current_index: function () {
         
-        if ( this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
+        if ( this.status.slidecount - this.param.slidegroup > 0 && this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
            
             this.status.currentslideindex = this.status.slidecount - this.param.slidegroup;
             
@@ -487,7 +489,7 @@ var yerSlider = {
             if ( typeof this.obj.bulletswrap !== 'object' ) {
         
                 this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
-                this.obj.bulletswrap = this.obj.sliderwrap.find( this.param.bulletswrapclass.replace( '.', '' ) );
+                this.obj.bulletswrap = this.obj.sliderwrap.find( this.param.bulletswrapclass );
             }
         
         
