@@ -9,11 +9,11 @@ This documentation is incomplete and corrupting changes still may ahead!
 
 h2. Roadmap
 
-* default theme
+* options and themes
 * touch gestures
-* css3 animations
 * thumbs
 
+* [done] csstransitions for smoth sliding
 * [done] bullets
 * [done] breackpoints for slidegroups
 * [done] slidegroups
