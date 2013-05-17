@@ -28,6 +28,7 @@ var yerSlider = {
         bulletswrapclass: '.yerslider-bullets-wrap',
         bulletclass: '.yerslider-bullet',
         bulletcurrentclass: '.yerslider-bullet-current',
+        bulletclickable: true,
         nextbtn: true,
         prevbtn: true,
         nextclass: '.yerslider-next',
@@ -60,7 +61,9 @@ var yerSlider = {
         slider: undefined,
         slide: undefined,
         bulletswrap: undefined,
-        bullets: undefined
+        bullets: undefined,
+        prevbtn: undefined,
+        nextbtn: undefined
     },
     
     init: function ( p ) {
@@ -248,7 +251,7 @@ var yerSlider = {
     },
     
     set_prevnext: function () {
-    
+        
         if ( this.status.slidecount > this.param.slidegroup ) {
         
             if ( typeof this.obj.nextbtn !== 'object' && this.param.nextbtn ) {
@@ -261,18 +264,7 @@ var yerSlider = {
                 this.obj.prevbtn = jQuery( this.param.prevclass );
             }
             
-            /* check click bindings on init and resize */
-            
-            if ( !this.status.nextbtnclickable ) this.nextbtn_click();
-            if ( !this.status.prevbtnclickable ) this.prevbtn_click();
-            
-            if ( this.status.nextbtnclickable && this.param.loop === 'none' && this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
-                this.nextbtn_click_unbind();
-            }
-            
-            if ( this.status.prevbtnclickable && this.param.loop === 'none' && this.status.currentslideindex === 0 ) {
-                this.prevbtn_click_unbind();
-            }
+            this.refresh_prevnext();
         }
         else {
         
@@ -287,6 +279,7 @@ var yerSlider = {
                 this.status.prevbtnclickable = false;
             }
         }
+        
     },
     
     next_slide: function () {
@@ -372,58 +365,45 @@ var yerSlider = {
     nextbtn_click: function () {
         
         this.obj.nextbtn.on( 'click', function () {
-            
+        
             if ( !yerSlider.status.isanimating ) {
-            
+        
                 yerSlider.status.isanimating = true;
-                
+            
                 yerSlider.next_slide();
                 yerSlider.animate_slider_to_current_position();
-                
-                if ( !yerSlider.status.prevbtnclickable ) {
-                    
-                    yerSlider.prevbtn_click();
+            
+                yerSlider.refresh_prevnext();
+            
+                if ( yerSlider.param.bullets ) {
+
+                    yerSlider.set_bullet_current();
+                    yerSlider.set_bullet_current_class();
                 }
             }
-            
-            if ( yerSlider.param.bullets ) {
-            
-                yerSlider.set_bullet_current();
-                yerSlider.set_bullet_current_class();
-            }
-        })
-        .removeClass( this.param.nextinactiveclass.replace( '.', '' ) );
-                
-        this.status.nextbtnclickable = true;
-        
+        });
     },
     
     prevbtn_click: function () {
         
         this.obj.prevbtn.on( 'click', function () {
-            
+        
             if ( !yerSlider.status.isanimating ) {
-                
-                yerSlider.status.isanimating = true;
             
+                yerSlider.status.isanimating = true;
+        
                 yerSlider.prev_slide();
                 yerSlider.animate_slider_to_current_position();
-                
-                if ( !yerSlider.status.nextbtnclickable ) {
-                
-                    yerSlider.nextbtn_click();
+            
+                yerSlider.refresh_prevnext();
+            
+                if ( yerSlider.param.bullets ) {
+
+                    yerSlider.set_bullet_current();
+                    yerSlider.set_bullet_current_class();
                 }
             }
-            
-            if ( yerSlider.param.bullets ) {
-            
-                yerSlider.set_bullet_current();
-                yerSlider.set_bullet_current_class();
-            }
-        })
-        .removeClass( this.param.previnactiveclass.replace( '.', '' ) );
-    
-        this.status.prevbtnclickable = true;
+        });
     },
     
     nextbtn_click_unbind: function () {
@@ -489,26 +469,6 @@ var yerSlider = {
     
     bullets: function () {
           
-        /*
-            slidegroup
-            slidegroupmax
-            currentslideindex
-            slidecount
-
-            Anzahl der Bullets ist?
-                ceil( slidecount / slidegroup )
-            
-            Finde aktiven Bullet auch nach Änderung der Anzahl der Slides in einer Gruppe (slidegroup)!
-                ceil( currentslideindex / slidegroup )
-                
-            Bei Loop "appending" gibt es cloned Slides mit Index höher als die max Anzahl an Slides.
-                 Der Index der CloneSlides muss übersetzt werden in den originalen Inex.
-                 if ( currentslideindex + 1 > slidecount ) {
-                    currentslideindex = currentslideindex - slidecount;
-                 }
-                
-        */
-        
         if ( this.param.bullets ) {
         
             /* do bullets-wrap html and object */
@@ -538,6 +498,11 @@ var yerSlider = {
             /* bullet current class */
             
             this.set_bullet_current_class();
+            
+            
+            /* bullets click */
+            
+            this.bullet_click();
         }
     },
     
@@ -605,6 +570,82 @@ var yerSlider = {
         this.obj.bullets.removeClass( this.param.bulletcurrentclass.replace( '.', '' ) );
         
         this.obj.bulletswrap.find('[data-index="' + this.status.bulletcurrent + '"]').addClass( this.param.bulletcurrentclass.replace( '.', '' ) );
+    },
+    
+    bullet_click: function () {
+    
+        this.obj.bullets.on( 'click', function () {
+            
+            
+            if ( !yerSlider.status.isanimating ) {
+                
+                yerSlider.status.isanimating = true;
+                
+                var currentbullet = jQuery(this).data('index');
+                
+                yerSlider.status.currentslideindex = ( currentbullet - 1 ) * yerSlider.param.slidegroup;
+                
+                yerSlider.proof_slider_current_index();
+                
+                yerSlider.animate_slider_to_current_position();
+                
+                if ( !yerSlider.status.prevbtnclickable ) {
+                    
+                    yerSlider.prevbtn_click();
+                }
+            }
+            
+            
+            /* bullets */
+            
+            if ( yerSlider.param.bullets ) {
+            
+                yerSlider.set_bullet_current();
+                yerSlider.set_bullet_current_class();
+            }
+            
+            
+            /* prev next buttons */
+            
+            yerSlider.refresh_prevnext();
+        });
+    },
+    
+    refresh_prevnext: function () {
+        
+        /* check click bindings on init and resize */
+        
+        if ( !this.status.nextbtnclickable ) this.nextbtn_click();
+        if ( !this.status.prevbtnclickable ) this.prevbtn_click();
+        
+        
+        /* handle none loop clicks */
+        
+        if ( this.param.loop === 'none' ) {
+            
+             this.obj.nextbtn.removeClass( this.param.nextinactiveclass.replace( '.', '' ) );
+             this.obj.prevbtn.removeClass( this.param.previnactiveclass.replace( '.', '' ) );
+            
+            if ( this.status.nextbtnclickable && this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
+                
+                this.nextbtn_click_unbind();
+            }
+        
+            if ( this.status.prevbtnclickable && this.status.currentslideindex === 0 ) {
+                
+                this.prevbtn_click_unbind();
+            }
+        
+            if ( this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
+
+                this.nextbtn_click_unbind();
+            }
+        
+            if ( this.status.currentslideindex <= 0 ) {
+
+                this.prevbtn_click_unbind();
+            }
+        }  
     },
     
     helper: {
