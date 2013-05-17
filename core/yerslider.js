@@ -533,6 +533,11 @@ var yerSlider = {
             /* bullet items */
             
             this.bullet_items();
+            
+            
+            /* bullet current class */
+            
+            this.set_bullet_current_class();
         }
     },
     
@@ -578,7 +583,19 @@ var yerSlider = {
 
         /* current bullet index */
 
-        this.status.bulletcurrent = Math.round( currentslideindex / this.param.slidegroup ) + 1;
+        if ( this.param.loop === 'none' ) {
+            
+            this.status.bulletcurrent = Math.ceil( currentslideindex / this.param.slidegroup ) + 1;
+        }
+        else {
+            
+            this.status.bulletcurrent = Math.round( currentslideindex / this.param.slidegroup ) + 1;
+            
+            if ( this.status.bulletcurrent > this.status.bulletscount ) {
+                
+                this.status.bulletcurrent = this.status.bulletscount;
+            }
+        }
     },
     
     set_bullet_current_class: function () {
