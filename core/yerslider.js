@@ -48,14 +48,18 @@ var yerSlider = {
         nextbtnclickable: false,
         prevbtnclickable: false,
         bulletscount: 0,
-        bulletcurrent: 0
+        bulletscountcache: 0,
+        bulletcurrent: 0,
+        bulletschanged: false
     },
     
     obj: {
         sliderid: undefined,
         sliderwrap: undefined,
         slider: undefined,
-        slide: undefined
+        slide: undefined,
+        bulletswrap: undefined,
+        bullets: undefined
     },
     
     init: function ( p ) {
@@ -495,6 +499,30 @@ var yerSlider = {
             /* current bullet index */
             
             this.set_bullet_current();
+            
+            
+            /* bullet items */
+            
+            this.bullet_items();
+        }
+    },
+    
+    bullet_items: function () {
+          
+        /* do bullets html and object */
+
+        if ( typeof this.obj.bullets !== 'object' ) {
+
+            this.obj.sliderwrap.find( this.param.bulletswrapclass ).append('<div class="' + this.param.bulletclass.replace( '.', '' ) + '">' + this.status.bulletscount + ' bullets</div>');
+            this.obj.bullets = this.obj.sliderwrap.find( this.param.bulletclass );
+        }
+
+        if ( this.status.bulletscountcache !== this.status.bulletscount ) {
+
+            this.obj.bullets.empty()
+            .append('<div class="' + this.param.bulletclass.replace( '.', '' ) + '">' + this.status.bulletscount + ' bullets</div>');
+            
+            this.status.bulletscountcache = this.status.bulletscount;
         }
     },
     
