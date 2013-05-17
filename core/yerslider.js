@@ -37,7 +37,8 @@ var yerSlider = {
         previnactiveclass: '.yerslider-prev-inactive',
         animationspeed: 1000,
         bullets: false,
-        loop: 'none' /* appending, rollback, from-first */
+        loop: 'none', /* appending, rollback, from-first */
+        swipe: false
     },
     
     status: {
@@ -52,7 +53,11 @@ var yerSlider = {
         bulletscount: 0,
         bulletscountcache: 0,
         bulletcurrent: 0,
-        bulletschanged: false
+        bulletschanged: false,
+        slidingleft: false,
+        slidingright: false,
+        resizing: false,
+        cssanimation: false
     },
     
     obj: {
@@ -76,6 +81,14 @@ var yerSlider = {
         });
         
         
+        /* css animation */
+        
+        if ( jQuery('html').hasClass('csstransforms3d csstransitions') ) {
+        
+            this.status.cssanimation = true;
+        };
+        
+        
         /* define slider objects */
         
         this.obj.sliderid = jQuery( this.param.sliderid );
@@ -94,8 +107,7 @@ var yerSlider = {
         this.obj.slidermask.css({
             position: 'relative',
             width: '100%',
-            overflow: 'hidden',
-            'overflow-x': 'auto'
+            overflow: 'hidden'
         });
         
         /* remember font-size and line-height for the slides because
@@ -107,7 +119,6 @@ var yerSlider = {
             obj_slide_css.lineheight = this.obj.slide.css('line-height');
         
         this.obj.slider.css({
-            overflow: 'hidden',
             'white-space': 'nowrap',
             position: 'relative',
             'list-style-type': 'none',
@@ -136,19 +147,147 @@ var yerSlider = {
             this.bullets();
         }
         
+        if ( this.param.swipe ) {
+        
+            this.touch_swipe();
+        }
         
         window.onresize = function(event) {
+            
+            yerSlider.status.resizing = true;
+            
             yerSlider.set_slidermaskwidth();
             yerSlider.set_slidegroup();
             yerSlider.set_slidewidth();
             yerSlider.proof_slider_current_index();
             yerSlider.move_slider_to_current_index();
             yerSlider.set_prevnext();
+            
             if ( yerSlider.param.bullets ) {
+            
                 yerSlider.bullets();
             }
+            
+            if ( yerSlider.status.cssanimation ) {
+            
+                yerSlider.status.currentslideindex = 0;
+                yerSlider.animate_slider_to_current_position();
+            }
+            
+            yerSlider.status.resizing = false;
         };
+    },
+    
+    
+    /* touch swipe */
+    
+    touch_swipe: function () {
+
+        var slide_with_default = ( this.status.slidewidth + this.param.slidegap ) * this.param.slidegroup,
+    		slide_with = slide_with_default,
+    		current_slide = 0,
+    		max_slides = Math.ceil( this.status.slidecount / this.param.slidegroup ),
+    		speed = this.param.animationspeed,
+    		slides = this.obj.slide;
         
+
+		// init touch swipe
+		slides.swipe( {
+			triggerOnTouchEnd: true,
+			swipeStatus: swipeStatus,
+			allowPageScroll: 'vertical'
+		});
+
+		/**
+		* Catch each phase of the swipe.
+		* move : we drag the div.
+		* cancel : we animate back to where we were
+		* end : we animate to the next image
+		*/
+		function swipeStatus(event, phase, direction, distance, fingers) {
+		
+			//If we are moving before swipe, and we are going L or R, then manually drag the images
+			
+			if ( phase === 'move' && ( direction === 'left' || direction === 'right' ) ) {
+				
+				var duration =  0;
+
+				if ( direction === 'left' ) {
+				
+					scrollImages( ( slide_with * current_slide ) + distance, duration );
+                }
+				else if ( direction === 'right' ) {
+				
+					scrollImages( ( slide_with * current_slide ) - distance, duration );
+				}
+			}
+
+
+			//Else, cancel means snap back to the begining
+			
+			else if ( phase === 'cancel' ) {
+			
+				scrollImages( slide_with * current_slide, speed);
+			}
+
+
+			//Else end means the swipe was completed, so move to the next image
+			
+			else if ( phase === 'end' )
+			{
+				if ( direction == 'right' ) {
+				
+					previousImage();
+				}
+				else if ( direction === 'left' ) {
+				
+					nextImage();
+				}
+			}
+		}
+
+		function previousImage() {
+		
+			current_slide = Math.max( current_slide - 1, 0 );
+			scrollImages( slide_with * current_slide, speed );
+			
+            yerSlider.prev_slide();
+            yerSlider.refresh_prevnext();
+            
+            if ( yerSlider.param.bullets ) {
+
+                yerSlider.set_bullet_current();
+                yerSlider.set_bullet_current_class();
+            }
+		}
+
+		function nextImage() {
+		
+			current_slide = Math.min( current_slide + 1, max_slides - 1 );
+			scrollImages( slide_with * current_slide, speed );
+			
+            yerSlider.next_slide();
+            yerSlider.refresh_prevnext();
+            
+            if ( yerSlider.param.bullets ) {
+
+                yerSlider.set_bullet_current();
+                yerSlider.set_bullet_current_class();
+            }
+		}
+
+		/**
+		 * Manually update the position of the slides on drag
+		 */
+		function scrollImages( distance, duration ) {
+		
+			slides.css('-webkit-transition-duration', ( duration / 1000 ).toFixed(1) + 's' );
+
+			//inverse the number we set in the css
+			var value = ( distance < 0 ? '' : '-' ) + Math.abs(distance).toString();
+
+			slides.css( '-webkit-transform', 'translate3d('+value +'px,0px,0px)' );
+		}
     },
     
     
@@ -178,13 +317,16 @@ var yerSlider = {
         
         var slidermaskwidth = this.obj.slidermask.innerWidth();
         
-        var temp = 0;
+        var temp = this.param.slidegroup;
         
-        for ( var i in this.param.slidegroupresp ) {
-        
-            if ( i <= this.status.slidermaskwidth ) {
+        if ( this.helper.getLength( this.param.slidegroupresp ) > 0 ) {
             
-                temp = this.param.slidegroupresp[ i ];
+            for ( var i in this.param.slidegroupresp ) {
+        
+                if ( i <= this.status.slidermaskwidth ) {
+            
+                    temp = this.param.slidegroupresp[ i ];
+                }
             }
         }
         
@@ -356,46 +498,63 @@ var yerSlider = {
     
     nextbtn_click: function () {
         
-        this.obj.nextbtn.on( 'click', function () {
+        if ( !yerSlider.status.nextbtnclickable ) {
         
-            if ( !yerSlider.status.isanimating ) {
+            this.obj.nextbtn.on( 'click', function () {
         
-                yerSlider.status.isanimating = true;
+                if ( !yerSlider.status.isanimating ) {
+        
+                    yerSlider.status.isanimating = true;
+                    yerSlider.status.slidingright = true;
+                
+                    yerSlider.next_slide();
+                    yerSlider.animate_slider_to_current_position();
             
-                yerSlider.next_slide();
-                yerSlider.animate_slider_to_current_position();
+                    yerSlider.refresh_prevnext();
             
-                yerSlider.refresh_prevnext();
-            
-                if ( yerSlider.param.bullets ) {
+                    if ( yerSlider.param.bullets ) {
 
-                    yerSlider.set_bullet_current();
-                    yerSlider.set_bullet_current_class();
+                        yerSlider.set_bullet_current();
+                        yerSlider.set_bullet_current_class();
+                    }
+                
+                    yerSlider.status.slidingright = false;
                 }
-            }
-        });
+            });
+        
+            yerSlider.status.nextbtnclickable = true;
+        }
     },
     
     prevbtn_click: function () {
         
-        this.obj.prevbtn.on( 'click', function () {
+        if ( !yerSlider.status.prevbtnclickable ) {
         
-            if ( !yerSlider.status.isanimating ) {
-            
-                yerSlider.status.isanimating = true;
+            this.obj.prevbtn.on( 'click', function () {
         
-                yerSlider.prev_slide();
-                yerSlider.animate_slider_to_current_position();
+                if ( !yerSlider.status.isanimating ) {
             
-                yerSlider.refresh_prevnext();
+                    yerSlider.status.isanimating = true;
+                    yerSlider.status.slidingleft = true;
+                
+                    yerSlider.prev_slide();
+                    yerSlider.animate_slider_to_current_position();
             
-                if ( yerSlider.param.bullets ) {
+                    yerSlider.refresh_prevnext();
+            
+                    if ( yerSlider.param.bullets ) {
 
-                    yerSlider.set_bullet_current();
-                    yerSlider.set_bullet_current_class();
+                        yerSlider.set_bullet_current();
+                        yerSlider.set_bullet_current_class();
+                    }
+                
+                    yerSlider.status.slidingleft = false;
                 }
-            }
-        });
+            });
+            
+            yerSlider.status.prevbtnclickable = true;
+        }
+        
     },
     
     nextbtn_click_unbind: function () {
@@ -602,24 +761,49 @@ var yerSlider = {
     
     animate_slider_to_current_position: function () {
         
-        // yerSlider.animate_slider_to_current_position_css();
+        if ( this.status.cssanimation ) {
+        
+            yerSlider.animate_slider_to_current_position_css();
+        }
+        else {
+        
+            yerSlider.animate_slider_to_current_position_js();
+        }
+    },
+    
+    animate_slider_to_current_position_js: function () {
         
         yerSlider.obj.slider.animate({
             'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
         }, yerSlider.param.animationspeed, function () {
            yerSlider.status.isanimating = false;
         });
+        
     },
     
     animate_slider_to_current_position_css: function() {
         
-        /* under development */
+        var sliderposition = yerSlider.get_sliderposition() * -1,
+            transform = 'translate3d(' + sliderposition.toString() + 'px,0px,0px)',
+            duration = ( ( yerSlider.param.animationspeed / 1000 ).toFixed(1) + 's' );
+            
+        yerSlider.obj.slider.css({
+            '-webkit-transition-duration': duration,
+            '-ms-transition-duration': duration,
+            '-o-transition-duration': duration,
+            '-moz-transition-duration': duration,
+            'transition-duration': duration
+        });
         
-        yerSlider.obj.slider.css('-webkit-transition-duration', ( yerSlider.param.animationspeed / 1000 ).toFixed(1) + 's');
-
-        var value = '-' + Math.abs( ( yerSlider.status.slidewidth + yerSlider.param.slidegap ) ).toString();
+        yerSlider.obj.slider.css({
+            '-webkit-transform': transform,
+            '-ms-transform': transform,
+            '-o-transform': transform,
+            '-moz-transform': transform,
+            'transform': transform
+        });
         
-        yerSlider.obj.slider.css( '-webkit-transform', 'translate3d(' + value + 'px,0px,0px)' );
+        yerSlider.status.isanimating = false;
     },
     
     
