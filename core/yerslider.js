@@ -46,7 +46,8 @@ var yerSlider = {
         slidewidth: 0,
         isanimating: false,
         nextbtnclickable: false,
-        prevbtnclickable: false
+        prevbtnclickable: false,
+        bulletscount: 0
     },
     
     obj: {
@@ -478,6 +479,9 @@ var yerSlider = {
         }
         
         
+        /* get amount of bullets */
+        
+        this.status.bulletscount = Math.ceil( this.status.slidecount / this.param.slidegroup );
     },
     
     helper: {
