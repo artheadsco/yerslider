@@ -46,7 +46,8 @@ var yerSlider = {
         slidewidth: 0,
         isanimating: false,
         nextbtnclickable: false,
-        prevbtnclickable: false
+        prevbtnclickable: false,
+        bulletscount: 0
     },
     
     obj: {
@@ -134,6 +135,9 @@ var yerSlider = {
             yerSlider.proof_slider_current_index();
             yerSlider.move_slider_to_current_index();
             yerSlider.set_prevnext();
+            if ( yerSlider.param.bullets ) {
+                yerSlider.bullets();
+            }
         };
         
     },
@@ -446,7 +450,41 @@ var yerSlider = {
     
     bullets: function () {
           
-          this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
+        /*
+            slidegroup
+            slidegroupmax
+            currentslideindex
+            slidecount
+
+            Anzahl der Bullets ist?
+                ceil( slidecount / slidegroup )
+            
+            Finde aktiven Bullet auch nach Änderung der Anzahl der Slides in einer Gruppe (slidegroup)!
+                ceil( currentslideindex / slidegroup )
+                
+            Bei Loop "appending" gibt es cloned Slides mit Index höher als die max Anzahl an Slides.
+                 Der Index der CloneSlides muss übersetzt werden in den originalen Inex.
+                 if ( currentslideindex + 1 > slidecount ) {
+                    currentslideindex = currentslideindex - slidecount;
+                 }
+                
+        */
+        
+        if ( this.param.bullets ) {
+        
+            /* do bullets-wrap html and object */
+        
+            if ( typeof this.obj.bulletswrap !== 'object' ) {
+        
+                this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
+                this.obj.bulletswrap = this.obj.sliderwrap.find( this.param.bulletswrapclass.replace( '.', '' ) );
+            }
+        
+        
+            /* get amount of bullets */
+        
+            this.status.bulletscount = Math.ceil( this.status.slidecount / this.param.slidegroup );
+        }
     },
     
     helper: {
