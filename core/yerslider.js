@@ -82,6 +82,8 @@ var yerSlider = {
         
         this.init_animation();
         
+        this.init_touch();
+        
         this.init_isios();
         
         this.init_ojects();
@@ -124,6 +126,11 @@ var yerSlider = {
         
             this.stat.cssanimation = true;
         };
+    },
+    
+    init_touch: function () {
+
+        /* css animation */
         
         if ( jQuery('html').hasClass('touch') ) {
         
@@ -240,7 +247,7 @@ var yerSlider = {
              jQuery('.yerslider-video *').remove();
          }, 111);
 
-         this.viewport_videos(); 
+         this.videos_in_viewport(); 
     },
     
     
@@ -400,8 +407,6 @@ var yerSlider = {
         if ( this.param.loop === 'none' && this.stat.currentslideindex >= this.stat.slidecount - this.param.slidegroup ) {
            
             this.stat.currentslideindex = this.stat.slidecount - this.param.slidegroup;
-            
-            this.nextbtn_click_unbind();
         }
        
         
@@ -413,7 +418,7 @@ var yerSlider = {
             
             this.stat.currentslideindex = this.stat.currentslideindex - this.stat.slidecount - this.param.slidegroup;
             
-            this.move_slider_to_current_index();
+            this.animate_slider_to_current_position( 0 );
             
             this.stat.currentslideindex = temp;
         }
@@ -427,10 +432,10 @@ var yerSlider = {
         
         
         
+        /* crurrent class */
+        
         this.obj.slide.removeClass('current');
         jQuery( this.obj.slide[ this.stat.currentslideindex ] ).addClass('current');
-        
-        
     },
     
     prev_slide: function () {
@@ -442,8 +447,6 @@ var yerSlider = {
         if ( this.param.loop === 'none' && this.stat.currentslideindex <= 0 ) {
            
             this.stat.currentslideindex = 0;
-            
-            this.prevbtn_click_unbind();
         }
         
         
@@ -455,7 +458,7 @@ var yerSlider = {
             
             this.stat.currentslideindex = this.stat.currentslideindex + this.stat.slidecount + this.param.slidegroup;
             
-            this.move_slider_to_current_index();
+            this.animate_slider_to_current_position( 0 );
             
             this.stat.currentslideindex = temp;
         }
@@ -468,6 +471,8 @@ var yerSlider = {
         /* loop-from-first */
         
         
+        
+        /* crurrent class */
         
         this.obj.slide.removeClass('current');
         jQuery( this.obj.slide[ this.stat.currentslideindex ] ).addClass('current');
@@ -486,7 +491,7 @@ var yerSlider = {
                     
                     yerSlider.next_slide();
                     
-                    yerSlider.animate_slider_to_current_position();
+                    yerSlider.animate_slider_to_current_position( yerSlider.param.animationspeed );
                     
                     yerSlider.refresh_prevnext();
             
@@ -516,7 +521,7 @@ var yerSlider = {
                     yerSlider.stat.slidingleft = true;
                     
                     yerSlider.prev_slide();
-                    yerSlider.animate_slider_to_current_position();
+                    yerSlider.animate_slider_to_current_position( yerSlider.param.animationspeed );
             
                     yerSlider.refresh_prevnext();
             
@@ -704,7 +709,7 @@ var yerSlider = {
                 
                 yerSlider.proof_slider_current_index();
                 
-                yerSlider.animate_slider_to_current_position();
+                yerSlider.animate_slider_to_current_position( yerSlider.param.animationspeed );
                 
                 if ( !yerSlider.stat.prevbtnclickable ) {
                     
@@ -737,43 +742,35 @@ var yerSlider = {
         });
     },
     
-    animate_slider_to_current_position: function () {
+    animate_slider_to_current_position: function ( duration) {
         
         if ( this.stat.cssanimation ) {
         
-            yerSlider.animate_slider_to_current_position_css();
+            yerSlider.animate_slider_to_current_position_css( duration );
         }
         else {
         
-            yerSlider.animate_slider_to_current_position_js();
+            yerSlider.animate_slider_to_current_position_js( duration );
         }
     },
     
-    animate_slider_to_current_position_js: function () {
+    animate_slider_to_current_position_js: function ( duration ) {
         
         yerSlider.obj.slider.animate({
             'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
-        }, yerSlider.param.animationspeed, function () {
+        }, duration, function () {
            yerSlider.stat.isanimating = false;
         });
         
     },
     
-    animate_slider_to_current_position_css: function() {
+    animate_slider_to_current_position_css: function( duration ) {
         
-        yerSlider.viewport_videos();
         
         var sliderposition = yerSlider.get_sliderposition() * -1,
-            transform = 'translate3d(' + sliderposition.toString() + 'px,0px,0px)',
-            duration = ( ( yerSlider.param.animationspeed / 1000 ).toFixed(1) + 's' );
+            transform = 'translate3d(' + sliderposition.toString() + 'px,0px,0px)';
             
-        yerSlider.obj.slider.css({
-            '-webkit-transition-duration': duration,
-            '-ms-transition-duration': duration,
-            '-o-transition-duration': duration,
-            '-moz-transition-duration': duration,
-            'transition-duration': duration
-        });
+        yerSlider.css_transitionduration( yerSlider.obj.slider, duration );
         
         yerSlider.obj.slider.css({
             '-webkit-transform': transform,
@@ -787,6 +784,7 @@ var yerSlider = {
             
             yerSlider.stat.isanimating = false;
             yerSlider.animation_finshed();
+            yerSlider.videos_in_viewport();
             
         }, yerSlider.param.animationspeed );
         
@@ -797,7 +795,7 @@ var yerSlider = {
         
     },
     
-    viewport_videos: function () {
+    videos_in_viewport: function () {
         
         /* get slides of viewport */
         
@@ -831,9 +829,9 @@ var yerSlider = {
                             param = yerSlider.param.youtubeparam;
                         }
 
-                        selector.append( '<iframe width="' + width +  '" height="' + height +  '" src="http://www.youtube.com/embed/' + code + param + '" frameborder="no"></iframe>')
+                        selector.append( '<iframe width="' + width +  '" height="' + height +  '" src="http://www.youtube.com/embed/' + code + param + '" frameborder="no"></iframe>');
                         
-                        .find('iframe').css('-webkit-transform-style','preserve-3d').css('z-index','0');
+                        //.find('iframe').css('-webkit-transform-style','preserve-3d').css('z-index','0');
                     }
             
                     window.setTimeout( function () {
@@ -886,30 +884,25 @@ var yerSlider = {
     resize: function () {
               
         yerSlider.stat.resizing = true;
+            
+            yerSlider.obj.slider.fadeOut();
+            
+            yerSlider.set_slidermaskwidth();
+            yerSlider.set_slidegroup();
+            yerSlider.set_slidewidth();
+            yerSlider.set_slideheight();
+            yerSlider.proof_slider_current_index();
+            yerSlider.animate_slider_to_current_position( 0 );
+            
+            yerSlider.set_prevnext();
         
-        if ( !yerSlider.stat.isanimating && yerSlider.stat.cssanimation ) {
+            if ( yerSlider.param.bullets ) {
         
-            yerSlider.stat.currentslideindex = 0;
-        }
-        
-        yerSlider.set_slidermaskwidth();
-        yerSlider.set_slidegroup();
-        yerSlider.set_slidewidth();
-        yerSlider.set_slideheight();
-        yerSlider.proof_slider_current_index();
-        yerSlider.move_slider_to_current_index();
-        yerSlider.set_prevnext();
-        
-        if ( yerSlider.param.bullets ) {
-        
-            yerSlider.bullets();
-        }
-
-        if ( !yerSlider.stat.isanimating && yerSlider.stat.cssanimation ) {
-        
-            yerSlider.animate_slider_to_current_position();
-        }
-        
+                yerSlider.bullets();
+            }
+            
+            yerSlider.obj.slider.fadeIn();
+            
         yerSlider.stat.resizing = false;
     },
     
@@ -1024,6 +1017,19 @@ var yerSlider = {
     
     
     /* helper */
+    
+    css_transitionduration: function ( obj, duration ) {
+        
+        duration = ( ( duration / 1000 ).toFixed(1) + 's' );
+        
+        obj.css({
+            '-webkit-transition-duration': duration,
+            '-ms-transition-duration': duration,
+            '-o-transition-duration': duration,
+            '-moz-transition-duration': duration,
+            'transition-duration': duration
+        });
+    },
     
     helper: {
         
