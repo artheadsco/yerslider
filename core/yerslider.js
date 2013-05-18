@@ -38,7 +38,8 @@ var yerSlider = {
         animationspeed: 1000,
         bullets: false,
         loop: 'none', /* appending, rollback, from-first */
-        swipe: false
+        swipe: false,
+        youtubeparam: '?rel=1&autoplay=0&showinfo=0'
     },
     
     stat: {
@@ -60,7 +61,8 @@ var yerSlider = {
         cssanimation: false,
         isevent: false,
         touch: false,
-        clicktype: 'click'
+        clicktype: 'click',
+        isios: false
     },
     
     obj: {
@@ -76,14 +78,46 @@ var yerSlider = {
     
     init: function ( p ) {
         
+        this.init_getdefaultparam( p );
+        
+        this.init_animation();
+        
+        this.init_isios();
+        
+        this.init_ojects();
+        
+        this.init_css();
+        
+        this.set_slidermaskwidth();
+        this.set_slidecount();
+        this.set_slidegroup();
+        this.set_slidegroupmax();
+        this.clon_slides();
+        this.set_slidewidth();
+        this.set_slideheight();
+        this.set_prevnext();
+        
+        this.bullets();
+        
+        this.init_touchswipe();
+        
+        this.init_iosresizeclickbug();
+        
+        this.init_video();
+    },
+    
+    init_getdefaultparam: function ( p ) {
+        
         /* get default parameters */
         
         this.param = this.helper.setDefaultParam({
             p: p,
             d: this.param
         });
-        
-        
+    },
+    
+    init_animation: function () {
+
         /* css animation */
         
         if ( jQuery('html').hasClass('csstransforms3d csstransitions') ) {
@@ -96,8 +130,20 @@ var yerSlider = {
             this.stat.touch = true;
             this.stat.clicktype = 'touchend';
         };
+    },
+    
+    init_isios: function () {
         
-
+        /* is iOS */
+        
+        if ( navigator.userAgent.match(/(iPod|iPhone|iPad)/) ) {
+            
+            this.stat.isios = true;
+        }
+    },
+    
+    init_ojects: function () {
+        
         /* define slider objects */
         
         this.obj.sliderid = jQuery( this.param.sliderid );
@@ -105,6 +151,9 @@ var yerSlider = {
         this.obj.slidermask = jQuery( this.param.slidermaskclass );
         this.obj.slider = jQuery( this.param.sliderclass );
         this.obj.slide = jQuery( this.param.slideclass );
+    },
+    
+    init_css: function () {
         
         /* layout slider */
         
@@ -144,51 +193,54 @@ var yerSlider = {
             'font-size': obj_slide_css.fontsize,
             'line-height': obj_slide_css.lineheight
         });
-        
-        this.set_slidermaskwidth();
-        this.set_slidecount();
-        this.set_slidegroup();
-        this.set_slidegroupmax();
-        this.clon_slides();
-        this.set_slidewidth();
-        this.set_slideheight();
-        this.set_prevnext();
-        if ( this.param.bullets ) {
-            this.bullets();
-        }
-        
-        
-        /* touch swipe */
-        
-        if ( this.param.swipe ) {
-        
-            this.touch_swipe();
-        }
-        
-        
-        /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
-        
-        this.obj.sliderwrap.on( this.stat.clicktype, function () {
-            
-            yerSlider.stat.isevent  = true;
-            
-            window.setTimeout(function(){
-            
-                yerSlider.stat.isevent= false;
-            }, 200);
-        });
-        
-        jQuery(window).bind('resize', function() {
-            
-            window.setTimeout(function(){
-            
-                if ( !yerSlider.stat.isevent ) {
-                
-                    yerSlider.resize();
-                }
-            }, 100);
-            
-        });
+    },
+    
+    init_touchswipe: function () {
+         
+         /* touch swipe */
+
+         if ( this.param.swipe ) {
+
+             this.touch_swipe();
+         }
+    },
+    
+    init_iosresizeclickbug: function () {
+         
+         /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
+
+         this.obj.sliderwrap.on( this.stat.clicktype, function () {
+
+             yerSlider.stat.isevent  = true;
+
+             window.setTimeout(function(){
+
+                 yerSlider.stat.isevent= false;
+             }, 200);
+         });
+
+         jQuery(window).bind('resize', function() {
+
+             window.setTimeout(function(){
+
+                 if ( !yerSlider.stat.isevent ) {
+
+                     yerSlider.resize();
+                 }
+             }, 100);
+         }); 
+    },
+    
+    init_video: function () {
+         
+         /* remove videos on ios */
+
+ 		window.setTimeout( function () {
+
+             jQuery('.yerslider-video *').remove();
+         }, 111);
+
+         this.viewport_videos(); 
     },
     
     
@@ -428,7 +480,7 @@ var yerSlider = {
             this.obj.nextbtn.on( this.stat.clicktype, function () {
                 
                 if ( !yerSlider.stat.isanimating ) {
-        
+                    
                     yerSlider.stat.isanimating = true;
                     yerSlider.stat.slidingright = true;
                     
@@ -457,9 +509,9 @@ var yerSlider = {
         if ( !yerSlider.stat.prevbtnclickable ) {
         
             this.obj.prevbtn.on( this.stat.clicktype, function () {
-        
+                
                 if ( !yerSlider.stat.isanimating ) {
-            
+                    
                     yerSlider.stat.isanimating = true;
                     yerSlider.stat.slidingleft = true;
                     
@@ -709,6 +761,8 @@ var yerSlider = {
     
     animate_slider_to_current_position_css: function() {
         
+        yerSlider.viewport_videos();
+        
         var sliderposition = yerSlider.get_sliderposition() * -1,
             transform = 'translate3d(' + sliderposition.toString() + 'px,0px,0px)',
             duration = ( ( yerSlider.param.animationspeed / 1000 ).toFixed(1) + 's' );
@@ -729,7 +783,66 @@ var yerSlider = {
             'transform': transform
         });
         
-        yerSlider.stat.isanimating = false;
+        window.setTimeout( function () {
+            
+            yerSlider.stat.isanimating = false;
+            yerSlider.animation_finshed();
+            
+        }, yerSlider.param.animationspeed );
+        
+    },
+    
+    animation_finshed: function () {
+        
+        
+    },
+    
+    viewport_videos: function () {
+        
+        /* get slides of viewport */
+        
+        jQuery('.yerslider-video *').addClass('remove-me');
+        
+        window.setTimeout( function () {
+
+            jQuery('.remove-me').remove();
+        }, yerSlider.param.animationspeed );
+        
+        
+        window.setTimeout( function () {
+        
+            var selector = false;
+
+            for ( i = yerSlider.stat.currentslideindex + 1; i <= yerSlider.stat.currentslideindex + yerSlider.param.slidegroup; i++ ) {
+    
+                selector = jQuery( yerSlider.param.slideclass + ':nth-child(' + i + ') .yerslider-video' );
+        
+                if ( selector.length > 0 ) {
+            
+                    var type = selector.data('video-type'),
+                        code = selector.data('video-code'),
+                        width = selector.data('video-width'),
+                        height = selector.data('video-height')
+                        param = '';
+            
+                    if ( type === 'youtube' ) {
+                        
+                        if ( !yerSlider.stat.isios ) {
+                            param = yerSlider.param.youtubeparam;
+                        }
+
+                        selector.append( '<iframe width="' + width +  '" height="' + height +  '" src="http://www.youtube.com/embed/' + code + param + '" frameborder="no"></iframe>')
+                        
+                        .find('iframe').css('-webkit-transform-style','preserve-3d').css('z-index','0');
+                    }
+            
+                    window.setTimeout( function () {
+
+                        
+                    }, 111);
+                }
+            }
+        }, 0);
     },
     
     
