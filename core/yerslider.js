@@ -41,7 +41,7 @@ var yerSlider = {
         swipe: false
     },
     
-    status: {
+    stat: {
         slidegroupmax: 1,
         currentslideindex: 0,
         slidecount: 0,
@@ -57,7 +57,8 @@ var yerSlider = {
         slidingleft: false,
         slidingright: false,
         resizing: false,
-        cssanimation: false
+        cssanimation: false,
+        isevent: false
     },
     
     obj: {
@@ -85,7 +86,7 @@ var yerSlider = {
         
         if ( jQuery('html').hasClass('csstransforms3d csstransitions') ) {
         
-            this.status.cssanimation = true;
+            this.stat.cssanimation = true;
         };
         
         
@@ -152,41 +153,68 @@ var yerSlider = {
             this.touch_swipe();
         }
         
-        window.onresize = function(event) {
+        /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
+        
+        this.obj.sliderwrap.on( 'click', function () {
             
-            yerSlider.status.resizing = true;
+            yerSlider.stat.isevent  = true;
             
-            yerSlider.set_slidermaskwidth();
-            yerSlider.set_slidegroup();
-            yerSlider.set_slidewidth();
-            yerSlider.proof_slider_current_index();
-            yerSlider.move_slider_to_current_index();
-            yerSlider.set_prevnext();
+            window.setTimeout(function(){
             
-            if ( yerSlider.param.bullets ) {
+                yerSlider.stat.isevent= false;
+            }, 200);
+        });
+        
+        jQuery(window).bind('resize', function() {
             
-                yerSlider.bullets();
-            }
+            window.setTimeout(function(){
             
-            if ( yerSlider.status.cssanimation ) {
+                if ( !yerSlider.stat.isevent ) {
+                
+                    yerSlider.resize();
+                }
+            }, 100);
             
-                yerSlider.status.currentslideindex = 0;
-                yerSlider.animate_slider_to_current_position();
-            }
-            
-            yerSlider.status.resizing = false;
-        };
+        });
     },
     
     
+    resize: function () {
+              
+        yerSlider.stat.resizing = true;
+        
+        if ( !yerSlider.stat.isanimating && yerSlider.stat.cssanimation ) {
+        
+            yerSlider.stat.currentslideindex = 0;
+        }
+        
+        yerSlider.set_slidermaskwidth();
+        yerSlider.set_slidegroup();
+        yerSlider.set_slidewidth();
+        yerSlider.proof_slider_current_index();
+        yerSlider.move_slider_to_current_index();
+        yerSlider.set_prevnext();
+        
+        if ( yerSlider.param.bullets ) {
+        
+            yerSlider.bullets();
+        }
+
+        if ( !yerSlider.stat.isanimating && yerSlider.stat.cssanimation ) {
+        
+            yerSlider.animate_slider_to_current_position();
+        }
+        
+        yerSlider.stat.resizing = false;
+    },
     /* touch swipe */
     
     touch_swipe: function () {
 
-        var slide_with_default = ( this.status.slidewidth + this.param.slidegap ) * this.param.slidegroup,
+        var slide_with_default = ( this.stat.slidewidth + this.param.slidegap ) * this.param.slidegroup,
     		slide_with = slide_with_default,
     		current_slide = 0,
-    		max_slides = Math.ceil( this.status.slidecount / this.param.slidegroup ),
+    		max_slides = Math.ceil( this.stat.slidecount / this.param.slidegroup ),
     		speed = this.param.animationspeed,
     		slides = this.obj.slide;
         
@@ -300,7 +328,7 @@ var yerSlider = {
             this.obj.slidermask.css('width','100%');
         }
         
-        this.status.slidermaskwidth = this.obj.slidermask.innerWidth();
+        this.stat.slidermaskwidth = this.obj.slidermask.innerWidth();
         
         if ( this.param.insidetablecellfix ) {
             this.obj.slidermask.css('width',this.obj.slidermask.width() + 'px');
@@ -310,7 +338,7 @@ var yerSlider = {
     
     set_slidecount: function () {
         
-        this.status.slidecount = this.obj.slide.size();
+        this.stat.slidecount = this.obj.slide.size();
     },
     
     set_slidegroup: function () {
@@ -323,17 +351,17 @@ var yerSlider = {
             
             for ( var i in this.param.slidegroupresp ) {
         
-                if ( i <= this.status.slidermaskwidth ) {
+                if ( i <= this.stat.slidermaskwidth ) {
             
                     temp = this.param.slidegroupresp[ i ];
                 }
             }
         }
         
-        if ( temp >= this.status.slidecount ) {
+        if ( temp >= this.stat.slidecount ) {
         
-            temp = this.status.slidecount;
-            this.status.currentslideindex = 0;
+            temp = this.stat.slidecount;
+            this.stat.currentslideindex = 0;
             this.move_slider_to_current_index();
         }
         
@@ -343,8 +371,8 @@ var yerSlider = {
     set_slidegroupmax: function () {
         
         for ( var i in this.param.slidegroupresp ) {
-            if ( this.status.slidegroupmax < this.param.slidegroupresp[ i ] ) {
-                this.status.slidegroupmax = this.param.slidegroupresp[ i ];
+            if ( this.stat.slidegroupmax < this.param.slidegroupresp[ i ] ) {
+                this.stat.slidegroupmax = this.param.slidegroupresp[ i ];
             }
         }
     },
@@ -356,12 +384,12 @@ var yerSlider = {
             sliderwrap.width - ( slidegap * ( slidegroup - 1 ) / slidegroup ) %
         */
         
-        this.status.slidewidth = Math.floor( ( this.status.slidermaskwidth - ( this.param.slidegap * ( this.param.slidegroup - 1 ) ) ) / this.param.slidegroup );
+        this.stat.slidewidth = Math.floor( ( this.stat.slidermaskwidth - ( this.param.slidegap * ( this.param.slidegroup - 1 ) ) ) / this.param.slidegroup );
         
-        var diff = this.status.slidermaskwidth - ( ( this.status.slidewidth * this.param.slidegroup ) + ( this.param.slidegap * ( this.param.slidegroup - 1 ) ) );
+        var diff = this.stat.slidermaskwidth - ( ( this.stat.slidewidth * this.param.slidegroup ) + ( this.param.slidegap * ( this.param.slidegroup - 1 ) ) );
         
         this.obj.slide
-            .width( this.status.slidewidth )
+            .width( this.stat.slidewidth )
             .css( 'margin-right', this.param.slidegap + 'px' )
             .last().css( 'margin-right', '0' );
         
@@ -384,7 +412,7 @@ var yerSlider = {
         
         
         /* init */
-        if ( this.status.slidecount > this.param.slidegroup ) {
+        if ( this.stat.slidecount > this.param.slidegroup ) {
         
             if ( typeof this.obj.nextbtn !== 'object' && this.param.nextbtn ) {
                 this.obj.sliderwrap.append('<div class="js-yerslider-next yerslider-prevnext ' + this.param.nextclass.replace( '.', '' ) + '">');
@@ -405,12 +433,12 @@ var yerSlider = {
             if ( typeof this.obj.nextbtn === 'object' ) {
                 this.obj.nextbtn.remove();
                 this.obj.nextbtn = undefined;
-                this.status.nextbtnclickable = false;
+                this.stat.nextbtnclickable = false;
             }
             if ( typeof this.obj.prevbtn === 'object' ) {
                 this.obj.prevbtn.remove();
                 this.obj.prevbtn = undefined;
-                this.status.prevbtnclickable = false;
+                this.stat.prevbtnclickable = false;
             }
         }
         
@@ -418,29 +446,28 @@ var yerSlider = {
     
     next_slide: function () {
         
-        this.status.currentslideindex = this.status.currentslideindex + this.param.slidegroup;
+        this.stat.currentslideindex = this.stat.currentslideindex + this.param.slidegroup;
         
         /* loop-none */
-        
-        if ( this.param.loop === 'none' && this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
+        if ( this.param.loop === 'none' && this.stat.currentslideindex >= this.stat.slidecount - this.param.slidegroup ) {
            
-            this.status.currentslideindex = this.status.slidecount - this.param.slidegroup;
+            this.stat.currentslideindex = this.stat.slidecount - this.param.slidegroup;
             
             this.nextbtn_click_unbind();
         }
-        
+       
         
         /* loop-appending */
         
-        if ( this.param.loop === 'appending' && this.status.currentslideindex > this.status.slidecount - 1 + this.param.slidegroup ) {
+        if ( this.param.loop === 'appending' && this.stat.currentslideindex > this.stat.slidecount - 1 + this.param.slidegroup ) {
            
-           var temp = this.status.currentslideindex - this.status.slidecount;
+           var temp = this.stat.currentslideindex - this.stat.slidecount;
             
-            this.status.currentslideindex = this.status.currentslideindex - this.status.slidecount - this.param.slidegroup;
+            this.stat.currentslideindex = this.stat.currentslideindex - this.stat.slidecount - this.param.slidegroup;
             
             this.move_slider_to_current_index();
             
-            this.status.currentslideindex = temp;
+            this.stat.currentslideindex = temp;
         }
         
         
@@ -453,18 +480,20 @@ var yerSlider = {
         
         
         this.obj.slide.removeClass('current');
-        jQuery( this.obj.slide[ this.status.currentslideindex ] ).addClass('current');
+        jQuery( this.obj.slide[ this.stat.currentslideindex ] ).addClass('current');
+        
+        
     },
     
     prev_slide: function () {
         
-        this.status.currentslideindex = this.status.currentslideindex - this.param.slidegroup;
+        this.stat.currentslideindex = this.stat.currentslideindex - this.param.slidegroup;
         
         /* loop-none */
         
-        if ( this.param.loop === 'none' && this.status.currentslideindex <= 0 ) {
+        if ( this.param.loop === 'none' && this.stat.currentslideindex <= 0 ) {
            
-            this.status.currentslideindex = 0;
+            this.stat.currentslideindex = 0;
             
             this.prevbtn_click_unbind();
         }
@@ -472,15 +501,15 @@ var yerSlider = {
         
         /* loop-appending */
         
-        if ( this.param.loop === 'appending' && this.status.currentslideindex < 0 ) {
+        if ( this.param.loop === 'appending' && this.stat.currentslideindex < 0 ) {
             
-            var temp = this.status.slidecount + this.status.currentslideindex;
+            var temp = this.stat.slidecount + this.stat.currentslideindex;
             
-            this.status.currentslideindex = this.status.currentslideindex + this.status.slidecount + this.param.slidegroup;
+            this.stat.currentslideindex = this.stat.currentslideindex + this.stat.slidecount + this.param.slidegroup;
             
             this.move_slider_to_current_index();
             
-            this.status.currentslideindex = temp;
+            this.stat.currentslideindex = temp;
         }
         
         
@@ -493,23 +522,24 @@ var yerSlider = {
         
         
         this.obj.slide.removeClass('current');
-        jQuery( this.obj.slide[ this.status.currentslideindex ] ).addClass('current');
+        jQuery( this.obj.slide[ this.stat.currentslideindex ] ).addClass('current');
     },
     
     nextbtn_click: function () {
         
-        if ( !yerSlider.status.nextbtnclickable ) {
-        
-            this.obj.nextbtn.on( 'click', function () {
-        
-                if ( !yerSlider.status.isanimating ) {
-        
-                    yerSlider.status.isanimating = true;
-                    yerSlider.status.slidingright = true;
-                
-                    yerSlider.next_slide();
-                    yerSlider.animate_slider_to_current_position();
+        if ( !yerSlider.stat.nextbtnclickable ) {
             
+            this.obj.nextbtn.on( 'click', function () {
+                
+                if ( !yerSlider.stat.isanimating ) {
+        
+                    yerSlider.stat.isanimating = true;
+                    yerSlider.stat.slidingright = true;
+                    
+                    yerSlider.next_slide();
+                    
+                    yerSlider.animate_slider_to_current_position();
+                    
                     yerSlider.refresh_prevnext();
             
                     if ( yerSlider.param.bullets ) {
@@ -518,25 +548,25 @@ var yerSlider = {
                         yerSlider.set_bullet_current_class();
                     }
                 
-                    yerSlider.status.slidingright = false;
+                    yerSlider.stat.slidingright = false;
                 }
             });
         
-            yerSlider.status.nextbtnclickable = true;
+            yerSlider.stat.nextbtnclickable = true;
         }
     },
     
     prevbtn_click: function () {
         
-        if ( !yerSlider.status.prevbtnclickable ) {
+        if ( !yerSlider.stat.prevbtnclickable ) {
         
             this.obj.prevbtn.on( 'click', function () {
         
-                if ( !yerSlider.status.isanimating ) {
+                if ( !yerSlider.stat.isanimating ) {
             
-                    yerSlider.status.isanimating = true;
-                    yerSlider.status.slidingleft = true;
-                
+                    yerSlider.stat.isanimating = true;
+                    yerSlider.stat.slidingleft = true;
+                    
                     yerSlider.prev_slide();
                     yerSlider.animate_slider_to_current_position();
             
@@ -548,11 +578,11 @@ var yerSlider = {
                         yerSlider.set_bullet_current_class();
                     }
                 
-                    yerSlider.status.slidingleft = false;
+                    yerSlider.stat.slidingleft = false;
                 }
             });
             
-            yerSlider.status.prevbtnclickable = true;
+            yerSlider.stat.prevbtnclickable = true;
         }
         
     },
@@ -562,7 +592,7 @@ var yerSlider = {
         this.obj.nextbtn.unbind( 'click' )
             .addClass( this.param.nextinactiveclass.replace( '.', '' ) );
         
-        this.status.nextbtnclickable = false;
+        this.stat.nextbtnclickable = false;
     },
     
     prevbtn_click_unbind: function () {
@@ -570,15 +600,15 @@ var yerSlider = {
         this.obj.prevbtn.unbind( 'click' )
             .addClass( this.param.previnactiveclass.replace( '.', '' ) );
         
-        this.status.prevbtnclickable = false;
+        this.stat.prevbtnclickable = false;
     },
     
     refresh_prevnext: function () {
         
         /* bind click events if unbinded in general */
         
-        if ( !this.status.nextbtnclickable ) this.nextbtn_click();
-        if ( !this.status.prevbtnclickable ) this.prevbtn_click();
+        if ( !this.stat.nextbtnclickable ) this.nextbtn_click();
+        if ( !this.stat.prevbtnclickable ) this.prevbtn_click();
         
         
         /* remove inactive classes in general */
@@ -591,16 +621,16 @@ var yerSlider = {
         
         if ( this.param.loop === 'none' ) {
             
-            if ( this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
+            if ( this.stat.currentslideindex >= this.stat.slidecount - this.param.slidegroup ) {
             
                 this.nextbtn_click_unbind();
             }
         
-            if ( this.status.currentslideindex <= 0 ) {
+            if ( this.stat.currentslideindex <= 0 ) {
 
                 this.prevbtn_click_unbind();
             }
-        }  
+        }
     },
     
     
@@ -621,7 +651,7 @@ var yerSlider = {
         
             /* get amount of bullets */
         
-            this.status.bulletscount = Math.ceil( this.status.slidecount / this.param.slidegroup );
+            this.stat.bulletscount = Math.ceil( this.stat.slidecount / this.param.slidegroup );
             
             
             /* current bullet index */
@@ -649,23 +679,23 @@ var yerSlider = {
           
         /* do bullets html and object */
 
-        if ( this.status.bulletscountcache !== this.status.bulletscount ) {
+        if ( this.stat.bulletscountcache !== this.stat.bulletscount ) {
             
             var bullets = '';
         
-            for ( var i = 1; i <= this.status.bulletscount; i++ ) {
+            for ( var i = 1; i <= this.stat.bulletscount; i++ ) {
             
                 bullets += '<div class="' + this.param.bulletclass.replace( '.', '' ) + '" data-index="' + i + '"></div>';
             }
         
             this.obj.bulletswrap.empty();
         
-            if ( this.status.bulletscount > 1 ) {
+            if ( this.stat.bulletscount > 1 ) {
             
                 this.obj.bulletswrap.append( bullets );
             }
         
-            this.status.bulletscountcache = this.status.bulletscount;
+            this.stat.bulletscountcache = this.stat.bulletscount;
         }
         
         this.obj.bullets = this.obj.bulletswrap.find( this.param.bulletclass );
@@ -675,13 +705,13 @@ var yerSlider = {
     
     set_bullet_current: function () {
         
-        var currentslideindex = this.status.currentslideindex;
+        var currentslideindex = this.stat.currentslideindex;
 
         /* translate clone current slide index into original index */
 
-        if ( currentslideindex + 1 > this.status.slidecount ) {
+        if ( currentslideindex + 1 > this.stat.slidecount ) {
 
-            currentslideindex = currentslideindex - this.status.slidecount;
+            currentslideindex = currentslideindex - this.stat.slidecount;
         }
 
 
@@ -689,15 +719,15 @@ var yerSlider = {
 
         if ( this.param.loop === 'none' ) {
             
-            this.status.bulletcurrent = Math.ceil( currentslideindex / this.param.slidegroup ) + 1;
+            this.stat.bulletcurrent = Math.ceil( currentslideindex / this.param.slidegroup ) + 1;
         }
         else {
             
-            this.status.bulletcurrent = Math.round( currentslideindex / this.param.slidegroup ) + 1;
+            this.stat.bulletcurrent = Math.round( currentslideindex / this.param.slidegroup ) + 1;
             
-            if ( this.status.bulletcurrent > this.status.bulletscount ) {
+            if ( this.stat.bulletcurrent > this.stat.bulletscount ) {
                 
-                this.status.bulletcurrent = this.status.bulletscount;
+                this.stat.bulletcurrent = this.stat.bulletscount;
             }
         }
     },
@@ -708,7 +738,7 @@ var yerSlider = {
         
         this.obj.bullets.removeClass( this.param.bulletcurrentclass.replace( '.', '' ) );
         
-        this.obj.bulletswrap.find('[data-index="' + this.status.bulletcurrent + '"]').addClass( this.param.bulletcurrentclass.replace( '.', '' ) );
+        this.obj.bulletswrap.find('[data-index="' + this.stat.bulletcurrent + '"]').addClass( this.param.bulletcurrentclass.replace( '.', '' ) );
     },
     
     bullet_click: function () {
@@ -716,19 +746,19 @@ var yerSlider = {
         this.obj.bullets.on( 'click', function () {
             
             
-            if ( !yerSlider.status.isanimating ) {
+            if ( !yerSlider.stat.isanimating ) {
                 
-                yerSlider.status.isanimating = true;
+                yerSlider.stat.isanimating = true;
                 
                 var currentbullet = jQuery(this).data('index');
                 
-                yerSlider.status.currentslideindex = ( currentbullet - 1 ) * yerSlider.param.slidegroup;
+                yerSlider.stat.currentslideindex = ( currentbullet - 1 ) * yerSlider.param.slidegroup;
                 
                 yerSlider.proof_slider_current_index();
                 
                 yerSlider.animate_slider_to_current_position();
                 
-                if ( !yerSlider.status.prevbtnclickable ) {
+                if ( !yerSlider.stat.prevbtnclickable ) {
                     
                     yerSlider.prevbtn_click();
                 }
@@ -761,7 +791,7 @@ var yerSlider = {
     
     animate_slider_to_current_position: function () {
         
-        if ( this.status.cssanimation ) {
+        if ( this.stat.cssanimation ) {
         
             yerSlider.animate_slider_to_current_position_css();
         }
@@ -776,7 +806,7 @@ var yerSlider = {
         yerSlider.obj.slider.animate({
             'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
         }, yerSlider.param.animationspeed, function () {
-           yerSlider.status.isanimating = false;
+           yerSlider.stat.isanimating = false;
         });
         
     },
@@ -803,7 +833,7 @@ var yerSlider = {
             'transform': transform
         });
         
-        yerSlider.status.isanimating = false;
+        yerSlider.stat.isanimating = false;
     },
     
     
@@ -813,9 +843,9 @@ var yerSlider = {
         
         var index = 0;
         
-        for (var i = 0; i < this.status.slidegroupmax * 2; i++) {
+        for (var i = 0; i < this.stat.slidegroupmax * 2; i++) {
             
-            if ( index > this.status.slidecount ) {
+            if ( index > this.stat.slidecount ) {
                 index = 0;
             }
             
@@ -829,16 +859,16 @@ var yerSlider = {
     
     get_sliderposition: function () {
 
-        //var pos = ( parseInt( yerSlider.status.currentslideindex * yerSlider.status.slidewidth, 10 ) + parseInt( yerSlider.param.slidegap * yerSlider.status.currentslideindex, 10 ) );
-        var pos = jQuery( this.obj.slide[ yerSlider.status.currentslideindex ] ).position().left;
+        //var pos = ( parseInt( yerSlider.stat.currentslideindex * yerSlider.stat.slidewidth, 10 ) + parseInt( yerSlider.param.slidegap * yerSlider.stat.currentslideindex, 10 ) );
+        var pos = jQuery( this.obj.slide[ yerSlider.stat.currentslideindex ] ).position().left;
         return pos;
     },
     
     proof_slider_current_index: function () {
         
-        if ( this.status.slidecount - this.param.slidegroup > 0 && this.status.currentslideindex >= this.status.slidecount - this.param.slidegroup ) {
+        if ( this.stat.slidecount - this.param.slidegroup > 0 && this.stat.currentslideindex >= this.stat.slidecount - this.param.slidegroup ) {
            
-            this.status.currentslideindex = this.status.slidecount - this.param.slidegroup;
+            this.stat.currentslideindex = this.stat.slidecount - this.param.slidegroup;
             
             this.nextbtn_click_unbind();
         }
