@@ -58,7 +58,9 @@ var yerSlider = {
         slidingright: false,
         resizing: false,
         cssanimation: false,
-        isevent: false
+        isevent: false,
+        touch: false,
+        clicktype: 'click'
     },
     
     obj: {
@@ -89,7 +91,13 @@ var yerSlider = {
             this.stat.cssanimation = true;
         };
         
+        if ( jQuery('html').hasClass('touch') ) {
         
+            this.stat.touch = true;
+            this.stat.clicktype = 'touchend';
+        };
+        
+
         /* define slider objects */
         
         this.obj.sliderid = jQuery( this.param.sliderid );
@@ -156,7 +164,7 @@ var yerSlider = {
         
         /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
         
-        this.obj.sliderwrap.on( 'click', function () {
+        this.obj.sliderwrap.on( this.stat.clicktype, function () {
             
             yerSlider.stat.isevent  = true;
             
@@ -554,7 +562,7 @@ var yerSlider = {
         
         if ( !yerSlider.stat.nextbtnclickable ) {
             
-            this.obj.nextbtn.on( 'click', function () {
+            this.obj.nextbtn.on( this.stat.clicktype, function () {
                 
                 if ( !yerSlider.stat.isanimating ) {
         
@@ -585,7 +593,7 @@ var yerSlider = {
         
         if ( !yerSlider.stat.prevbtnclickable ) {
         
-            this.obj.prevbtn.on( 'click', function () {
+            this.obj.prevbtn.on( this.stat.clicktype, function () {
         
                 if ( !yerSlider.stat.isanimating ) {
             
