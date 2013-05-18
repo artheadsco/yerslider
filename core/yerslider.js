@@ -157,10 +157,14 @@ var yerSlider = {
             this.bullets();
         }
         
+        
+        /* touch swipe */
+        
         if ( this.param.swipe ) {
         
             this.touch_swipe();
         }
+        
         
         /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
         
@@ -185,147 +189,6 @@ var yerSlider = {
             }, 100);
             
         });
-    },
-    
-    
-    resize: function () {
-              
-        yerSlider.stat.resizing = true;
-        
-        if ( !yerSlider.stat.isanimating && yerSlider.stat.cssanimation ) {
-        
-            yerSlider.stat.currentslideindex = 0;
-        }
-        
-        yerSlider.set_slidermaskwidth();
-        yerSlider.set_slidegroup();
-        yerSlider.set_slidewidth();
-        yerSlider.set_slideheight();
-        yerSlider.proof_slider_current_index();
-        yerSlider.move_slider_to_current_index();
-        yerSlider.set_prevnext();
-        
-        if ( yerSlider.param.bullets ) {
-        
-            yerSlider.bullets();
-        }
-
-        if ( !yerSlider.stat.isanimating && yerSlider.stat.cssanimation ) {
-        
-            yerSlider.animate_slider_to_current_position();
-        }
-        
-        yerSlider.stat.resizing = false;
-    },
-    /* touch swipe */
-    
-    touch_swipe: function () {
-
-        var slide_with_default = ( this.stat.slidewidth + this.param.slidegap ) * this.param.slidegroup,
-    		slide_with = slide_with_default,
-    		current_slide = 0,
-    		max_slides = Math.ceil( this.stat.slidecount / this.param.slidegroup ),
-    		speed = this.param.animationspeed,
-    		slides = this.obj.slide;
-        
-
-		// init touch swipe
-		slides.swipe( {
-			triggerOnTouchEnd: true,
-			swipeStatus: swipeStatus,
-			allowPageScroll: 'vertical'
-		});
-
-		/**
-		* Catch each phase of the swipe.
-		* move : we drag the div.
-		* cancel : we animate back to where we were
-		* end : we animate to the next image
-		*/
-		function swipeStatus(event, phase, direction, distance, fingers) {
-		
-			//If we are moving before swipe, and we are going L or R, then manually drag the images
-			
-			if ( phase === 'move' && ( direction === 'left' || direction === 'right' ) ) {
-				
-				var duration =  0;
-
-				if ( direction === 'left' ) {
-				
-					scrollImages( ( slide_with * current_slide ) + distance, duration );
-                }
-				else if ( direction === 'right' ) {
-				
-					scrollImages( ( slide_with * current_slide ) - distance, duration );
-				}
-			}
-
-
-			//Else, cancel means snap back to the begining
-			
-			else if ( phase === 'cancel' ) {
-			
-				scrollImages( slide_with * current_slide, speed);
-			}
-
-
-			//Else end means the swipe was completed, so move to the next image
-			
-			else if ( phase === 'end' )
-			{
-				if ( direction == 'right' ) {
-				
-					previousImage();
-				}
-				else if ( direction === 'left' ) {
-				
-					nextImage();
-				}
-			}
-		}
-
-		function previousImage() {
-		
-			current_slide = Math.max( current_slide - 1, 0 );
-			scrollImages( slide_with * current_slide, speed );
-			
-            yerSlider.prev_slide();
-            yerSlider.refresh_prevnext();
-            
-            if ( yerSlider.param.bullets ) {
-
-                yerSlider.set_bullet_current();
-                yerSlider.set_bullet_current_class();
-            }
-		}
-
-		function nextImage() {
-		
-			current_slide = Math.min( current_slide + 1, max_slides - 1 );
-			scrollImages( slide_with * current_slide, speed );
-			
-            yerSlider.next_slide();
-            yerSlider.refresh_prevnext();
-            
-            if ( yerSlider.param.bullets ) {
-
-                yerSlider.set_bullet_current();
-                yerSlider.set_bullet_current_class();
-            }
-		}
-
-		/**
-		 * Manually update the position of the slides on drag
-		 */
-		function scrollImages( distance, duration ) {
-		
-			slides.css('-webkit-transition-duration', ( duration / 1000 ).toFixed(1) + 's' );
-
-			//inverse the number we set in the css
-			var value = ( distance < 0 ? '' : '-' ) + Math.abs(distance).toString();
-
-			slides.css( '-webkit-transform', 'translate3d('+value +'px,0px,0px)' );
-		}
     },
     
     
@@ -905,6 +768,145 @@ var yerSlider = {
             
             this.nextbtn_click_unbind();
         }
+    },
+    
+    resize: function () {
+              
+        yerSlider.stat.resizing = true;
+        
+        if ( !yerSlider.stat.isanimating && yerSlider.stat.cssanimation ) {
+        
+            yerSlider.stat.currentslideindex = 0;
+        }
+        
+        yerSlider.set_slidermaskwidth();
+        yerSlider.set_slidegroup();
+        yerSlider.set_slidewidth();
+        yerSlider.set_slideheight();
+        yerSlider.proof_slider_current_index();
+        yerSlider.move_slider_to_current_index();
+        yerSlider.set_prevnext();
+        
+        if ( yerSlider.param.bullets ) {
+        
+            yerSlider.bullets();
+        }
+
+        if ( !yerSlider.stat.isanimating && yerSlider.stat.cssanimation ) {
+        
+            yerSlider.animate_slider_to_current_position();
+        }
+        
+        yerSlider.stat.resizing = false;
+    },
+    
+    touch_swipe: function () {
+
+        var slide_with_default = ( this.stat.slidewidth + this.param.slidegap ) * this.param.slidegroup,
+    		slide_with = slide_with_default,
+    		current_slide = 0,
+    		max_slides = Math.ceil( this.stat.slidecount / this.param.slidegroup ),
+    		speed = this.param.animationspeed,
+    		slides = this.obj.slide;
+        
+
+		// init touch swipe
+		slides.swipe( {
+			triggerOnTouchEnd: true,
+			swipeStatus: swipeStatus,
+			allowPageScroll: 'vertical'
+		});
+
+		/**
+		* Catch each phase of the swipe.
+		* move : we drag the div.
+		* cancel : we animate back to where we were
+		* end : we animate to the next image
+		*/
+		function swipeStatus(event, phase, direction, distance, fingers) {
+		
+			//If we are moving before swipe, and we are going L or R, then manually drag the images
+			
+			if ( phase === 'move' && ( direction === 'left' || direction === 'right' ) ) {
+				
+				var duration =  0;
+
+				if ( direction === 'left' ) {
+				
+					scrollImages( ( slide_with * current_slide ) + distance, duration );
+                }
+				else if ( direction === 'right' ) {
+				
+					scrollImages( ( slide_with * current_slide ) - distance, duration );
+				}
+			}
+
+
+			//Else, cancel means snap back to the begining
+			
+			else if ( phase === 'cancel' ) {
+			
+				scrollImages( slide_with * current_slide, speed);
+			}
+
+
+			//Else end means the swipe was completed, so move to the next image
+			
+			else if ( phase === 'end' )
+			{
+				if ( direction == 'right' ) {
+				
+					previousImage();
+				}
+				else if ( direction === 'left' ) {
+				
+					nextImage();
+				}
+			}
+		}
+
+		function previousImage() {
+		
+			current_slide = Math.max( current_slide - 1, 0 );
+			scrollImages( slide_with * current_slide, speed );
+			
+            yerSlider.prev_slide();
+            yerSlider.refresh_prevnext();
+            
+            if ( yerSlider.param.bullets ) {
+
+                yerSlider.set_bullet_current();
+                yerSlider.set_bullet_current_class();
+            }
+		}
+
+		function nextImage() {
+		
+			current_slide = Math.min( current_slide + 1, max_slides - 1 );
+			scrollImages( slide_with * current_slide, speed );
+			
+            yerSlider.next_slide();
+            yerSlider.refresh_prevnext();
+            
+            if ( yerSlider.param.bullets ) {
+
+                yerSlider.set_bullet_current();
+                yerSlider.set_bullet_current_class();
+            }
+		}
+
+		/**
+		 * Manually update the position of the slides on drag
+		 */
+		function scrollImages( distance, duration ) {
+		
+			slides.css('-webkit-transition-duration', ( duration / 1000 ).toFixed(1) + 's' );
+
+			//inverse the number we set in the css
+			var value = ( distance < 0 ? '' : '-' ) + Math.abs(distance).toString();
+
+			slides.css( '-webkit-transform', 'translate3d('+value +'px,0px,0px)' );
+		}
     },
     
     
