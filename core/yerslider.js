@@ -143,6 +143,7 @@ var yerSlider = {
         this.set_slidegroupmax();
         this.clon_slides();
         this.set_slidewidth();
+        this.set_slideheight();
         this.set_prevnext();
         if ( this.param.bullets ) {
             this.bullets();
@@ -191,6 +192,7 @@ var yerSlider = {
         yerSlider.set_slidermaskwidth();
         yerSlider.set_slidegroup();
         yerSlider.set_slidewidth();
+        yerSlider.set_slideheight();
         yerSlider.proof_slider_current_index();
         yerSlider.move_slider_to_current_index();
         yerSlider.set_prevnext();
@@ -379,9 +381,14 @@ var yerSlider = {
     
     set_slidewidth: function () {
         
-        /*
-            the slide width should be
-            sliderwrap.width - ( slidegap * ( slidegroup - 1 ) / slidegroup ) %
+        /** Not dodo. This commented code calculating the slidewidth including slide padding (border should added).
+            But i think it is saver to left the styles of the slide element untouched because the calculation 
+            is allways save and correct. Use a inner div and margin to simmulate slide-padding.
+            
+            var slidepadding = {};
+            slidepadding.left = parseInt( this.obj.slide.css('padding-left'), 10 );
+            slidepadding.right = parseInt( this.obj.slide.css('padding-right'), 10 );
+            this.stat.slidewidth = Math.floor( ( this.stat.slidermaskwidth - ( ( this.param.slidegap * ( this.param.slidegroup - 1 ) ) + ( ( slidepadding.left + slidepadding.left )  * this.param.slidegroup ) ) ) / this.param.slidegroup  );
         */
         
         this.stat.slidewidth = Math.floor( ( this.stat.slidermaskwidth - ( this.param.slidegap * ( this.param.slidegroup - 1 ) ) ) / this.param.slidegroup );
@@ -403,6 +410,24 @@ var yerSlider = {
                 
             }
         }
+    },
+    
+    set_slideheight: function () {
+        
+        /** Fix fitVids and slider height
+            If the jQuery('.fitvids').fitVids(); is placed after the yerSlider.init than the 
+            timeout is needet to result the fitted video height in the slider height. 
+            The jQuery('.fitvids').fitVids(); has to be inside the jQuery(document).ready…
+        */
+          
+        window.setTimeout( function () {
+            
+            yerSlider.obj.slide.height('auto');
+            
+            var height = yerSlider.obj.slider.height();
+            yerSlider.obj.slide.height( height );
+            
+        }, 0);
     },
     
     
