@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Johann Heyne
  *
  * Version 1
- * Update 2013-05-17
+ * Update 2013-05-27
  *
  * Minimum requirements: jQuery v1.6+
  *
@@ -14,9 +14,12 @@
  *
  */
 
-var yerSlider = {
+
+function YerSlider () {
     
-    param: {
+    var t = this;
+    
+    t.param = {
         slidegap: 0,
         slidegroupresp: {},
         slidegroup: 1,
@@ -39,15 +42,17 @@ var yerSlider = {
         bullets: false,
         loop: 'none', /* appending, rollback, from-first */
         swipe: false,
+        videoembed: 'onload', /* viewport */
+        videoembedgroupsbefore: 0, /* viewport */
         youtubeparam: '?rel=1&autoplay=0&showinfo=0',
         youtubeurl: 'http://www.youtube.com/embed/{code}{param}',
         youtubehtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no"></iframe>',
-        vimeoparam: '?byline=0&amp;portrait=0&amp;autoplay=1',
+        vimeoparam: '?byline=0&amp;portrait=0&amp;autoplay=0',
         vimeourl: 'http://player.vimeo.com/video/{code}{param}',
         vimeohtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>'
-    },
+    };
     
-    stat: {
+    t.stat = {
         slidegroupmax: 1,
         currentslideindex: 0,
         slidecount: 0,
@@ -68,10 +73,13 @@ var yerSlider = {
         touch: false,
         clicktype: 'click',
         isios: false,
-        isresizing: false
-    },
+        isresizing: false,
+        videoembedindexbegin: false,
+        videoembedindexend: false,
+        videoembedindexes: false
+    };
     
-    obj: {
+    t.obj = {
         sliderid: undefined,
         sliderwrap: undefined,
         slider: undefined,
@@ -80,116 +88,127 @@ var yerSlider = {
         bullets: undefined,
         prevbtn: undefined,
         nextbtn: undefined
-    },
+    };
     
-    init: function ( p ) {
+    t.init = function ( p ) {
+
+        t.init_getdefaultparam( p );
         
-        this.init_getdefaultparam( p );
+        if ( jQuery( t.param.sliderid ).length > 0 ) {
         
-        this.init_animation();
+            t.init_animation();
         
-        this.init_touch();
+            t.init_touch();
         
-        this.init_isios();
+            t.init_isios();
         
-        this.init_ojects();
+            t.init_ojects();
+            
+            t.obj.slider.hide();
+            
+            t.init_css();
         
-        this.init_css();
+            t.set_slidermaskwidth();
+            t.set_slidecount();
+            t.set_slidegroup();
+            t.set_slidegroupmax();
+            t.set_groupindex();
+            t.clon_slides();
+            t.set_slidewidth();
+            t.set_slideheight();
+            t.set_prevnext();
         
-        this.set_slidermaskwidth();
-        this.set_slidecount();
-        this.set_slidegroup();
-        this.set_slidegroupmax();
-        this.clon_slides();
-        this.set_slidewidth();
-        this.set_slideheight();
-        this.set_prevnext();
+            t.bullets();
         
-        this.bullets();
+            t.init_touchswipe();
         
-        this.init_touchswipe();
-        
-        this.init_iosresizeclickbug();
-        
-        this.init_video();
-    },
+            t.init_iosresizeclickbug();
+            
+            window.setTimeout(function(){
+
+                 t.obj.slider.fadeIn(500);
+             }, 500);
+            
+            //t.init_video();
+        }
+    };
     
-    init_getdefaultparam: function ( p ) {
+    t.init_getdefaultparam = function ( p ) {
         
         /* get default parameters */
         
-        this.param = this.helper.setDefaultParam({
+        t.param = t.helper.setDefaultParam({
             p: p,
-            d: this.param
+            d: t.param
         });
-    },
+    };
     
-    init_animation: function () {
+    t.init_animation = function () {
 
         /* css animation */
         
         if ( jQuery('html').hasClass('csstransforms3d csstransitions') ) {
         
-            this.stat.cssanimation = true;
-        };
-    },
+            t.stat.cssanimation = true;
+        }
+    };
     
-    init_touch: function () {
+    t.init_touch = function () {
 
-        /* css animation */
+        /* touch */
         
         if ( jQuery('html').hasClass('touch') ) {
         
-            this.stat.touch = true;
-            this.stat.clicktype = 'touchend';
-        };
-    },
+            t.stat.touch = true;
+            t.stat.clicktype = 'touchend';
+        }
+    };
     
-    init_isios: function () {
+    t.init_isios = function () {
         
         /* is iOS */
         
         if ( navigator.userAgent.match(/(iPod|iPhone|iPad)/) ) {
             
-            this.stat.isios = true;
+            t.stat.isios = true;
         }
-    },
+    };
     
-    init_ojects: function () {
+    t.init_ojects = function () {
         
         /* define slider objects */
         
-        this.obj.sliderid = jQuery( this.param.sliderid );
-        this.obj.sliderwrap = jQuery( this.param.sliderwrapclass );
-        this.obj.slidermask = jQuery( this.param.slidermaskclass );
-        this.obj.slider = jQuery( this.param.sliderclass );
-        this.obj.slide = jQuery( this.param.slideclass );
-    },
+        t.obj.sliderid = jQuery( t.param.sliderid );
+        t.obj.sliderwrap = jQuery( t.param.sliderid );
+        t.obj.slidermask = jQuery( t.param.sliderid + ' ' + t.param.slidermaskclass );
+        t.obj.slider = jQuery( t.param.sliderid + ' ' + t.param.sliderclass );
+        t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+    };
     
-    init_css: function () {
+    t.init_css = function () {
         
         /* layout slider */
         
-        this.obj.sliderwrap.css({
+        t.obj.sliderwrap.css({
             position: 'relative',
             width: '100%'
         });
         
-        this.obj.slidermask.css({
+        t.obj.slidermask.css({
             position: 'relative',
             width: '100%',
             overflow: 'hidden'
         });
         
         /* remember font-size and line-height for the slides because
-        the font-size and line-height of the slider needs to be zero */
+        the font-size and line-height of the slider needs to be zero
         
         var obj_slide_css = [];
             
-            obj_slide_css.fontsize = this.obj.slide.css('font-size');
-            obj_slide_css.lineheight = this.obj.slide.css('line-height');
+            obj_slide_css.fontsize = t.obj.slide.css('font-size');
+            obj_slide_css.lineheight = t.obj.slide.css('line-height'); */
         
-        this.obj.slider.css({
+        t.obj.slider.css({
             'white-space': 'nowrap',
             position: 'relative',
             'list-style-type': 'none',
@@ -199,36 +218,35 @@ var yerSlider = {
             'font-size': 0
         });
         
-        this.obj.slide.css({
+        t.obj.slide.css({
             display: 'inline-block',
-            'vertical-align': 'top',
-            'white-space': 'normal',
+            'white-space': 'normal'/*,
             'font-size': obj_slide_css.fontsize,
-            'line-height': obj_slide_css.lineheight
+            'line-height': obj_slide_css.lineheight*/
         });
-    },
+    };
     
-    init_touchswipe: function () {
+    t.init_touchswipe = function () {
          
          /* touch swipe */
 
-         if ( this.param.swipe ) {
+         if ( t.param.swipe ) {
 
-             this.touch_swipe();
+             t.touch_swipe();
          }
-    },
+    };
     
-    init_iosresizeclickbug: function () {
+    t.init_iosresizeclickbug = function () {
          
          /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
 
-         this.obj.sliderwrap.on( this.stat.clicktype, function () {
+         t.obj.sliderwrap.on( t.stat.clicktype, function () {
 
-             yerSlider.stat.isevent  = true;
+             t.stat.isevent  = true;
 
              window.setTimeout(function(){
 
-                 yerSlider.stat.isevent= false;
+                 t.stat.isevent= false;
              }, 200);
          });
 
@@ -236,104 +254,102 @@ var yerSlider = {
             
             window.setTimeout(function(){
 
-                if ( !yerSlider.stat.isresizing && !yerSlider.stat.isevent ) {
+                if ( !t.stat.isresizing && !t.stat.isevent ) {
 
-                    yerSlider.resize();
+                    t.resize();
                 }
          }, 100);
          }); 
-    },
+    };
     
-    init_video: function () {
+    t.init_video = function () {
          
-         /* remove videos on ios */
+        window.setTimeout( function () {
 
- 		window.setTimeout( function () {
-
-             jQuery('.yerslider-video *').remove();
-         }, 111);
-
-         this.videos_in_viewport(); 
-    },
+            jQuery('.yerslider-video iframe').remove();
+        }, 100);
+        
+        t.videos_in_viewport();
+    };
     
     
     /* setup */
     
-    set_slidermaskwidth: function () {
+    t.set_slidermaskwidth = function () {
         
-        if ( this.param.insidetablecellfix ) {
-            this.obj.slider.hide();
-            this.obj.slidermask.css('width','100%');
+        if ( t.param.insidetablecellfix ) {
+            t.obj.slider.hide();
+            t.obj.slidermask.css('width','100%');
         }
         
-        this.stat.slidermaskwidth = this.obj.slidermask.innerWidth();
+        t.stat.slidermaskwidth = t.obj.slidermask.innerWidth();
         
-        if ( this.param.insidetablecellfix ) {
-            this.obj.slidermask.css('width',this.obj.slidermask.width() + 'px');
-            this.obj.slider.show();
+        if ( t.param.insidetablecellfix ) {
+            t.obj.slidermask.css('width',t.obj.slidermask.width() + 'px');
+            t.obj.slider.show();
         }
-    },
+    };
     
-    set_slidecount: function () {
+    t.set_slidecount = function () {
         
-        this.stat.slidecount = this.obj.slide.size();
-    },
+        t.stat.slidecount = t.obj.slide.size();
+    };
     
-    set_slidegroup: function () {
+    t.set_slidegroup = function () {
         
-        var slidermaskwidth = this.obj.slidermask.innerWidth();
+        var slidermaskwidth = t.obj.slidermask.innerWidth();
         
-        var temp = this.param.slidegroup;
+        var temp = t.param.slidegroup;
         
-        if ( this.helper.getLength( this.param.slidegroupresp ) > 0 ) {
+        if ( t.helper.getLength( t.param.slidegroupresp ) > 0 ) {
             
-            for ( var i in this.param.slidegroupresp ) {
+            for ( var i in t.param.slidegroupresp ) {
         
-                if ( i <= this.stat.slidermaskwidth ) {
+                if ( i <= t.stat.slidermaskwidth ) {
             
-                    temp = this.param.slidegroupresp[ i ];
+                    temp = t.param.slidegroupresp[ i ];
                 }
             }
         }
         
-        if ( temp >= this.stat.slidecount ) {
+        if ( temp >= t.stat.slidecount ) {
         
-            temp = this.stat.slidecount;
-            this.stat.currentslideindex = 0;
-            this.move_slider_to_current_index();
+            temp = t.stat.slidecount;
+            t.stat.currentslideindex = 0;
+            t.move_slider_to_current_index();
         }
         
-        this.param.slidegroup = temp;
-    },
+        t.param.slidegroup = temp;
+    };
     
-    set_slidegroupmax: function () {
+    t.set_slidegroupmax = function () {
         
-        for ( var i in this.param.slidegroupresp ) {
-            if ( this.stat.slidegroupmax < this.param.slidegroupresp[ i ] ) {
-                this.stat.slidegroupmax = this.param.slidegroupresp[ i ];
+        for ( var i in t.param.slidegroupresp ) {
+            if ( t.stat.slidegroupmax < t.param.slidegroupresp[ i ] ) {
+                t.stat.slidegroupmax = t.param.slidegroupresp[ i ];
             }
         }
-    },
+    };
     
-    set_slidewidth: function () {
+    t.set_slidewidth = function () {
         
         /** Not dodo. This commented code calculating the slidewidth including slide padding (border should added).
             But i think it is saver to left the styles of the slide element untouched because the calculation 
             is allways save and correct. Use a inner div and margin to simmulate slide-padding.
             
             var slidepadding = {};
-            slidepadding.left = parseInt( this.obj.slide.css('padding-left'), 10 );
-            slidepadding.right = parseInt( this.obj.slide.css('padding-right'), 10 );
-            this.stat.slidewidth = Math.floor( ( this.stat.slidermaskwidth - ( ( this.param.slidegap * ( this.param.slidegroup - 1 ) ) + ( ( slidepadding.left + slidepadding.left )  * this.param.slidegroup ) ) ) / this.param.slidegroup  );
+            slidepadding.left = parseInt( t.obj.slide.css('padding-left'), 10 );
+            slidepadding.right = parseInt( t.obj.slide.css('padding-right'), 10 );
+            t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( ( t.param.slidegap * ( t.param.slidegroup - 1 ) ) + ( ( slidepadding.left + slidepadding.left )  * t.param.slidegroup ) ) ) / t.param.slidegroup  );
         */
         
-        this.stat.slidewidth = Math.floor( ( this.stat.slidermaskwidth - ( this.param.slidegap * ( this.param.slidegroup - 1 ) ) ) / this.param.slidegroup );
+        t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( t.param.slidegap * ( t.param.slidegroup - 1 ) ) ) / t.param.slidegroup );
         
-        var diff = this.stat.slidermaskwidth - ( ( this.stat.slidewidth * this.param.slidegroup ) + ( this.param.slidegap * ( this.param.slidegroup - 1 ) ) );
+        var diff = t.stat.slidermaskwidth - ( ( t.stat.slidewidth * t.param.slidegroup ) + ( t.param.slidegap * ( t.param.slidegroup - 1 ) ) );
         
-        this.obj.slide
-            .width( this.stat.slidewidth )
-            .css( 'margin-right', this.param.slidegap + 'px' )
+        t.obj.slide
+            .width( t.stat.slidewidth )
+            .css( 'margin-right', t.param.slidegap + 'px' )
             .last().css( 'margin-right', '0' );
         
         
@@ -342,91 +358,106 @@ var yerSlider = {
         if ( diff > 0 ) {
             
             for ( var i = 0; i < diff; i++ ) {
-                jQuery( this.param.slideclass + ':nth-child(' + ( 1 + i )  + 'n-' + (this.param.slidegroup - 1) + ')' ).css( 'margin-right', ( this.param.slidegap + 1 ) + 'px' );
+                jQuery( t.param.slideclass + ':nth-child(' + ( 1 + i )  + 'n-' + (t.param.slidegroup - 1) + ')' ).css( 'margin-right', ( t.param.slidegap + 1 ) + 'px' );
                 
             }
         }
-    },
+    };
     
-    set_slideheight: function () {
+    t.set_slideheight = function () {
         
         /** Fix fitVids and slider height
-            If the jQuery('.fitvids').fitVids(); is placed after the yerSlider.init than the 
+            If the jQuery('.fitvids').fitVids(); is placed after the t.init than the 
             timeout is needet to result the fitted video height in the slider height. 
             The jQuery('.fitvids').fitVids(); has to be inside the jQuery(document).ready…
+            
+            window.setTimeout( function () {
+
+                t.obj.slide.height('auto');
+
+                var height = t.obj.slider.height();
+                t.obj.slide.height( height );
+
+            }, 0);
         */
-          
-        window.setTimeout( function () {
-            
-            yerSlider.obj.slide.height('auto');
-            
-            var height = yerSlider.obj.slider.height();
-            yerSlider.obj.slide.height( height );
-            
-        }, 0);
-    },
+    };
+    
+    t.set_groupindex = function () {
+         
+        t.stat.videoembedindexbegin = t.stat.currentslideindex + 1 - ( t.param.slidegroup * t.param.videoembedgroupsbefore );
+        t.stat.videoembedindexend = t.stat.currentslideindex + t.param.slidegroup + ( t.param.slidegroup * t.param.videoembedgroupsbefore );
+        
+        t.stat.videoembedindexes = [];
+        
+        for ( i = 1; i <= t.stat.slidecount; i++ ) {
+
+            if ( i >= t.stat.videoembedindexbegin && i <= t.stat.videoembedindexend ) {
+                t.stat.videoembedindexes.push(i);
+            }
+        }
+    };
     
     
     /* prev next */
     
-    set_prevnext: function () {
+    t.set_prevnext = function () {
         
         
         /* init */
-        if ( this.stat.slidecount > this.param.slidegroup ) {
+        if ( t.stat.slidecount > t.param.slidegroup ) {
         
-            if ( typeof this.obj.nextbtn !== 'object' && this.param.nextbtn ) {
-                this.obj.sliderwrap.append('<div class="js-yerslider-next yerslider-prevnext ' + this.param.nextclass.replace( '.', '' ) + '">');
-                this.obj.nextbtn = jQuery( this.param.nextclass );
+            if ( typeof t.obj.nextbtn !== 'object' && t.param.nextbtn ) {
+                t.obj.sliderwrap.append('<div class="js-yerslider-next yerslider-prevnext ' + t.param.nextclass.replace( '.', '' ) + '">');
+                t.obj.nextbtn = jQuery( t.param.sliderid + ' ' + t.param.nextclass );
             }
         
-            if ( typeof this.obj.prevbtn !== 'object' && this.param.prevbtn ) {
-                this.obj.sliderwrap.append('<div class="js-yerslider-prev yerslider-prevnext ' + this.param.prevclass.replace( '.', '' ) + '">');
-                this.obj.prevbtn = jQuery( this.param.prevclass );
+            if ( typeof t.obj.prevbtn !== 'object' && t.param.prevbtn ) {
+                t.obj.sliderwrap.append('<div class="js-yerslider-prev yerslider-prevnext ' + t.param.prevclass.replace( '.', '' ) + '">');
+                t.obj.prevbtn = jQuery( t.param.sliderid + ' ' + t.param.prevclass );
             }
             
-            this.refresh_prevnext();
+            t.refresh_prevnext();
         }
         
         /* remove */
         else {
         
-            if ( typeof this.obj.nextbtn === 'object' ) {
-                this.obj.nextbtn.remove();
-                this.obj.nextbtn = undefined;
-                this.stat.nextbtnclickable = false;
+            if ( typeof t.obj.nextbtn === 'object' ) {
+                t.obj.nextbtn.remove();
+                t.obj.nextbtn = undefined;
+                t.stat.nextbtnclickable = false;
             }
-            if ( typeof this.obj.prevbtn === 'object' ) {
-                this.obj.prevbtn.remove();
-                this.obj.prevbtn = undefined;
-                this.stat.prevbtnclickable = false;
+            if ( typeof t.obj.prevbtn === 'object' ) {
+                t.obj.prevbtn.remove();
+                t.obj.prevbtn = undefined;
+                t.stat.prevbtnclickable = false;
             }
         }
         
-    },
+    };
     
-    next_slide: function () {
+    t.next_slide = function () {
         
-        this.stat.currentslideindex = this.stat.currentslideindex + this.param.slidegroup;
+        t.stat.currentslideindex = t.stat.currentslideindex + t.param.slidegroup;
         
         /* loop-none */
-        if ( this.param.loop === 'none' && this.stat.currentslideindex >= this.stat.slidecount - this.param.slidegroup ) {
+        if ( t.param.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.param.slidegroup ) {
            
-            this.stat.currentslideindex = this.stat.slidecount - this.param.slidegroup;
+            t.stat.currentslideindex = t.stat.slidecount - t.param.slidegroup;
         }
        
         
         /* loop-appending */
         
-        if ( this.param.loop === 'appending' && this.stat.currentslideindex > this.stat.slidecount - 1 + this.param.slidegroup ) {
+        if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - 1 + t.param.slidegroup ) {
            
-           var temp = this.stat.currentslideindex - this.stat.slidecount;
+           var temp = t.stat.currentslideindex - t.stat.slidecount;
             
-            this.stat.currentslideindex = this.stat.currentslideindex - this.stat.slidecount - this.param.slidegroup;
+            t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.param.slidegroup;
             
-            this.animate_slider_to_current_position( 0 );
+            t.animate_slider_to_current_position( 0 );
             
-            this.stat.currentslideindex = temp;
+            t.stat.currentslideindex = temp;
         }
         
         
@@ -438,35 +469,41 @@ var yerSlider = {
         
         
         
-        /* crurrent class */
+        /* current class */
         
-        this.obj.slide.removeClass('current');
-        jQuery( this.obj.slide[ this.stat.currentslideindex ] ).addClass('current');
-    },
+        t.obj.slide.removeClass('current');
+        jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
+        
+        
+        /* group indexes */
+        
+        t.set_groupindex();
+        
+    };
     
-    prev_slide: function () {
+    t.prev_slide = function () {
         
-        this.stat.currentslideindex = this.stat.currentslideindex - this.param.slidegroup;
+        t.stat.currentslideindex = t.stat.currentslideindex - t.param.slidegroup;
         
         /* loop-none */
         
-        if ( this.param.loop === 'none' && this.stat.currentslideindex <= 0 ) {
+        if ( t.param.loop === 'none' && t.stat.currentslideindex <= 0 ) {
            
-            this.stat.currentslideindex = 0;
+            t.stat.currentslideindex = 0;
         }
         
         
         /* loop-appending */
         
-        if ( this.param.loop === 'appending' && this.stat.currentslideindex < 0 ) {
+        if ( t.param.loop === 'appending' && t.stat.currentslideindex < 0 ) {
             
-            var temp = this.stat.slidecount + this.stat.currentslideindex;
+            var temp = t.stat.slidecount + t.stat.currentslideindex;
             
-            this.stat.currentslideindex = this.stat.currentslideindex + this.stat.slidecount + this.param.slidegroup;
+            t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + t.param.slidegroup;
             
-            this.animate_slider_to_current_position( 0 );
+            t.animate_slider_to_current_position( 0 );
             
-            this.stat.currentslideindex = temp;
+            t.stat.currentslideindex = temp;
         }
         
         
@@ -480,305 +517,317 @@ var yerSlider = {
         
         /* crurrent class */
         
-        this.obj.slide.removeClass('current');
-        jQuery( this.obj.slide[ this.stat.currentslideindex ] ).addClass('current');
-    },
-    
-    nextbtn_click: function () {
+        t.obj.slide.removeClass('current');
+        jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
         
-        if ( !yerSlider.stat.nextbtnclickable ) {
+        
+        /* group indexes */
+        
+        t.set_groupindex();
+    };
+    
+    t.nextbtn_click = function () {
+        
+        if ( !t.stat.nextbtnclickable ) {
             
-            this.obj.nextbtn.on( this.stat.clicktype, function () {
+            t.obj.nextbtn.on( t.stat.clicktype, function () {
                 
-                if ( !yerSlider.stat.isanimating ) {
+                if ( !t.stat.isanimating ) {
                     
-                    yerSlider.stat.isanimating = true;
-                    yerSlider.stat.slidingright = true;
+                    t.stat.isanimating = true;
+                    t.stat.slidingright = true;
                     
-                    yerSlider.next_slide();
+                    t.next_slide();
                     
-                    yerSlider.animate_slider_to_current_position( yerSlider.param.animationspeed );
+                    t.animate_slider_to_current_position( t.param.animationspeed );
                     
-                    yerSlider.refresh_prevnext();
+                    t.refresh_prevnext();
             
-                    if ( yerSlider.param.bullets ) {
+                    if ( t.param.bullets ) {
 
-                        yerSlider.set_bullet_current();
-                        yerSlider.set_bullet_current_class();
+                        t.set_bullet_current();
+                        t.set_bullet_current_class();
                     }
                 
-                    yerSlider.stat.slidingright = false;
+                    t.stat.slidingright = false;
                 }
             });
         
-            yerSlider.stat.nextbtnclickable = true;
+            t.stat.nextbtnclickable = true;
         }
-    },
+    };
     
-    prevbtn_click: function () {
+    t.prevbtn_click = function () {
         
-        if ( !yerSlider.stat.prevbtnclickable ) {
+        if ( !t.stat.prevbtnclickable ) {
         
-            this.obj.prevbtn.on( this.stat.clicktype, function () {
+            t.obj.prevbtn.on( t.stat.clicktype, function () {
                 
-                if ( !yerSlider.stat.isanimating ) {
+                if ( !t.stat.isanimating ) {
                     
-                    yerSlider.stat.isanimating = true;
-                    yerSlider.stat.slidingleft = true;
+                    t.stat.isanimating = true;
+                    t.stat.slidingleft = true;
                     
-                    yerSlider.prev_slide();
-                    yerSlider.animate_slider_to_current_position( yerSlider.param.animationspeed );
+                    t.prev_slide();
+                    t.animate_slider_to_current_position( t.param.animationspeed );
             
-                    yerSlider.refresh_prevnext();
+                    t.refresh_prevnext();
             
-                    if ( yerSlider.param.bullets ) {
+                    if ( t.param.bullets ) {
 
-                        yerSlider.set_bullet_current();
-                        yerSlider.set_bullet_current_class();
+                        t.set_bullet_current();
+                        t.set_bullet_current_class();
                     }
                 
-                    yerSlider.stat.slidingleft = false;
+                    t.stat.slidingleft = false;
                 }
             });
             
-            yerSlider.stat.prevbtnclickable = true;
+            t.stat.prevbtnclickable = true;
         }
         
-    },
+    };
     
-    nextbtn_click_unbind: function () {
+    t.nextbtn_click_unbind = function () {
                 
-        this.obj.nextbtn.unbind( 'click' )
-            .addClass( this.param.nextinactiveclass.replace( '.', '' ) );
+        t.obj.nextbtn.unbind( 'click' )
+            .addClass( t.param.nextinactiveclass.replace( '.', '' ) );
         
-        this.stat.nextbtnclickable = false;
-    },
+        t.stat.nextbtnclickable = false;
+    };
     
-    prevbtn_click_unbind: function () {
+    t.prevbtn_click_unbind = function () {
 
-        this.obj.prevbtn.unbind( 'click' )
-            .addClass( this.param.previnactiveclass.replace( '.', '' ) );
+        t.obj.prevbtn.unbind( 'click' )
+            .addClass( t.param.previnactiveclass.replace( '.', '' ) );
         
-        this.stat.prevbtnclickable = false;
-    },
+        t.stat.prevbtnclickable = false;
+    };
     
-    refresh_prevnext: function () {
+    t.refresh_prevnext = function () {
         
         /* bind click events if unbinded in general */
         
-        if ( !this.stat.nextbtnclickable ) this.nextbtn_click();
-        if ( !this.stat.prevbtnclickable ) this.prevbtn_click();
+        if ( !t.stat.nextbtnclickable ) {
+            
+            t.nextbtn_click();
+        }
+        
+        if ( !t.stat.prevbtnclickable ) {
+            
+            t.prevbtn_click();
+        }
         
         
         /* remove inactive classes in general */
         
-        this.obj.nextbtn.removeClass( this.param.nextinactiveclass.replace( '.', '' ) );
-        this.obj.prevbtn.removeClass( this.param.previnactiveclass.replace( '.', '' ) );
+        t.obj.nextbtn.removeClass( t.param.nextinactiveclass.replace( '.', '' ) );
+        t.obj.prevbtn.removeClass( t.param.previnactiveclass.replace( '.', '' ) );
         
         
         /* then unbind in some kind of slider situation */
         
-        if ( this.param.loop === 'none' ) {
-            
-            if ( this.stat.currentslideindex >= this.stat.slidecount - this.param.slidegroup ) {
-            
-                this.nextbtn_click_unbind();
+        if ( t.param.loop === 'none' ) {
+
+            if ( t.stat.currentslideindex >= ( t.stat.slidecount - t.param.slidegroup ) ) {
+                
+                t.nextbtn_click_unbind();
             }
         
-            if ( this.stat.currentslideindex <= 0 ) {
+            if ( t.stat.currentslideindex <= 0 ) {
 
-                this.prevbtn_click_unbind();
+                t.prevbtn_click_unbind();
             }
         }
-    },
+    };
     
     
     /* bullets */
     
-    bullets: function () {
+    t.bullets = function () {
           
-        if ( this.param.bullets ) {
+        if ( t.param.bullets ) {
         
             /* do bullets-wrap html and object */
         
-            if ( typeof this.obj.bulletswrap !== 'object' ) {
+            if ( typeof t.obj.bulletswrap !== 'object' ) {
         
-                this.obj.sliderwrap.append('<div class="' + this.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
-                this.obj.bulletswrap = this.obj.sliderwrap.find( this.param.bulletswrapclass );
+                t.obj.sliderwrap.append('<div class="' + t.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
+                t.obj.bulletswrap = t.obj.sliderwrap.find( t.param.bulletswrapclass );
             }
         
         
             /* get amount of bullets */
         
-            this.stat.bulletscount = Math.ceil( this.stat.slidecount / this.param.slidegroup );
+            t.stat.bulletscount = Math.ceil( t.stat.slidecount / t.param.slidegroup );
             
             
             /* current bullet index */
             
-            this.set_bullet_current();
+            t.set_bullet_current();
             
             
             /* bullet items */
             
-            this.bullet_items();
+            t.bullet_items();
             
             
             /* bullet current class */
             
-            this.set_bullet_current_class();
+            t.set_bullet_current_class();
             
             
             /* bullets click */
             
-            this.bullet_click();
+            t.bullet_click();
         }
-    },
+    };
     
-    bullet_items: function () {
+    t.bullet_items = function () {
           
         /* do bullets html and object */
 
-        if ( this.stat.bulletscountcache !== this.stat.bulletscount ) {
+        if ( t.stat.bulletscountcache !== t.stat.bulletscount ) {
             
             var bullets = '';
         
-            for ( var i = 1; i <= this.stat.bulletscount; i++ ) {
+            for ( var i = 1; i <= t.stat.bulletscount; i++ ) {
             
-                bullets += '<div class="' + this.param.bulletclass.replace( '.', '' ) + '" data-index="' + i + '"></div>';
+                bullets += '<div class="' + t.param.bulletclass.replace( '.', '' ) + '" data-index="' + i + '"></div>';
             }
         
-            this.obj.bulletswrap.empty();
+            t.obj.bulletswrap.empty();
         
-            if ( this.stat.bulletscount > 1 ) {
+            if ( t.stat.bulletscount > 1 ) {
             
-                this.obj.bulletswrap.append( bullets );
+                t.obj.bulletswrap.append( bullets );
             }
         
-            this.stat.bulletscountcache = this.stat.bulletscount;
+            t.stat.bulletscountcache = t.stat.bulletscount;
         }
         
-        this.obj.bullets = this.obj.bulletswrap.find( this.param.bulletclass );
+        t.obj.bullets = t.obj.bulletswrap.find( t.param.bulletclass );
         
-        this.set_bullet_current_class();
-    },
+        t.set_bullet_current_class();
+    };
     
-    set_bullet_current: function () {
+    t.set_bullet_current = function () {
         
-        var currentslideindex = this.stat.currentslideindex;
+        var currentslideindex = t.stat.currentslideindex;
 
         /* translate clone current slide index into original index */
 
-        if ( currentslideindex + 1 > this.stat.slidecount ) {
+        if ( currentslideindex + 1 > t.stat.slidecount ) {
 
-            currentslideindex = currentslideindex - this.stat.slidecount;
+            currentslideindex = currentslideindex - t.stat.slidecount;
         }
 
 
         /* current bullet index */
 
-        if ( this.param.loop === 'none' ) {
+        if ( t.param.loop === 'none' ) {
             
-            this.stat.bulletcurrent = Math.ceil( currentslideindex / this.param.slidegroup ) + 1;
+            t.stat.bulletcurrent = Math.ceil( currentslideindex / t.param.slidegroup ) + 1;
         }
         else {
             
-            this.stat.bulletcurrent = Math.round( currentslideindex / this.param.slidegroup ) + 1;
+            t.stat.bulletcurrent = Math.round( currentslideindex / t.param.slidegroup ) + 1;
             
-            if ( this.stat.bulletcurrent > this.stat.bulletscount ) {
+            if ( t.stat.bulletcurrent > t.stat.bulletscount ) {
                 
-                this.stat.bulletcurrent = this.stat.bulletscount;
+                t.stat.bulletcurrent = t.stat.bulletscount;
             }
         }
-    },
+    };
     
-    set_bullet_current_class: function () {
+    t.set_bullet_current_class = function () {
         
         /* current bullet class */
         
-        this.obj.bullets.removeClass( this.param.bulletcurrentclass.replace( '.', '' ) );
+        t.obj.bullets.removeClass( t.param.bulletcurrentclass.replace( '.', '' ) );
         
-        this.obj.bulletswrap.find('[data-index="' + this.stat.bulletcurrent + '"]').addClass( this.param.bulletcurrentclass.replace( '.', '' ) );
-    },
+        t.obj.bulletswrap.find('[data-index="' + t.stat.bulletcurrent + '"]').addClass( t.param.bulletcurrentclass.replace( '.', '' ) );
+    };
     
-    bullet_click: function () {
+    t.bullet_click = function () {
     
-        this.obj.bullets.on( 'click', function () {
+        t.obj.bullets.on( 'click', function () {
             
             
-            if ( !yerSlider.stat.isanimating ) {
+            if ( !t.stat.isanimating ) {
                 
-                yerSlider.stat.isanimating = true;
+                t.stat.isanimating = true;
                 
                 var currentbullet = jQuery(this).data('index');
                 
-                yerSlider.stat.currentslideindex = ( currentbullet - 1 ) * yerSlider.param.slidegroup;
+                t.stat.currentslideindex = ( currentbullet - 1 ) * t.param.slidegroup;
                 
-                yerSlider.proof_slider_current_index();
+                t.proof_slider_current_index();
                 
-                yerSlider.animate_slider_to_current_position( yerSlider.param.animationspeed );
+                t.animate_slider_to_current_position( t.param.animationspeed );
                 
-                if ( !yerSlider.stat.prevbtnclickable ) {
+                if ( !t.stat.prevbtnclickable ) {
                     
-                    yerSlider.prevbtn_click();
+                    t.prevbtn_click();
                 }
             }
             
             
             /* bullets */
             
-            if ( yerSlider.param.bullets ) {
+            if ( t.param.bullets ) {
             
-                yerSlider.set_bullet_current();
-                yerSlider.set_bullet_current_class();
+                t.set_bullet_current();
+                t.set_bullet_current_class();
             }
             
             
             /* prev next buttons */
             
-            yerSlider.refresh_prevnext();
+            t.refresh_prevnext();
         });
-    },
+    };
     
     
     /* animation */
     
-    move_slider_to_current_index: function () {
-        yerSlider.obj.slider.css({
-            'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
+    t.move_slider_to_current_index = function () {
+        t.obj.slider.css({
+            'margin-left': '-' + t.get_sliderposition() + 'px'
         });
-    },
+    };
     
-    animate_slider_to_current_position: function ( duration) {
+    t.animate_slider_to_current_position = function ( duration) {
         
-        if ( this.stat.cssanimation ) {
+        if ( t.stat.cssanimation ) {
         
-            yerSlider.animate_slider_to_current_position_css( duration );
+            t.animate_slider_to_current_position_css( duration );
         }
         else {
         
-            yerSlider.animate_slider_to_current_position_js( duration );
+            t.animate_slider_to_current_position_js( duration );
         }
-    },
+    };
     
-    animate_slider_to_current_position_js: function ( duration ) {
+    t.animate_slider_to_current_position_js = function ( duration ) {
         
-        yerSlider.obj.slider.animate({
-            'margin-left': '-' + yerSlider.get_sliderposition() + 'px'
+        t.obj.slider.animate({
+            'margin-left': '-' + t.get_sliderposition() + 'px'
         }, duration, function () {
-           yerSlider.stat.isanimating = false;
+           t.stat.isanimating = false;
         });
         
-    },
+    };
     
-    animate_slider_to_current_position_css: function( duration ) {
+    t.animate_slider_to_current_position_css = function( duration ) {
         
         
-        var sliderposition = yerSlider.get_sliderposition() * -1,
+        var sliderposition = t.get_sliderposition() * -1,
             transform = 'translate3d(' + sliderposition.toString() + 'px,0px,0px)';
             
-        yerSlider.css_transitionduration( yerSlider.obj.slider, duration );
+        t.css_transitionduration( t.obj.slider, duration );
         
-        yerSlider.obj.slider.css({
+        t.obj.slider.css({
             '-webkit-transform': transform,
             '-ms-transform': transform,
             '-o-transform': transform,
@@ -788,55 +837,55 @@ var yerSlider = {
         
         window.setTimeout( function () {
             
-            yerSlider.stat.isanimating = false;
-            yerSlider.animation_finshed();
-            yerSlider.videos_in_viewport();
+            t.stat.isanimating = false;
+            t.animation_finshed();
+            t.videos_in_viewport();
             
-        }, yerSlider.param.animationspeed );
+        }, t.param.animationspeed );
         
-    },
+    };
     
-    animation_finshed: function () {
+    t.animation_finshed = function () {
         
         
-    },
+    };
     
-    videos_in_viewport: function () {
+    t.videos_in_viewport = function () {
         
         /* get slides of viewport */
-        
-        jQuery('.yerslider-video *').addClass('remove-me');
+
+        jQuery( t.param.sliderid + ' .yerslider-video iframe').addClass('remove-me');
         
         window.setTimeout( function () {
+        
+            jQuery( t.param.sliderid + ' .remove-me').remove();
+        }, t.param.animationspeed );
 
-            jQuery('.remove-me').remove();
-        }, yerSlider.param.animationspeed );
-        
-        
+
         window.setTimeout( function () {
         
             var selector = false;
-
-            for ( i = yerSlider.stat.currentslideindex + 1; i <= yerSlider.stat.currentslideindex + yerSlider.param.slidegroup; i++ ) {
+            
+            for ( i = t.stat.currentslideindex + 1 - ( t.param.slidegroup * t.param.videoembedgroupsbefore ); i <= t.stat.currentslideindex + t.param.slidegroup + ( t.param.slidegroup * t.param.videoembedgroupsbefore ); i++ ) {
     
-                selector = jQuery( yerSlider.param.slideclass + ':nth-child(' + i + ') .yerslider-video' );
-        
-                if ( selector.length > 0 ) {
+                selector = jQuery( t.param.sliderid + ' ' + t.param.slideclass + ':nth-child(' + i + ') .yerslider-video' );
+                
+                if ( selector.length > 0 && selector.find('iframe').length === 0 ) {
             
                     var type = selector.data('video-type'),
                         code = selector.data('video-code'),
                         width = selector.data('video-width'),
-                        height = selector.data('video-height')
+                        height = selector.data('video-height'),
                         param = '';
             
                     if ( type === 'youtube' ) {
                         
-                        if ( !yerSlider.stat.isios ) {
-                            param = yerSlider.param.youtubeparam;
+                        if ( !t.stat.isios ) {
+                            param = t.param.youtubeparam;
                         }
                         
-                        url = yerSlider.param.youtubeurl;
-                        html = yerSlider.param.youtubehtml;
+                        url = t.param.youtubeurl;
+                        html = t.param.youtubehtml;
                         
                         url = url
                             .replace( '{code}', code )
@@ -854,12 +903,12 @@ var yerSlider = {
                     
                     if ( type === 'vimeo' ) {
                         
-                        if ( !yerSlider.stat.isios ) {
-                            param = yerSlider.param.vimeoparam;
+                        if ( !t.stat.isios ) {
+                            param = t.param.vimeoparam;
                         }
                         
-                        url = yerSlider.param.vimeourl;
-                        html = yerSlider.param.vimeohtml;
+                        url = t.param.vimeourl;
+                        html = t.param.vimeohtml;
                         
                         url = url
                             .replace( '{code}', code )
@@ -874,108 +923,104 @@ var yerSlider = {
                         
                         //.find('iframe').css('-webkit-transform-style','preserve-3d').css('z-index','0');
                     }
-            
-                    window.setTimeout( function () {
-
-                        
-                    }, 111);
                 }
             }
         }, 0);
-    },
+    };
     
+    t.video_load = function () {
+          
+    };
     
     /* misc */
     
-    clon_slides: function () {
+    t.clon_slides = function () {
         
-        var index = 0;
+        if ( t.param.loop !== 'none' ) {
         
-        for (var i = 0; i < this.stat.slidegroupmax * 2; i++) {
+            var index = 0;
+        
+            for (var i = 0; i < t.stat.slidegroupmax * 2; i++) {
             
-            if ( index > this.stat.slidecount ) {
-                index = 0;
+                if ( index > t.stat.slidecount ) {
+                    index = 0;
+                }
+            
+                t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
+            
+                index++;
             }
-            
-            this.obj.slider.append( jQuery( this.obj.slide[ index ] ).clone() );
-            
-            index++;
-        }
         
-        this.obj.slide = jQuery( this.param.slideclass );
-    },
+            t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+        }
+    };
     
-    get_sliderposition: function () {
+    t.get_sliderposition = function () {
 
-        //var pos = ( parseInt( yerSlider.stat.currentslideindex * yerSlider.stat.slidewidth, 10 ) + parseInt( yerSlider.param.slidegap * yerSlider.stat.currentslideindex, 10 ) );
-        var pos = jQuery( this.obj.slide[ yerSlider.stat.currentslideindex ] ).position().left;
+        //var pos = ( parseInt( t.stat.currentslideindex * t.stat.slidewidth, 10 ) + parseInt( t.param.slidegap * t.stat.currentslideindex, 10 ) );
+        var pos = jQuery( t.obj.slide[ t.stat.currentslideindex ] ).position().left;
         return pos;
-    },
+    };
     
-    proof_slider_current_index: function () {
+    t.proof_slider_current_index = function () {
         
-        if ( this.stat.slidecount - this.param.slidegroup > 0 && this.stat.currentslideindex >= this.stat.slidecount - this.param.slidegroup ) {
+        if ( t.stat.slidecount - t.param.slidegroup > 0 && t.stat.currentslideindex >= t.stat.slidecount - t.param.slidegroup ) {
            
-            this.stat.currentslideindex = this.stat.slidecount - this.param.slidegroup;
+            t.stat.currentslideindex = t.stat.slidecount - t.param.slidegroup;
             
-            this.nextbtn_click_unbind();
+            t.nextbtn_click_unbind();
         }
-    },
+    };
     
-    resize: function () {
+    t.resize = function () {
               
-        yerSlider.stat.resizing = true;
+        t.stat.resizing = true;
             
-             if ( yerSlider.stat.isios ) {
+            if ( t.stat.isios ) {
              
-                yerSlider.stat.isresizing = true;
-                yerSlider.obj.slider.fadeOut();
+                t.stat.isresizing = true;
+                //t.obj.slider.fadeOut();
             }
             
-            yerSlider.set_slidermaskwidth();
-            yerSlider.set_slidegroup();
-            yerSlider.set_slidewidth();
-            yerSlider.set_slideheight();
-            yerSlider.proof_slider_current_index();
-            yerSlider.animate_slider_to_current_position( 0 );
+            t.set_slidermaskwidth();
+            t.set_slidegroup();
+            t.set_groupindex();
+            t.set_slidewidth();
+            t.set_slideheight();
+            t.proof_slider_current_index();
+            t.animate_slider_to_current_position( 0 );
             
-            yerSlider.set_prevnext();
+            t.set_prevnext();
         
-            if ( yerSlider.param.bullets ) {
+            if ( t.param.bullets ) {
         
-                yerSlider.bullets();
+                t.bullets();
             }
             
             
-        yerSlider.stat.resizing = false;
+        t.stat.resizing = false;
         
-        if ( yerSlider.stat.isios ) {
+        if ( t.stat.isios ) {
         
-            yerSlider.obj.slider.fadeIn( 'fast', function () {
+            /*t.obj.slider.fadeIn( 'fast', function () {
              
-                 yerSlider.stat.isresizing = false;
-            });
+            });*/
+            t.stat.isresizing = false;
         }
-    },
+    };
     
-    touch_swipe: function () {
-
-        var slide_with_default = ( this.stat.slidewidth + this.param.slidegap ) * this.param.slidegroup,
-    		slide_with = slide_with_default,
-    		current_slide = 0,
-    		max_slides = Math.ceil( this.stat.slidecount / this.param.slidegroup ),
-    		speed = this.param.animationspeed,
-    		slides = this.obj.slide;
+    t.touch_swipe = function () {
         
-
-		// init touch swipe
-		slides.swipe( {
-			triggerOnTouchEnd: true,
-			swipeStatus: swipeStatus,
-			allowPageScroll: 'vertical'
-		});
-
-		/**
+        
+        var slide_with_default = ( t.stat.slidewidth + t.param.slidegap ) * t.param.slidegroup,
+            slide_with = slide_with_default,
+            current_slide = 0,
+            max_slides = Math.ceil( t.stat.slidecount / t.param.slidegroup ),
+            speed = t.param.animationspeed,
+            slides = t.obj.slide;
+        
+        
+        /**
 		* Catch each phase of the swipe.
 		* move : we drag the div.
 		* cancel : we animate back to where we were
@@ -1012,7 +1057,7 @@ var yerSlider = {
 			
 			else if ( phase === 'end' )
 			{
-				if ( direction == 'right' ) {
+				if ( direction === 'right' ) {
 				
 					previousImage();
 				}
@@ -1028,13 +1073,13 @@ var yerSlider = {
 			current_slide = Math.max( current_slide - 1, 0 );
 			scrollImages( slide_with * current_slide, speed );
 			
-            yerSlider.prev_slide();
-            yerSlider.refresh_prevnext();
+            t.prev_slide();
+            t.refresh_prevnext();
             
-            if ( yerSlider.param.bullets ) {
+            if ( t.param.bullets ) {
 
-                yerSlider.set_bullet_current();
-                yerSlider.set_bullet_current_class();
+                t.set_bullet_current();
+                t.set_bullet_current_class();
             }
 		}
 
@@ -1043,13 +1088,13 @@ var yerSlider = {
 			current_slide = Math.min( current_slide + 1, max_slides - 1 );
 			scrollImages( slide_with * current_slide, speed );
 			
-            yerSlider.next_slide();
-            yerSlider.refresh_prevnext();
+            t.next_slide();
+            t.refresh_prevnext();
             
-            if ( yerSlider.param.bullets ) {
+            if ( t.param.bullets ) {
 
-                yerSlider.set_bullet_current();
-                yerSlider.set_bullet_current_class();
+                t.set_bullet_current();
+                t.set_bullet_current_class();
             }
 		}
 
@@ -1065,12 +1110,21 @@ var yerSlider = {
 
 			slides.css( '-webkit-transform', 'translate3d('+value +'px,0px,0px)' );
 		}
-    },
+        
+        
+		// init touch swipe
+		slides.swipe( {
+			triggerOnTouchEnd: true,
+			swipeStatus: swipeStatus,
+			allowPageScroll: 'vertical'
+		});
+
+	};
     
     
     /* helper */
     
-    css_transitionduration: function ( obj, duration ) {
+    t.css_transitionduration = function ( obj, duration ) {
         
         duration = ( ( duration / 1000 ).toFixed(1) + 's' );
         
@@ -1081,11 +1135,11 @@ var yerSlider = {
             '-moz-transition-duration': duration,
             'transition-duration': duration
         });
-    },
+    };
     
-    helper: {
+    t.helper = {
         
-        getLength:  function( o ) {
+        getLength: function( o ) {
 
             var len = o.length ? --o.length : -1;
 
@@ -1119,13 +1173,13 @@ var yerSlider = {
                 }
                 else {
                 
-                    if ( typeof p.d[ i ] !== 'undefined' && yerSlider.helper.getLength( r[ i ] ) !== yerSlider.helper.getLength( p.d[ i ] ) ) {
-                        r[ i ] = yerSlider.helper.setDefaultParam({ p: r[ i ], d: p.d[ i ] });
+                    if ( typeof p.d[ i ] !== 'undefined' && t.helper.getLength( r[ i ] ) !== t.helper.getLength( p.d[ i ] ) ) {
+                        r[ i ] = t.helper.setDefaultParam({ p: r[ i ], d: p.d[ i ] });
                     }
                 }
             }
 
             return r;
         }
-    }
-};
+    };
+}
