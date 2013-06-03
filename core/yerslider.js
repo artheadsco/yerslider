@@ -39,7 +39,12 @@ var yerSlider = {
         bullets: false,
         loop: 'none', /* appending, rollback, from-first */
         swipe: false,
-        youtubeparam: '?rel=1&autoplay=0&showinfo=0'
+        youtubeparam: '?rel=1&autoplay=0&showinfo=0',
+        youtubeurl: 'http://www.youtube.com/embed/{code}{param}',
+        youtubehtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no"></iframe>',
+        vimeoparam: '?byline=0&amp;portrait=0&amp;autoplay=1',
+        vimeourl: 'http://player.vimeo.com/video/{code}{param}',
+        vimeohtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>'
     },
     
     stat: {
@@ -829,8 +834,43 @@ var yerSlider = {
                         if ( !yerSlider.stat.isios ) {
                             param = yerSlider.param.youtubeparam;
                         }
-
-                        selector.append( '<iframe width="' + width +  '" height="' + height +  '" src="http://www.youtube.com/embed/' + code + param + '" frameborder="no"></iframe>');
+                        
+                        url = yerSlider.param.youtubeurl;
+                        html = yerSlider.param.youtubehtml;
+                        
+                        url = url
+                            .replace( '{code}', code )
+                            .replace( '{param}', param );
+                            
+                        html = html
+                            .replace( '{width}', width )
+                            .replace( '{height}', height )
+                            .replace( '{url}', url );
+                        
+                        selector.append( html );
+                        
+                        //.find('iframe').css('-webkit-transform-style','preserve-3d').css('z-index','0');
+                    }
+                    
+                    if ( type === 'vimeo' ) {
+                        
+                        if ( !yerSlider.stat.isios ) {
+                            param = yerSlider.param.vimeoparam;
+                        }
+                        
+                        url = yerSlider.param.vimeourl;
+                        html = yerSlider.param.vimeohtml;
+                        
+                        url = url
+                            .replace( '{code}', code )
+                            .replace( '{param}', param );
+                            
+                        html = html
+                            .replace( '{width}', width )
+                            .replace( '{height}', height )
+                            .replace( '{url}', url );
+                        
+                        selector.append( html );
                         
                         //.find('iframe').css('-webkit-transform-style','preserve-3d').css('z-index','0');
                     }
