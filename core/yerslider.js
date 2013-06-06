@@ -39,8 +39,13 @@ function YerSlider () {
         nextinactiveclass: '.yerslider-next-inactive',
         previnactiveclass: '.yerslider-prev-inactive',
         animationspeed: 1000,
+        animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
         bullets: false,
         loop: 'none', /* appending, rollback, from-first */
+        autoplay: false, /* true */
+        autoplayinterval: 3, /* integer sec, 0 */
+        showslidestype: 'fade',
+        showslidestime: 1000,
         swipe: false,
         videoembed: 'onload', /* viewport */
         videoembedgroupsbefore: 0, /* viewport */
@@ -54,6 +59,7 @@ function YerSlider () {
     
     t.stat = {
         slidegroupmax: 1,
+        slidegroup: 1,
         currentslideindex: 0,
         slidecount: 0,
         slidermaskwidth: 0,
@@ -113,9 +119,9 @@ function YerSlider () {
             t.set_slidegroup();
             t.set_slidegroupmax();
             t.set_groupindex();
-            t.clon_slides();
             t.set_slidewidth();
             t.set_slideheight();
+            t.clon_slides();
             t.set_prevnext();
         
             t.bullets();
@@ -124,11 +130,12 @@ function YerSlider () {
         
             t.init_iosresizeclickbug();
             
-            window.setTimeout(function(){
-
-                 t.obj.slider.fadeIn(500);
-             }, 500);
+            t.init_showslides();
             
+            if ( t.param.autoplay ) {
+            
+                t.autoplay();
+            }
             //t.init_video();
         }
     };
@@ -147,10 +154,11 @@ function YerSlider () {
 
         /* css animation */
         
-        if ( jQuery('html').hasClass('csstransforms3d csstransitions') ) {
+        if ( jQuery('html').hasClass('csstransforms3d csstransitions') && t.param.slidegroup > 0 ) {
         
             t.stat.cssanimation = true;
         }
+        
     };
     
     t.init_touch = function () {
@@ -239,8 +247,8 @@ function YerSlider () {
     t.init_iosresizeclickbug = function () {
          
          /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
-
-         t.obj.sliderwrap.on( t.stat.clicktype, function () {
+         
+         /*t.obj.sliderwrap.on( t.stat.clicktype, function () {
 
              t.stat.isevent  = true;
 
@@ -249,7 +257,7 @@ function YerSlider () {
                  t.stat.isevent= false;
              }, 200);
          });
-
+         
          jQuery(window).bind('resize', function() {
             
             window.setTimeout(function(){
@@ -259,7 +267,7 @@ function YerSlider () {
                     t.resize();
                 }
          }, 100);
-         }); 
+         });*/ 
     };
     
     t.init_video = function () {
@@ -270,6 +278,38 @@ function YerSlider () {
         }, 100);
         
         t.videos_in_viewport();
+    };
+    
+    t.init_showslides = function () {
+        
+        t.stat.isanimating = true;
+        
+        window.setTimeout(function(){
+            
+            if ( t.stat.cssanimation ) {
+            
+                t.obj.slider.css({
+                    '-webkit-transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's',
+                    '-moz-transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's',
+                    '-o-transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's',
+                    '-ms-transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's',
+                    'transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's'
+                });
+                t.obj.slider.fadeIn(10);
+            }
+        
+            else {
+            
+                t.obj.slider.fadeIn(t.param.showslidestime);
+            }
+            
+        }, 500);
+        
+         window.setTimeout(function(){
+         
+            t.stat.isanimating = false;
+            
+         }, t.param.showslidestime + 100);
     };
     
     
@@ -319,10 +359,12 @@ function YerSlider () {
             t.move_slider_to_current_index();
         }
         
-        t.param.slidegroup = temp;
+        t.stat.slidegroup = temp;
     };
     
     t.set_slidegroupmax = function () {
+        
+        t.stat.slidegroupmax = t.stat.slidegroup;
         
         for ( var i in t.param.slidegroupresp ) {
             if ( t.stat.slidegroupmax < t.param.slidegroupresp[ i ] ) {
@@ -340,27 +382,38 @@ function YerSlider () {
             var slidepadding = {};
             slidepadding.left = parseInt( t.obj.slide.css('padding-left'), 10 );
             slidepadding.right = parseInt( t.obj.slide.css('padding-right'), 10 );
-            t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( ( t.param.slidegap * ( t.param.slidegroup - 1 ) ) + ( ( slidepadding.left + slidepadding.left )  * t.param.slidegroup ) ) ) / t.param.slidegroup  );
+            t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) + ( ( slidepadding.left + slidepadding.left )  * t.stat.slidegroup ) ) ) / t.stat.slidegroup  );
         */
-        
-        t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( t.param.slidegap * ( t.param.slidegroup - 1 ) ) ) / t.param.slidegroup );
-        
-        var diff = t.stat.slidermaskwidth - ( ( t.stat.slidewidth * t.param.slidegroup ) + ( t.param.slidegap * ( t.param.slidegroup - 1 ) ) );
-        
-        t.obj.slide
-            .width( t.stat.slidewidth )
-            .css( 'margin-right', t.param.slidegap + 'px' )
-            .last().css( 'margin-right', '0' );
-        
-        
-        /* streching the width of some slides by 1 pixel to fit the sliderwrapwidth */
-        
-        if ( diff > 0 ) {
+
+        if ( t.stat.slidegroup > 0 ) {
             
-            for ( var i = 0; i < diff; i++ ) {
-                jQuery( t.param.slideclass + ':nth-child(' + ( 1 + i )  + 'n-' + (t.param.slidegroup - 1) + ')' ).css( 'margin-right', ( t.param.slidegap + 1 ) + 'px' );
+            t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) ) / t.stat.slidegroup );
+       
+            var diff = t.stat.slidermaskwidth - ( ( t.stat.slidewidth * t.stat.slidegroup ) + ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) );
+        
+            t.obj.slide
+                .width( t.stat.slidewidth )
+                .css( 'margin-right', t.param.slidegap + 'px' )
+                .last().css( 'margin-right', '0' );
+        
+        
+            /* streching the width of some slides by 1 pixel to fit the sliderwrapwidth */
+        
+            if ( diff > 0 ) {
+            
+                for ( var i = 0; i < diff; i++ ) {
+                    jQuery( t.param.slideclass + ':nth-child(' + ( 1 + i )  + 'n-' + (t.stat.slidegroup - 1) + ')' ).css( 'margin-right', ( t.param.slidegap + 1 ) + 'px' );
                 
+                }
             }
+        }
+        
+        if ( t.stat.slidegroup === 0 ) {
+
+            t.obj.slide.css({
+                'width': 'auto',
+                'margin-right': t.param.slidegap + 'px'
+            });
         }
     };
     
@@ -384,8 +437,8 @@ function YerSlider () {
     
     t.set_groupindex = function () {
          
-        t.stat.videoembedindexbegin = t.stat.currentslideindex + 1 - ( t.param.slidegroup * t.param.videoembedgroupsbefore );
-        t.stat.videoembedindexend = t.stat.currentslideindex + t.param.slidegroup + ( t.param.slidegroup * t.param.videoembedgroupsbefore );
+        t.stat.videoembedindexbegin = t.stat.currentslideindex + 1 - ( t.stat.slidegroup * t.param.videoembedgroupsbefore );
+        t.stat.videoembedindexend = t.stat.currentslideindex + t.stat.slidegroup + ( t.stat.slidegroup * t.param.videoembedgroupsbefore );
         
         t.stat.videoembedindexes = [];
         
@@ -404,7 +457,7 @@ function YerSlider () {
         
         
         /* init */
-        if ( t.stat.slidecount > t.param.slidegroup ) {
+        if ( t.stat.slidecount > t.stat.slidegroup ) {
         
             if ( typeof t.obj.nextbtn !== 'object' && t.param.nextbtn ) {
                 t.obj.sliderwrap.append('<div class="js-yerslider-next yerslider-prevnext ' + t.param.nextclass.replace( '.', '' ) + '">');
@@ -438,28 +491,41 @@ function YerSlider () {
     
     t.next_slide = function () {
         
-        t.stat.currentslideindex = t.stat.currentslideindex + t.param.slidegroup;
+        t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidegroup;
+        
+        if ( t.stat.slidegroup === 0 ) {
+            
+            t.stat.currentslideindex = t.stat.currentslideindex + 1;
+        }
         
         /* loop-none */
-        if ( t.param.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.param.slidegroup ) {
+        if ( t.param.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
            
-            t.stat.currentslideindex = t.stat.slidecount - t.param.slidegroup;
+            t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
         }
        
         
         /* loop-appending */
         
-        if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - 1 + t.param.slidegroup ) {
+        var shift_break = 1,
+            shift_jump = 0;
+        
+        if ( t.param.autoplay === true ) {
+        
+            shift_break = 0;
+            shift_jump = 1;
+        }
+        
+        if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - shift_break + t.stat.slidegroup ) {
            
            var temp = t.stat.currentslideindex - t.stat.slidecount;
             
-            t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.param.slidegroup;
+            t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup - shift_jump;
             
             t.animate_slider_to_current_position( 0 );
             
             t.stat.currentslideindex = temp;
         }
-        
         
         /* loop-rollback */
         
@@ -483,7 +549,7 @@ function YerSlider () {
     
     t.prev_slide = function () {
         
-        t.stat.currentslideindex = t.stat.currentslideindex - t.param.slidegroup;
+        t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidegroup;
         
         /* loop-none */
         
@@ -499,7 +565,7 @@ function YerSlider () {
             
             var temp = t.stat.slidecount + t.stat.currentslideindex;
             
-            t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + t.param.slidegroup;
+            t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + t.stat.slidegroup;
             
             t.animate_slider_to_current_position( 0 );
             
@@ -528,7 +594,7 @@ function YerSlider () {
     
     t.nextbtn_click = function () {
         
-        if ( !t.stat.nextbtnclickable ) {
+        if ( t.obj.nextbtn && !t.stat.nextbtnclickable ) {
             
             t.obj.nextbtn.on( t.stat.clicktype, function () {
                 
@@ -559,7 +625,7 @@ function YerSlider () {
     
     t.prevbtn_click = function () {
         
-        if ( !t.stat.prevbtnclickable ) {
+        if ( t.obj.prevbtn && !t.stat.prevbtnclickable ) {
         
             t.obj.prevbtn.on( t.stat.clicktype, function () {
                 
@@ -621,24 +687,59 @@ function YerSlider () {
         
         /* remove inactive classes in general */
         
-        t.obj.nextbtn.removeClass( t.param.nextinactiveclass.replace( '.', '' ) );
-        t.obj.prevbtn.removeClass( t.param.previnactiveclass.replace( '.', '' ) );
+        if ( t.obj.nextbtn ) {
+        
+            t.obj.nextbtn.removeClass( t.param.nextinactiveclass.replace( '.', '' ) );
+        }
+        
+        if ( t.obj.prevbtn ) {
+        
+            t.obj.prevbtn.removeClass( t.param.previnactiveclass.replace( '.', '' ) );
+        }
         
         
         /* then unbind in some kind of slider situation */
         
         if ( t.param.loop === 'none' ) {
 
-            if ( t.stat.currentslideindex >= ( t.stat.slidecount - t.param.slidegroup ) ) {
+            if ( t.obj.nextbtn && t.stat.currentslideindex >= ( t.stat.slidecount - t.stat.slidegroup ) ) {
                 
                 t.nextbtn_click_unbind();
             }
         
-            if ( t.stat.currentslideindex <= 0 ) {
+            if ( t.obj.prevbtn && t.stat.currentslideindex <= 0 ) {
 
                 t.prevbtn_click_unbind();
             }
         }
+    };
+    
+    t.autoplay = function () {
+       
+        window.setInterval( function () {
+
+            if ( !t.stat.isanimating ) {
+
+                t.stat.isanimating = true;
+                t.stat.slidingright = true;
+
+                t.next_slide();
+                
+                t.animate_slider_to_current_position( t.param.animationspeed );
+
+                t.refresh_prevnext();
+
+                if ( t.param.bullets ) {
+
+                    t.set_bullet_current();
+                    t.set_bullet_current_class();
+                }
+
+                t.stat.slidingright = false;
+                
+            }  
+        }, t.param.autoplayinterval );
+       
     };
     
     
@@ -659,7 +760,7 @@ function YerSlider () {
         
             /* get amount of bullets */
         
-            t.stat.bulletscount = Math.ceil( t.stat.slidecount / t.param.slidegroup );
+            t.stat.bulletscount = Math.ceil( t.stat.slidecount / t.stat.slidegroup );
             
             
             /* current bullet index */
@@ -727,11 +828,11 @@ function YerSlider () {
 
         if ( t.param.loop === 'none' ) {
             
-            t.stat.bulletcurrent = Math.ceil( currentslideindex / t.param.slidegroup ) + 1;
+            t.stat.bulletcurrent = Math.ceil( currentslideindex / t.stat.slidegroup ) + 1;
         }
         else {
             
-            t.stat.bulletcurrent = Math.round( currentslideindex / t.param.slidegroup ) + 1;
+            t.stat.bulletcurrent = Math.round( currentslideindex / t.stat.slidegroup ) + 1;
             
             if ( t.stat.bulletcurrent > t.stat.bulletscount ) {
                 
@@ -760,7 +861,7 @@ function YerSlider () {
                 
                 var currentbullet = jQuery(this).data('index');
                 
-                t.stat.currentslideindex = ( currentbullet - 1 ) * t.param.slidegroup;
+                t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
                 
                 t.proof_slider_current_index();
                 
@@ -810,10 +911,10 @@ function YerSlider () {
     };
     
     t.animate_slider_to_current_position_js = function ( duration ) {
-        
+    
         t.obj.slider.animate({
             'margin-left': '-' + t.get_sliderposition() + 'px'
-        }, duration, function () {
+        }, duration, t.translate_easing( t.param.animationtype, 'jquery'), function () {
            t.stat.isanimating = false;
         });
         
@@ -832,8 +933,14 @@ function YerSlider () {
             '-ms-transform': transform,
             '-o-transform': transform,
             '-moz-transform': transform,
-            'transform': transform
+            'transform': transform,
+            '-webkit-transition-timing-function': t.param.animationtype,
+            '-moz-transition-timing-function': t.param.animationtype,
+            '-o-transition-timing-function': t.param.animationtype,
+            '-ms-transition-timing-function': t.param.animationtype,
+            'transition-timing-function': t.param.animationtype
         });
+        
         
         window.setTimeout( function () {
             
@@ -866,7 +973,7 @@ function YerSlider () {
         
             var selector = false;
             
-            for ( i = t.stat.currentslideindex + 1 - ( t.param.slidegroup * t.param.videoembedgroupsbefore ); i <= t.stat.currentslideindex + t.param.slidegroup + ( t.param.slidegroup * t.param.videoembedgroupsbefore ); i++ ) {
+            for ( i = t.stat.currentslideindex + 1 - ( t.stat.slidegroup * t.param.videoembedgroupsbefore ); i <= t.stat.currentslideindex + t.stat.slidegroup + ( t.stat.slidegroup * t.param.videoembedgroupsbefore ); i++ ) {
     
                 selector = jQuery( t.param.sliderid + ' ' + t.param.slideclass + ':nth-child(' + i + ') .yerslider-video' );
                 
@@ -932,15 +1039,34 @@ function YerSlider () {
           
     };
     
+    
     /* misc */
     
     t.clon_slides = function () {
         
-        if ( t.param.loop !== 'none' ) {
+        var index = 0,
+            i = 0;
+            
+        if ( t.stat.slidegroup > 0 && t.param.loop !== 'none' ) {
         
-            var index = 0;
+            
+            for ( i = 0; i < t.stat.slidegroupmax * 2; i++ ) {
+            
+                if ( index > t.stat.slidecount ) {
+                    index = 0;
+                }
+            
+                t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
+            
+                index++;
+            }
+            
+            t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+        }
         
-            for (var i = 0; i < t.stat.slidegroupmax * 2; i++) {
+        if ( t.stat.slidegroup === 0 ) {
+            
+            for ( i = 0; i < t.stat.slidecount; i++ ) {
             
                 if ( index > t.stat.slidecount ) {
                     index = 0;
@@ -964,9 +1090,9 @@ function YerSlider () {
     
     t.proof_slider_current_index = function () {
         
-        if ( t.stat.slidecount - t.param.slidegroup > 0 && t.stat.currentslideindex >= t.stat.slidecount - t.param.slidegroup ) {
+        if ( t.stat.slidecount - t.stat.slidegroup > 0 && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
            
-            t.stat.currentslideindex = t.stat.slidecount - t.param.slidegroup;
+            t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
             
             t.nextbtn_click_unbind();
         }
@@ -1012,10 +1138,10 @@ function YerSlider () {
     t.touch_swipe = function () {
         
         
-        var slide_with_default = ( t.stat.slidewidth + t.param.slidegap ) * t.param.slidegroup,
+        var slide_with_default = ( t.stat.slidewidth + t.param.slidegap ) * t.stat.slidegroup,
             slide_with = slide_with_default,
             current_slide = 0,
-            max_slides = Math.ceil( t.stat.slidecount / t.param.slidegroup ),
+            max_slides = Math.ceil( t.stat.slidecount / t.stat.slidegroup ),
             speed = t.param.animationspeed,
             slides = t.obj.slide;
         
@@ -1103,12 +1229,29 @@ function YerSlider () {
 		 */
 		function scrollImages( distance, duration ) {
 		
-			slides.css('-webkit-transition-duration', ( duration / 1000 ).toFixed(1) + 's' );
-
+			slides.css({
+                '-webkit-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
+                '-moz-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
+                '-o-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
+                '-ms-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
+                'transition-duration': ( duration / 1000 ).toFixed(1) + 's',
+                '-webkit-transition-timing-function': t.param.animationtype,
+                '-moz-transition-timing-function': t.param.animationtype,
+                '-o-transition-timing-function': t.param.animationtype,
+                '-ms-transition-timing-function': t.param.animationtype,
+                'transition-timing-function': t.param.animationtype
+			});
+            
 			//inverse the number we set in the css
 			var value = ( distance < 0 ? '' : '-' ) + Math.abs(distance).toString();
 
-			slides.css( '-webkit-transform', 'translate3d('+value +'px,0px,0px)' );
+			slides.css({
+                '-webkit-transform': 'translate3d('+value +'px,0px,0px)',
+                '-moz-transform': 'translate3d('+value +'px,0px,0px)',
+                '-o-transform': 'translate3d('+value +'px,0px,0px)',
+                '-ms-transform': 'translate3d('+value +'px,0px,0px)',
+                'transform': 'translate3d('+value +'px,0px,0px)' 
+			});
 		}
         
         
@@ -1127,7 +1270,6 @@ function YerSlider () {
     t.css_transitionduration = function ( obj, duration ) {
         
         duration = ( ( duration / 1000 ).toFixed(1) + 's' );
-        
         obj.css({
             '-webkit-transition-duration': duration,
             '-ms-transition-duration': duration,
@@ -1135,6 +1277,24 @@ function YerSlider () {
             '-moz-transition-duration': duration,
             'transition-duration': duration
         });
+    };
+    
+    t.translate_easing = function ( name, type ) {
+        
+        var ret = 'linear';
+        
+        if ( type === 'jquery' ) {
+        
+            if ( name === 'linear' ) { ret = 'linear'; }
+            if ( name === 'ease' ) { ret = 'swing'; }
+        }
+        
+        if ( type === 'css' ) {
+        
+            ret = name;
+        }
+        
+        return ret;
     };
     
     t.helper = {
