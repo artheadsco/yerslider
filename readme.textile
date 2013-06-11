@@ -194,6 +194,13 @@ youtubeurl: 'http://www.youtube.com/embed/{code}{param}',
 youtubehtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no"></iframe>',
 </code></pre>
 
+<pre><code><li class="yerslider-slide">
+    <div class="yerslider-video" data-video-type="youtube" data-video-code="KaOC9danxNo" data-video-width="320" data-video-height="180">
+	    <iframe width="320" height="180" src="http://www.youtube.com/embed/KaOC9danxNo?rel=1&autoplay=0&showinfo=0" frameborder="no"></iframe>
+    </div>
+</li>
+</code></pre>
+
 
 
 h3. Vimeo
