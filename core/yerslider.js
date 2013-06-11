@@ -14,8 +14,7 @@
  *
  */
 
-
-function YerSlider () {
+function yerSlider() {
     
     var t = this;
     
@@ -204,13 +203,13 @@ function YerSlider () {
         
         t.obj.sliderwrap.css({
             position: 'relative',
-            width: '100%'
+            width: '100%',
+            overflow: 'hidden'
         });
         
         t.obj.slidermask.css({
             position: 'relative',
-            width: '100%',
-            overflow: 'hidden'
+            width: '100%'
         });
         
         /* remember font-size and line-height for the slides because

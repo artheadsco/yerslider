@@ -1,0 +1,70 @@
+body {
+	font-family: 'Raleway', sans-serif;
+	line-height: 1.4;
+	margin: 0 0 50px 0;
+}
+@media (min-width: 449px) {
+	body {
+		margin: 0 30px 100px 30px;
+	}
+}
+
+.page-typo {
+	margin: 0 10px 0 10px;
+	text-align: center;
+}
+@media (min-width: 450px) {
+	.page-typo {
+		margin: 0;
+		text-align: left;
+	}
+}
+.page-typo h1 {
+	font-weight: 200;
+	font-size: 80px;
+	color: #16B6FE;
+	margin: 20px 0;
+}
+
+.page-typo h2 {
+	font-weight: 700;
+	font-size: 26px;
+	color: #16B6FE;
+	margin: 20px 0;
+}
+.page-typo p {
+	font-size: 16px;
+	color: #525252;
+}
+
+.page-typo code {
+	font-size: 15px;
+	line-height: 1.4;
+	display: block;
+	background: #F1EEEB;
+	padding: 10px 30px;
+	margin: 20px 0;
+	color: #525252;
+	text-align: left;
+	overflow: auto;
+	margin-left: -10px;
+	margin-right: -10px;
+}
+@media (min-width: 450px) {
+	.page-typo code {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+.page-typo .code-focus {
+	display: inline;
+	color: #E70071;
+	font-weight: bold;
+}
+
+.demo-typo {
+	font-size: 60px;
+	line-height: 60px;
+	text-align: center;
+	color: white;
+}
