@@ -1,9 +1,11 @@
 h1. yerSlider
 
-is a javascript object using jQuery that allows fluid responsive slideshows.
+is a javascript function that allows fluid responsive slideshows using jQuery.
 Watch a short "video":http://www.screenr.com/embed/qis7
 
 This documentation is incomplete and corrupting changes still may ahead!
+
+The script was started to personel understand all the limitations and problems I had with other slider-scripts.
 
 
 
@@ -20,6 +22,8 @@ h2. Roadmap
 * [done] fluid slider
 
 Just ask me for your needs at mail@johannheyne.de or create a new issue.
+
+
 
 h2. Setup
 
@@ -38,6 +42,8 @@ h3. Basic HTML
     </div>
 </div>
 </code></pre>
+
+
 
 h3. Loading The Script
 
@@ -58,37 +64,151 @@ Load the yerslider.js from the core folder. The best way is to load the script o
 }
 </code></pre>
 
+
+
 h3. Define A Slider
 
 <pre><code>var myslider = yerSlider;
 myslider.init({
-    sliderid: '.mysliderclass',
-    slidegap: 20,
-    slidegroupresp: {
-        0: 1,
-        400: 2,
-        800: 3
-    },
-    animationspeed: 1000,
-    loop: 'none', /* appending, not-yet(rollback, from-first) */
-    nextbtn: true,
-    prevbtn: true,
-    bullets: false,
-    bulletclickable: true,
-    sliderwrapclass: '.yerslider-wrap',
-    slidermaskclass: '.yerslider-mask',
-    sliderclass: '.yerslider-slider',
-    slideclass: '.yerslider-slide',
-    nextclass: '.yerslider-next',
-    prevclass: '.yerslider-prev',
-    nextinactiveclass: '.yerslider-next-inactive',
-    previnactiveclass: '.yerslider-prev-inactive',
-    bulletswrapclass: '.yerslider-bullets-wrap',
-    bulletclass: '.yerslider-bullet',
-    bulletcurrentclass: '.yerslider-bullet-current',
+    sliderid: '.mysliderclass'
 });
 </code></pre>
+
+
 
 h3. Load the Slider Stylesheet
 
 There is a themefolder with an default theme. Inside there is the stylesheet with basic styles. Just copy the theme and make your additions to the styles. Then load the styles in the head of your html or use a preprozessor to add this to your existing basic stylesheet.
+
+
+
+h2. Options
+
+
+
+h3. Group Slides
+
+<pre><code>slidegroup: 1,
+slidegroupresp: {
+    0: 1,
+    400: 2,
+    800: 3
+}
+</code></pre>
+
+
+
+h3. Slidegap
+
+<pre><code>slidegap: 0</code></pre>
+
+
+
+h3. Previous & Next Button
+
+<pre><code>nextbtn: true,
+prevbtn: true,</code></pre>
+
+
+
+h3. Previous & Next Add Class
+
+<pre><code>nextclassadd: '',
+prevclassadd: '',</code></pre>
+
+
+
+h3. Bullets
+
+<pre><code>bullets: false</code></pre>
+
+h3. Animation Speed
+
+<pre><code>animationspeed: 1000</code></pre>
+
+
+
+h3. Animation Type
+
+<pre><code>animationtype: 'ease'</code></pre>
+
+Options: ease, ease-in-out, ease-in, ease-out, linear
+
+
+
+h3. Loop
+
+<pre><code>loop: 'none'</code></pre>
+
+Options: none, appending, rollback, from-first
+
+
+
+h3. Autoplay
+
+<pre><code>autoplay: false</code></pre>
+
+
+
+h3. Autoplay Interval
+
+<pre><code>autoplayinterval: 3</code></pre>
+
+
+
+h3. Autoplay Interval
+
+<pre><code>autoplayinterval: 3</code></pre>
+
+
+
+h3. Time for fading slides in on sliderload
+
+<pre><code>showslidestime: 1000</code></pre>
+
+
+
+h3. Video Embed
+
+<pre><code>videoembed: 'onload'</code></pre>
+
+Options: onload, viewport
+
+<code>viewport</code> 
+The video is embedding, if the slide slides in the viewport and will removed, if the slide slides out of the viewport.
+
+
+
+h3. Video Embed Groups before
+
+Define the amount of groups in distance to the viewport, the video should be embeded or removed.
+
+<pre><code>videoembedgroupsbefore: 0</code></pre>
+
+
+
+h3. YouTube
+
+<pre><code>youtubeparam: '?rel=1&autoplay=0&showinfo=0',
+youtubeurl: 'http://www.youtube.com/embed/{code}{param}',
+youtubehtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no"></iframe>'
+</code></pre>
+
+
+
+h3. Vimeo
+
+<pre><code>vimeoparam: '?byline=0&amp;portrait=0&amp;autoplay=0',
+vimeourl: 'http://player.vimeo.com/video/{code}{param}',
+vimeohtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>'
+</code></pre>
+
+
+
+h3. Scroll Top
+
+Scrolls the page to the given distance from top <code>scrolltopval:</code> with the speed of <code>scrolltopspeed:</code>
+
+<pre><code>scrolltop: false,
+scrolltopval: 0,
+scrolltopspeed: 500,</code></pre>
