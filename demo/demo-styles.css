@@ -22,15 +22,15 @@ body {
 .page-typo h1 {
 	font-weight: 200;
 	font-size: 80px;
-	color: #16B6FE;
 	margin: 20px 0;
+	color: #525252;
 }
 
 .page-typo h2 {
 	font-weight: 700;
 	font-size: 26px;
-	color: #16B6FE;
 	margin: 20px 0;
+	color: #525252;
 }
 .page-typo p {
 	font-size: 16px;
