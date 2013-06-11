@@ -93,14 +93,14 @@ slidegroupresp: {
     0: 1,
     400: 2,
     800: 3
-}
+},
 </code></pre>
 
 
 
 h3. Slidegap
 
-<pre><code>slidegap: 0</code></pre>
+<pre><code>slidegap: 0,</code></pre>
 
 
 
@@ -120,17 +120,17 @@ prevclassadd: '',</code></pre>
 
 h3. Bullets
 
-<pre><code>bullets: false</code></pre>
+<pre><code>bullets: false,</code></pre>
 
 h3. Animation Speed
 
-<pre><code>animationspeed: 1000</code></pre>
+<pre><code>animationspeed: 1000,</code></pre>
 
 
 
 h3. Animation Type
 
-<pre><code>animationtype: 'ease'</code></pre>
+<pre><code>animationtype: 'ease',</code></pre>
 
 Options: ease, ease-in-out, ease-in, ease-out, linear
 
@@ -138,7 +138,7 @@ Options: ease, ease-in-out, ease-in, ease-out, linear
 
 h3. Loop
 
-<pre><code>loop: 'none'</code></pre>
+<pre><code>loop: 'none',</code></pre>
 
 Options: none, appending, rollback, from-first
 
@@ -146,31 +146,31 @@ Options: none, appending, rollback, from-first
 
 h3. Autoplay
 
-<pre><code>autoplay: false</code></pre>
+<pre><code>autoplay: false,</code></pre>
 
 
 
 h3. Autoplay Interval
 
-<pre><code>autoplayinterval: 3</code></pre>
+<pre><code>autoplayinterval: 3,</code></pre>
 
 
 
 h3. Autoplay Interval
 
-<pre><code>autoplayinterval: 3</code></pre>
+<pre><code>autoplayinterval: 3,</code></pre>
 
 
 
 h3. Time for fading slides in on sliderload
 
-<pre><code>showslidestime: 1000</code></pre>
+<pre><code>showslidestime: 1000,</code></pre>
 
 
 
 h3. Video Embed
 
-<pre><code>videoembed: 'onload'</code></pre>
+<pre><code>videoembed: 'onload',</code></pre>
 
 Options: onload, viewport
 
@@ -183,7 +183,7 @@ h3. Video Embed Groups before
 
 Define the amount of groups in distance to the viewport, the video should be embeded or removed.
 
-<pre><code>videoembedgroupsbefore: 0</code></pre>
+<pre><code>videoembedgroupsbefore: 0,</code></pre>
 
 
 
@@ -191,7 +191,7 @@ h3. YouTube
 
 <pre><code>youtubeparam: '?rel=1&autoplay=0&showinfo=0',
 youtubeurl: 'http://www.youtube.com/embed/{code}{param}',
-youtubehtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no"></iframe>'
+youtubehtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no"></iframe>',
 </code></pre>
 
 
@@ -200,7 +200,7 @@ h3. Vimeo
 
 <pre><code>vimeoparam: '?byline=0&amp;portrait=0&amp;autoplay=0',
 vimeourl: 'http://player.vimeo.com/video/{code}{param}',
-vimeohtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>'
+vimeohtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
 </code></pre>
 
 
