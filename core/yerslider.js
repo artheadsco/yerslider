@@ -24,6 +24,7 @@ function yerSlider() {
         slidegroup: 1,
         sliderid: '.yerslider',
         sliderwrapclass: '.yerslider-wrap',
+        sliderwrapclasshasbullets: '.yerslider-has-bullets',
         slidermaskclass: '.yerslider-mask',
         sliderclass: '.yerslider-slider',
         slideclass: '.yerslider-slide',
@@ -784,7 +785,12 @@ function yerSlider() {
     t.bullets = function () {
           
         if ( t.param.bullets ) {
-        
+            
+            /* add bullet class to wrap */
+            
+            t.obj.sliderwrap.addClass( t.param.sliderwrapclasshasbullets.replace( '.', '' ) );
+            
+            
             /* do bullets-wrap html and object */
         
             if ( typeof t.obj.bulletswrap !== 'object' ) {
