@@ -18,43 +18,25 @@
 	</head>
 	<body>
 		
+		<!-- header begin -->
+		
 		<div class="page-typo">
-		<h1>yerSlider</h1>
-		<p>This is the Demopage of the yerSlider-Script hostet on <a href="https://github.com/johannheyne/yerslider" target="_blank">GitHub</a> by Johann Heyne.<br/>
-			yerSlider is for developpers and potentially can slide anything.</p>
-		<p>This page is casually under construction.</p>
-		
-		<h2>responsive Slidegroups</h2>
-<code><pre>var myslider = new yerSlider();
-myslider.init({
-	sliderid: '.mysliderclass',
-	slidegap: 10,
-	<div class="code-focus">slidegroupresp: {
-		0: 1,
-		450: 2,
-		900: 3
-	}</div>
-});
-</pre></code>
+			<h1>yerSlider</h1>
+			<p>This is the Demopage of the yerSlider-Script hostet on <a href="https://github.com/johannheyne/yerslider" target="_blank">GitHub</a> by Johann Heyne.<br/>
+				yerSlider is for developpers and potentially can slide anything.</p>
+			<p class="alert">This page is casually under construction.</p>
 		</div>
-<script type="text/javascript">
-	
-	jQuery.noConflict();
-	jQuery(document).ready(function(){
 		
-		var myslider = new yerSlider();
-		myslider.init({
-			sliderid: '.mysliderclass',
-			slidegap: 10,
-			slidegroupresp: {
-				0: 1,
-				450: 2,
-				900: 3
-			}
-		});
-	});
-	
-</script>
+		<!-- end -->
+		
+		<!-- responsive Slidegroups begin -->
+		
+		<div class="page-typo">
+			
+			<h2>responsive Slidegroups</h2>
+			
+		</div>
+			
 		<div class="yerslider-wrap mysliderclass">
 		    <div class="yerslider-mask">
 		        <ul class="yerslider-slider">
@@ -106,6 +88,202 @@ myslider.init({
 		        </ul>
 		    </div>
 		</div>
+		
+		<code>
+<pre>var myslider = new yerSlider();
+myslider.init({
+	sliderid: '.mysliderclass',
+	slidegap: 10,
+	<div class="code-focus">slidegroupresp: {
+		0: 1,
+		450: 2,
+		900: 3
+	}</div>
+});</pre>
+		</code>
+		
+		<script type="text/javascript">
+	
+		  jQuery.noConflict();
+		  jQuery(document).ready(function(){
+		
+				var myslider = new yerSlider();
+				myslider.init({
+					sliderid: '.mysliderclass',
+					slidegap: 10,
+					slidegroupresp: {
+						0: 1,
+						450: 2,
+						900: 3
+					}
+				});
+			});
+	
+		</script>
+		
+		<!-- end -->
+		
+		<!-- Loop -->
+		
+		<div class="page-typo">
+			<h2>Loop</h2>
+			<h3>appending</h3>
+		</div>
+		
+		<div class="yerslider-wrap mysliderclass2">
+		    <div class="yerslider-mask">
+		        <ul class="yerslider-slider">
+		            <li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>1</p>
+		            	</div>
+					</li>
+					<li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>2</p>
+		            	</div>
+					</li>
+					<li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>3</p>
+		            	</div>
+					</li>
+					<li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>4</p>
+		            	</div>
+					</li>
+		        </ul>
+		    </div>
+		</div>
+		
+		<code>
+<pre>var myslider = new yerSlider();
+myslider.init({
+	sliderid: '.mysliderclass',
+	slidegap: 10,
+	slidegroupresp: {
+		0: 1,
+		450: 2,
+		900: 3
+	},
+	<div class="code-focus">loop: 'appending'</div>
+});</pre>
+		</code>
+			
+		<script type="text/javascript">
+	
+		  jQuery.noConflict();
+		  jQuery(document).ready(function(){
+		
+				var myslider2 = new yerSlider();
+				myslider2.init({
+					sliderid: '.mysliderclass2',
+					slidegap: 10,
+					slidegroupresp: {
+						0: 1,
+						450: 2,
+						900: 3
+					},
+					loop: 'appending'
+				});
+			});
+	
+		</script>
+		
+		<!-- end -->
+		
+		<!-- Loop -->
+		
+		<div class="page-typo">
+			<h2>Bullets</h2>
+		</div>
+		
+		<div class="yerslider-wrap mysliderclass3">
+		    <div class="yerslider-mask">
+		        <ul class="yerslider-slider">
+		            <li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>1</p>
+		            	</div>
+					</li>
+					<li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>2</p>
+		            	</div>
+					</li>
+					<li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>3</p>
+		            	</div>
+					</li>
+					<li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>4</p>
+		            	</div>
+					</li>
+					<li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>5</p>
+		            	</div>
+					</li>
+					<li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>6</p>
+		            	</div>
+					</li>
+					<li class="yerslider-slide">
+		                <div class="yerslider-slide-inner demo-typo">
+							<p>7</p>
+		            	</div>
+					</li>
+		        </ul>
+		    </div>
+		</div>
+		
+		<code>
+<pre>var myslider = new yerSlider();
+myslider.init({
+	sliderid: '.mysliderclass',
+	slidegap: 10,
+	slidegroupresp: {
+		0: 1,
+		450: 2,
+		900: 3
+	},
+	<div class="code-focus">bullets: true</div>
+});</pre>
+		</code>
+		
+		<code>
+<pre>&#060;div class="yerslider-wrap mysliderclass <div class="code-focus">yerslider-has-bullets</div>"&#062;</pre>
+		</code>
+		
+		<div class="page-typo">
+			<p>If the option <code class="code-inline">bullets:</code> is true, yerSlider automaticly adds the class <span class="code-focus">yerslider-has-bullets</span> to the slider wrapping element.</p>
+		</div>
+		
+		<script type="text/javascript">
+	
+		  jQuery.noConflict();
+		  jQuery(document).ready(function(){
+		
+				var myslider3 = new yerSlider();
+				myslider3.init({
+					sliderid: '.mysliderclass3',
+					slidegap: 10,
+					slidegroupresp: {
+						0: 1,
+						450: 2,
+						900: 3
+					},
+					bullets: true
+				});
+			});
+	
+		</script>
+		
+		<!-- end -->
 		
 	</body>
 </html>

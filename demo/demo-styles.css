@@ -1,7 +1,7 @@
 body {
 	font-family: 'Raleway', sans-serif;
 	line-height: 1.4;
-	margin: 0 0 50px 0;
+	margin: 0 auto 50px auto;
 }
 @media (min-width: 449px) {
 	body {
@@ -29,20 +29,29 @@ body {
 .page-typo h2 {
 	font-weight: 700;
 	font-size: 26px;
+	margin: 50px 0 20px 0;
+	padding-top: 20px;
+	color: #525252;
+	border-top: 1px dashed #bbb;
+}
+.page-typo h3 {
+	font-weight: 700;
+	font-size: 20px;
 	margin: 20px 0;
 	color: #525252;
 }
 .page-typo p {
+	font-family: Arial, sans-serif;
 	font-size: 16px;
 	color: #525252;
 }
 
-.page-typo code {
+code {
 	font-size: 15px;
 	line-height: 1.4;
 	display: block;
 	background: #F1EEEB;
-	padding: 10px 30px;
+	padding: 5px 30px 10px 30px;
 	margin: 20px 0;
 	color: #525252;
 	text-align: left;
@@ -50,21 +59,32 @@ body {
 	margin-left: -10px;
 	margin-right: -10px;
 }
+.code-inline {
+	display: inline;
+	padding: 2px 5px 2px 5px;
+}
 @media (min-width: 450px) {
-	.page-typo code {
+	code {
 		margin-left: 0;
 		margin-right: 0;
 	}
 }
-.page-typo .code-focus {
+.code-focus {
 	display: inline;
-	color: #E70071;
+	color: DodgerBlue;
 	font-weight: bold;
 }
 
-.demo-typo {
+.alert {
+	color: red;
+}
+
+
+.demo-typo p {
 	font-size: 60px;
 	line-height: 60px;
 	text-align: center;
 	color: white;
+	margin-top: 30px;
+	margin-bottom: 50px;
 }
