@@ -68,7 +68,7 @@ Load the yerslider.js from the core folder. The best way is to load the script o
 
 h3. Define A Slider
 
-<pre><code>var myslider = yerSlider;
+<pre><code>var myslider = new YerSlider();
 myslider.init({
     sliderid: '.mysliderclass'
 });
