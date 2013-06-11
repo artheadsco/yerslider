@@ -48,7 +48,7 @@ function yerSlider() {
         bullets: false,
         loop: 'none', /* appending, rollback, from-first */
         autoplay: false, /* true */
-        autoplayinterval: 3, /* integer sec, 0 */
+        autoplayinterval: 3000, /* integer sec, 0 */
         showslidestype: 'fade',
         showslidestime: 1000,
         swipe: false,
@@ -530,11 +530,11 @@ function yerSlider() {
         var shift_break = 1,
             shift_jump = 0;
         
-        if ( t.param.autoplay === true ) {
+        /*if ( t.param.autoplay === true ) {
         
-            shift_break = 0;
-            shift_jump = 1;
-        }
+            shift_break = 1;
+            shift_jump = 0;
+        }*/
         
         if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - shift_break + t.stat.slidegroup ) {
            

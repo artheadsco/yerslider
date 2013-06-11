@@ -47,6 +47,7 @@ body {
 }
 
 code {
+	position: relative;
 	font-size: 15px;
 	line-height: 1.4;
 	display: block;
@@ -55,14 +56,27 @@ code {
 	margin: 20px 0;
 	color: #525252;
 	text-align: left;
-	overflow: auto;
-	margin-left: -10px;
-	margin-right: -10px;
+	overflow-x: auto;
 }
 .code-inline {
 	display: inline;
 	padding: 2px 5px 2px 5px;
 }
+.code-html {
+	padding-top: 24px;
+	
+}
+.code-html:before {
+	content: "HTML";
+	font-size: 14px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: white;
+	background: #bbb;
+	padding: 0 10px 0 10px;
+}
+
 @media (min-width: 450px) {
 	code {
 		margin-left: 0;

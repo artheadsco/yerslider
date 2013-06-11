@@ -152,13 +152,7 @@ h3. Autoplay
 
 h3. Autoplay Interval
 
-<pre><code>autoplayinterval: 3,</code></pre>
-
-
-
-h3. Autoplay Interval
-
-<pre><code>autoplayinterval: 3,</code></pre>
+<pre><code>autoplayinterval: 3000,</code></pre>
 
 
 
