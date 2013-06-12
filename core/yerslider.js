@@ -10,7 +10,6 @@
  * Minimum requirements: jQuery v1.6+
  *
  * Terms of use:
- * yerslider is licensed under the MIT License.
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  */
