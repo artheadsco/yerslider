@@ -522,46 +522,10 @@ function yerSlider() {
         
         t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidegroup;
         
-        if ( t.stat.slidegroup === 0 ) {
-            
-            t.stat.currentslideindex = t.stat.currentslideindex + 1;
-        }
         
-        /* loop-none */
-        if ( t.param.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
-           
-            t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
-        }
-       
+        /* check currentslideindex */
         
-        /* loop-appending */
-        
-        var shift_break = 1,
-            shift_jump = 0;
-        
-        /*if ( t.param.autoplay === true ) {
-        
-            shift_break = 1;
-            shift_jump = 0;
-        }*/
-        
-        if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - shift_break + t.stat.slidegroup ) {
-           
-           var temp = t.stat.currentslideindex - t.stat.slidecount;
-            
-            t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup - shift_jump;
-            
-            t.animate_slider_to_current_position( 0 );
-            
-            t.stat.currentslideindex = temp;
-        }
-        
-        /* loop-rollback */
-        
-        
-        
-        /* loop-from-first */
-        
+        t.check_slider_current_index();
         
         
         /* current class */
@@ -580,34 +544,10 @@ function yerSlider() {
         
         t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidegroup;
         
-        /* loop-none */
         
-        if ( t.param.loop === 'none' && t.stat.currentslideindex <= 0 ) {
-           
-            t.stat.currentslideindex = 0;
-        }
+        /* check currentslideindex */
         
-        
-        /* loop-appending */
-        
-        if ( t.param.loop === 'appending' && t.stat.currentslideindex < 0 ) {
-            
-            var temp = t.stat.slidecount + t.stat.currentslideindex;
-            
-            t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + t.stat.slidegroup;
-            
-            t.animate_slider_to_current_position( 0 );
-            
-            t.stat.currentslideindex = temp;
-        }
-        
-        
-        /* loop-rollback */
-        
-        
-        
-        /* loop-from-first */
-        
+        t.check_slider_current_index();
         
         
         /* crurrent class */
@@ -915,33 +855,6 @@ function yerSlider() {
     
         t.obj.bullets.on( 'click', function () {
             
-            /*
-                t.stat.isanimating = true;
-                t.stat.slidingright = true;
-            
-                t.next_slide();
-            
-                if ( t.param.scrolltop ) {
-            
-                    jQuery('body').animate({
-                
-                        scrollTop: t.param.scrolltopval
-                    }, t.param.scrolltopspeed );
-                }
-            
-                t.animate_slider_to_current_position( t.get_animationspeed() );
-            
-                t.refresh_prevnext();
-    
-                if ( t.param.bullets ) {
-
-                    t.set_bullet_current();
-                    t.set_bullet_current_class();
-                }
-        
-                t.stat.slidingright = false;
-            */
-            
             if ( !t.stat.isanimating ) {
                 
                 t.stat.isanimating = true;
@@ -951,11 +864,11 @@ function yerSlider() {
                 
                 t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
                 
-                /* loop-none */
-                if ( t.param.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+                
+                /* check currentslideindex */
 
-                    t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
-                }
+                t.check_slider_current_index();
+                
                 
                 //t.proof_slider_current_index();
                 
@@ -1252,7 +1165,88 @@ function yerSlider() {
     
     t.check_slider_current_index = function () {
         
+        var temp = false;
         
+        // next {
+        
+            if ( t.stat.slidegroup === 0 ) {
+            
+                t.stat.currentslideindex = t.stat.currentslideindex + 1;
+            }
+        
+            /* loop-none */
+            if ( t.param.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+           
+                t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+            }
+       
+        
+            /* loop-appending */
+        
+            var shift_break = 1,
+                shift_jump = 0;
+        
+            /*if ( t.param.autoplay === true ) {
+        
+                shift_break = 1;
+                shift_jump = 0;
+            }*/
+        
+            if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - shift_break + t.stat.slidegroup ) {
+           
+               temp = t.stat.currentslideindex - t.stat.slidecount;
+            
+                t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup - shift_jump;
+            
+                t.animate_slider_to_current_position( 0 );
+            
+                t.stat.currentslideindex = temp;
+            }
+        
+            /* loop-rollback */
+        
+        
+        
+            /* loop-from-first */
+        
+        
+        
+        // }
+        
+        
+        // prev {
+        
+            /* loop-none */
+
+            if ( t.param.loop === 'none' && t.stat.currentslideindex <= 0 ) {
+
+                t.stat.currentslideindex = 0;
+            }
+
+
+            /* loop-appending */
+
+            if ( t.param.loop === 'appending' && t.stat.currentslideindex < 0 ) {
+
+                temp = t.stat.slidecount + t.stat.currentslideindex;
+
+                t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + t.stat.slidegroup;
+
+                t.animate_slider_to_current_position( 0 );
+
+                t.stat.currentslideindex = temp;
+            }
+
+
+            /* loop-rollback */
+
+
+
+            /* loop-from-first */
+
+
+            
+        // }
     };
     
     t.resize = function () {
