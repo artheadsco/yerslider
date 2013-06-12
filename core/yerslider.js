@@ -52,6 +52,7 @@ function yerSlider() {
         showslidestype: 'fade',
         showslidestime: 1000,
         swipe: false,
+        swipeanimationspeed: 300,
         videoembed: 'onload', /* viewport */
         videoembedgroupsbefore: 0, /* viewport */
         youtubeparam: '?rel=1&autoplay=0&showinfo=0',
@@ -66,10 +67,12 @@ function yerSlider() {
         slidegroupmax: 1,
         slidegroup: 1,
         currentslideindex: 0,
+        currentslideposition: 0,
         slidecount: 0,
         slidermaskwidth: 0,
         slidewidth: 0,
         isanimating: false,
+        isswiping: false,
         nextbtnclickable: false,
         prevbtnclickable: false,
         bulletscount: 0,
@@ -106,7 +109,7 @@ function yerSlider() {
         t.init_getdefaultparam( p );
         
         if ( jQuery( t.param.sliderid ).length > 0 ) {
-        
+            
             t.init_animation();
         
             t.init_touch();
@@ -175,6 +178,12 @@ function yerSlider() {
             t.stat.touch = true;
             t.stat.clicktype = 'touchend';
         }
+        
+        if ( t.stat.touch && t.param.swipe ) {
+
+             t.param.nextbtn = false;
+             t.param.prevbtn = false;
+         }
     };
     
     t.init_isios = function () {
@@ -245,7 +254,7 @@ function yerSlider() {
 
          if ( t.param.swipe ) {
 
-             t.touch_swipe();
+             t.touchswipe();
          }
     };
     
@@ -612,39 +621,75 @@ function yerSlider() {
         t.set_groupindex();
     };
     
+    t.next_job = function () {
+        
+        if ( !t.stat.isanimating ) {
+            
+            t.stat.isanimating = true;
+            t.stat.slidingright = true;
+            
+            t.next_slide();
+            
+            if ( t.param.scrolltop ) {
+            
+                jQuery('body').animate({
+                
+                    scrollTop: t.param.scrolltopval
+                }, t.param.scrolltopspeed );
+            }
+            
+            t.animate_slider_to_current_position( t.get_animationspeed() );
+            
+            t.refresh_prevnext();
+    
+            if ( t.param.bullets ) {
+
+                t.set_bullet_current();
+                t.set_bullet_current_class();
+            }
+        
+            t.stat.slidingright = false;
+        }
+    };
+    
+    t.prev_job = function () {
+        
+        if ( !t.stat.isanimating ) {
+            
+            t.stat.isanimating = true;
+            t.stat.slidingleft = true;
+            
+            t.prev_slide();
+            
+            if ( t.param.scrolltop ) {
+            
+                jQuery('body').animate({
+                
+                    scrollTop: t.param.scrolltopval
+                }, t.param.scrolltopspeed );
+            }
+            
+            t.animate_slider_to_current_position( t.get_animationspeed() );
+            
+            t.refresh_prevnext();
+    
+            if ( t.param.bullets ) {
+
+                t.set_bullet_current();
+                t.set_bullet_current_class();
+            }
+        
+            t.stat.slidingleft = false;
+        }
+    };
+    
     t.nextbtn_click = function () {
         
         if ( t.obj.nextbtn && !t.stat.nextbtnclickable ) {
             
             t.obj.nextbtn.on( t.stat.clicktype, function () {
                 
-                if ( !t.stat.isanimating ) {
-                    
-                    t.stat.isanimating = true;
-                    t.stat.slidingright = true;
-                    
-                    t.next_slide();
-                    
-                    if ( t.param.scrolltop ) {
-                    
-                        jQuery('body').animate({
-                        
-                            scrollTop: t.param.scrolltopval
-                        }, t.param.scrolltopspeed );
-                    }
-                    
-                    t.animate_slider_to_current_position( t.param.animationspeed );
-                    
-                    t.refresh_prevnext();
-            
-                    if ( t.param.bullets ) {
-
-                        t.set_bullet_current();
-                        t.set_bullet_current_class();
-                    }
-                
-                    t.stat.slidingright = false;
-                }
+                t.next_job();
             });
         
             t.stat.nextbtnclickable = true;
@@ -657,33 +702,7 @@ function yerSlider() {
         
             t.obj.prevbtn.on( t.stat.clicktype, function () {
                 
-                if ( !t.stat.isanimating ) {
-                    
-                    t.stat.isanimating = true;
-                    t.stat.slidingleft = true;
-                    
-                    t.prev_slide();
-                    
-                    if ( t.param.scrolltop ) {
-                    
-                        jQuery('body').animate({
-                        
-                            scrollTop: t.param.scrolltopval
-                        }, t.param.scrolltopspeed );
-                    }
-                    
-                    t.animate_slider_to_current_position( t.param.animationspeed );
-                    
-                    t.refresh_prevnext();
-            
-                    if ( t.param.bullets ) {
-
-                        t.set_bullet_current();
-                        t.set_bullet_current_class();
-                    }
-                
-                    t.stat.slidingleft = false;
-                }
+                t.prev_job();
             });
             
             t.stat.prevbtnclickable = true;
@@ -762,7 +781,7 @@ function yerSlider() {
 
                 t.next_slide();
                 
-                t.animate_slider_to_current_position( t.param.animationspeed );
+                t.animate_slider_to_current_position( t.get_animationspeed() );
 
                 t.refresh_prevnext();
 
@@ -896,23 +915,58 @@ function yerSlider() {
     
         t.obj.bullets.on( 'click', function () {
             
+            /*
+                t.stat.isanimating = true;
+                t.stat.slidingright = true;
+            
+                t.next_slide();
+            
+                if ( t.param.scrolltop ) {
+            
+                    jQuery('body').animate({
+                
+                        scrollTop: t.param.scrolltopval
+                    }, t.param.scrolltopspeed );
+                }
+            
+                t.animate_slider_to_current_position( t.get_animationspeed() );
+            
+                t.refresh_prevnext();
+    
+                if ( t.param.bullets ) {
+
+                    t.set_bullet_current();
+                    t.set_bullet_current_class();
+                }
+        
+                t.stat.slidingright = false;
+            */
             
             if ( !t.stat.isanimating ) {
                 
                 t.stat.isanimating = true;
+                t.stat.slidingright = true;
                 
                 var currentbullet = jQuery(this).data('index');
                 
                 t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
                 
-                t.proof_slider_current_index();
+                /* loop-none */
+                if ( t.param.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+
+                    t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+                }
                 
-                t.animate_slider_to_current_position( t.param.animationspeed );
+                //t.proof_slider_current_index();
+                
+                t.animate_slider_to_current_position( t.get_animationspeed() );
                 
                 if ( !t.stat.prevbtnclickable ) {
                     
                     t.prevbtn_click();
                 }
+                
+                t.stat.slidingright = false;
             }
             
             
@@ -957,6 +1011,7 @@ function yerSlider() {
         t.obj.slider.animate({
             'margin-left': '-' + t.get_sliderposition() + 'px'
         }, duration, t.translate_easing( t.param.animationtype, 'jquery'), function () {
+           t.get_sliderposition();
            t.stat.isanimating = false;
         });
         
@@ -986,11 +1041,12 @@ function yerSlider() {
         
         window.setTimeout( function () {
             
+            t.get_sliderposition();
             t.stat.isanimating = false;
             t.animation_finshed();
             t.videos_in_viewport();
             
-        }, t.param.animationspeed );
+        }, duration );
         
     };
     
@@ -1081,6 +1137,42 @@ function yerSlider() {
           
     };
     
+    t.scroll_slider = function ( distance, direction ) {
+        
+        var sliderposition = t.stat.currentslideposition * -1,
+            duration = 0,
+            transform= false,
+            gotopos = sliderposition;
+        
+        if ( direction === 'left' ) {
+            
+            gotopos = ( sliderposition - Math.abs(distance) );
+        }
+        
+        if ( direction === 'right' ) {
+            
+            gotopos = ( sliderposition + Math.abs(distance) );
+        }
+        
+        transform = 'translate3d(' + gotopos.toString() + 'px,0px,0px)';
+            
+        t.css_transitionduration( t.obj.slider, duration );
+        
+        t.obj.slider.css({
+            '-webkit-transform': transform,
+            '-ms-transform': transform,
+            '-o-transform': transform,
+            '-moz-transform': transform,
+            'transform': transform,
+            '-webkit-transition-timing-function': t.param.animationtype,
+            '-moz-transition-timing-function': t.param.animationtype,
+            '-o-transition-timing-function': t.param.animationtype,
+            '-ms-transition-timing-function': t.param.animationtype,
+            'transition-timing-function': t.param.animationtype
+        });
+    };
+    
+    
     
     /* misc */
     
@@ -1127,7 +1219,22 @@ function yerSlider() {
 
         //var pos = ( parseInt( t.stat.currentslideindex * t.stat.slidewidth, 10 ) + parseInt( t.param.slidegap * t.stat.currentslideindex, 10 ) );
         var pos = jQuery( t.obj.slide[ t.stat.currentslideindex ] ).position().left;
+        
+        t.stat.currentslideposition = pos;
+        
         return pos;
+    };
+    
+    t.get_animationspeed = function () {
+        
+        var speed = t.param.animationspeed;
+        
+        if ( t.stat.isswiping ) {
+            
+            speed = t.param.swipeanimationspeed;
+        }
+        
+        return speed;
     };
     
     t.proof_slider_current_index = function () {
@@ -1136,8 +1243,16 @@ function yerSlider() {
            
             t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
             
-            t.nextbtn_click_unbind();
+            if ( t.param.nextbtnclickable ) {
+                
+                t.nextbtn_click_unbind();
+            }
         }
+    };
+    
+    t.check_slider_current_index = function () {
+        
+        
     };
     
     t.resize = function () {
@@ -1177,14 +1292,14 @@ function yerSlider() {
         }
     };
     
-    t.touch_swipe = function () {
+    t.touchswipe = function () {
         
         
         var slide_with_default = ( t.stat.slidewidth + t.param.slidegap ) * t.stat.slidegroup,
             slide_with = slide_with_default,
             current_slide = 0,
             max_slides = Math.ceil( t.stat.slidecount / t.stat.slidegroup ),
-            speed = t.param.animationspeed,
+            speed = t.param.swipeanimationspeed,
             slides = t.obj.slide;
         
         
@@ -1195,7 +1310,9 @@ function yerSlider() {
 		* end : we animate to the next image
 		*/
 		function swipeStatus(event, phase, direction, distance, fingers) {
-		
+            
+            t.stat.isswiping = true;
+            
 			//If we are moving before swipe, and we are going L or R, then manually drag the images
 			
 			if ( phase === 'move' && ( direction === 'left' || direction === 'right' ) ) {
@@ -1203,12 +1320,12 @@ function yerSlider() {
 				var duration =  0;
 
 				if ( direction === 'left' ) {
-				
-					scrollImages( ( slide_with * current_slide ) + distance, duration );
+                    
+                    t.scroll_slider( distance, direction );
                 }
 				else if ( direction === 'right' ) {
 				
-					scrollImages( ( slide_with * current_slide ) - distance, duration );
+                    t.scroll_slider( distance, direction );
 				}
 			}
 
@@ -1217,26 +1334,29 @@ function yerSlider() {
 			
 			else if ( phase === 'cancel' ) {
 			
-				scrollImages( slide_with * current_slide, speed);
+				t.animate_slider_to_current_position( t.get_animationspeed() );
 			}
 
 
 			//Else end means the swipe was completed, so move to the next image
 			
-			else if ( phase === 'end' )
-			{
+			else if ( phase === 'end' ) {
+			
 				if ( direction === 'right' ) {
-				
-					previousImage();
+                    
+                    t.prev_job();
+                    
 				}
 				else if ( direction === 'left' ) {
-				
-					nextImage();
+                    
+                    t.next_job();
 				}
 			}
+			
+			t.stat.isswiping = false;
 		}
 
-		function previousImage() {
+		/*function previousImage() {
 		
 			current_slide = Math.max( current_slide - 1, 0 );
 			scrollImages( slide_with * current_slide, speed );
@@ -1266,12 +1386,9 @@ function yerSlider() {
             }
 		}
 
-		/**
-		 * Manually update the position of the slides on drag
-		 */
 		function scrollImages( distance, duration ) {
-		
-			slides.css({
+                        
+			t.obj.slide.css({
                 '-webkit-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
                 '-moz-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
                 '-o-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
@@ -1287,7 +1404,7 @@ function yerSlider() {
 			//inverse the number we set in the css
 			var value = ( distance < 0 ? '' : '-' ) + Math.abs(distance).toString();
 
-			slides.css({
+			t.obj.slide.css({
                 '-webkit-transform': 'translate3d('+value +'px,0px,0px)',
                 '-moz-transform': 'translate3d('+value +'px,0px,0px)',
                 '-o-transform': 'translate3d('+value +'px,0px,0px)',
@@ -1295,10 +1412,10 @@ function yerSlider() {
                 'transform': 'translate3d('+value +'px,0px,0px)' 
 			});
 		}
-        
+        */
         
 		// init touch swipe
-		slides.swipe( {
+		t.obj.slide.swipe( {
 			triggerOnTouchEnd: true,
 			swipeStatus: swipeStatus,
 			allowPageScroll: 'vertical'

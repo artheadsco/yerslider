@@ -21,9 +21,14 @@ body {
 }
 .page-typo h1 {
 	font-weight: 200;
-	font-size: 80px;
+	font-size: 60px;
 	margin: 20px 0;
 	color: #525252;
+}
+@media (min-width: 450px) {
+	.page-typo h1 {
+		font-size: 80px;
+	}
 }
 
 .page-typo h2 {
