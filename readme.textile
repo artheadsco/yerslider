@@ -12,9 +12,9 @@ The script was started to personel understand all the limitations and problems I
 h2. Roadmap
 
 * options and themes
-* touch gestures
 * thumbs
 
+* [done] touch gestures
 * [done] csstransitions for smoth sliding
 * [done] bullets
 * [done] breackpoints for slidegroups

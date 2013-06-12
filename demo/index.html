@@ -8,11 +8,11 @@
 		<script src="../core/modernizr.js" type="text/javascript"></script>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script src="../core/jquery.touchSwipe.js" type="text/javascript"></script>
-		<script src="../core/yerslider.js?v=201306112040" type="text/javascript"></script>
+		<script src="../core/yerslider.js?v=201306122200" type="text/javascript"></script>
 		
 		<link href="http://fonts.googleapis.com/css?family=Raleway:200,700" rel="stylesheet" type="text/css"/>
-		<link href="../themes/default/yerslider-styles.css?v=201306112040" rel="stylesheet" type="text/css"/>
-		<link href="demo-styles.css?v=201306112040" rel="stylesheet" type="text/css"/>
+		<link href="../themes/default/yerslider-styles.css?v=201306122200" rel="stylesheet" type="text/css"/>
+		<link href="demo-styles.css?v=201306122200" rel="stylesheet" type="text/css"/>
 		
 	</head>
 	<body>
@@ -20,10 +20,44 @@
 		<!-- header begin -->
 		
 		<div class="page-typo">
+			
 			<h1>yerSlider</h1>
+			
 			<p>This is the Demopage of the yerSlider-Script hostet on <a href="https://github.com/johannheyne/yerslider" target="_blank">GitHub</a> by Johann Heyne.<br/>
-				yerSlider is for developpers and potentially can slide anything.</p>
+				yerSlider is designed <strong>for developpers</strong>, <strong>high responsive</strong> and potentially <strong>can slide anything</strong>.</p>
 			<p class="alert">This page is casually under construction.</p>
+		
+		</div>
+		
+		<nav class="tableofcontents">
+			
+			<div class="page-typo">
+				<h2>Table of content</h2>
+			</div>
+			<ul>
+				<li><a href="#dependencies">Dependencies</a></li>
+				<li><a href="#resp-slidegroups">responsive Slidegroups</a></li>
+				<li><a href="#loop">Loop</a>
+					<ul>
+						<li><a href="#loop-appending">appending</a></li>
+					</ul>
+				</li>
+				<li><a href="#bullets">Bullets</a></li>
+				<li><a href="#autoplay">Autoplay</a></li>
+				<li><a href="#touchswipe">Touch & Swipe</a></li>
+			</ul>
+		</nav>
+		
+		<div class="page-typo">
+			
+			<h2 id="dependencies">Dependencies</h2>
+			
+			<ul>
+				<li><a href="http://jquery.com/">jQuery</a></li>
+				<li><a href="http://modernizr.com/">modernizr.js</a><br/>feature detection of javascript, touch, csstransforms3d and csstransitions</li>
+				<li><a href="https://github.com/mattbryson/TouchSwipe-Jquery-Plugin">jquery.touchSwipe.js</a><br/>for touch and swipe functionality</li>
+			</ul>
+		
 		</div>
 		
 		<!-- end -->
@@ -34,6 +68,7 @@
 			
 			<h2 id="resp-slidegroups">responsive Slidegroups</h2>
 			
+			<p>This slider is able to be fluid and slides can be grouped responding to different slider widths. Change the width of your browser or rotate your device to may see the amount of grouped slides changing.</p>
 		</div>
 			
 		<div class="yerslider-wrap mysliderclass">
