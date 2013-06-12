@@ -50,7 +50,7 @@ function yerSlider() {
         autoplay: false, /* true */
         autoplayinterval: 3000, /* integer sec, 0 */
         showslidestype: 'fade',
-        showslidestime: 1000,
+        showslidestime: 500,
         swipe: false,
         swipeanimationspeed: 300,
         videoembed: 'onload', /* viewport */
@@ -288,7 +288,7 @@ function yerSlider() {
          
         window.setTimeout( function () {
 
-            jQuery('.yerslider-video iframe').remove();
+            jQuery( t.param.sliderid + ' .yerslider-video iframe').remove();
         }, 100);
         
         t.videos_in_viewport();
@@ -416,7 +416,7 @@ function yerSlider() {
             if ( diff > 0 ) {
             
                 for ( var i = 0; i < diff; i++ ) {
-                    jQuery( t.param.slideclass + ':nth-child(' + ( 1 + i )  + 'n-' + (t.stat.slidegroup - 1) + ')' ).css( 'margin-right', ( t.param.slidegap + 1 ) + 'px' );
+                    jQuery( t.param.sliderid + ' ' + t.param.slideclass + ':nth-child(' + ( 1 + i )  + 'n-' + (t.stat.slidegroup - 1) + ')' ).css( 'margin-right', ( t.param.slidegap + 1 ) + 'px' );
                 
                 }
             }
@@ -1350,64 +1350,7 @@ function yerSlider() {
 			t.stat.isswiping = false;
 		}
 
-		/*function previousImage() {
-		
-			current_slide = Math.max( current_slide - 1, 0 );
-			scrollImages( slide_with * current_slide, speed );
-			
-            t.prev_slide();
-            t.refresh_prevnext();
-            
-            if ( t.param.bullets ) {
 
-                t.set_bullet_current();
-                t.set_bullet_current_class();
-            }
-		}
-
-		function nextImage() {
-		
-			current_slide = Math.min( current_slide + 1, max_slides - 1 );
-			scrollImages( slide_with * current_slide, speed );
-			
-            t.next_slide();
-            t.refresh_prevnext();
-            
-            if ( t.param.bullets ) {
-
-                t.set_bullet_current();
-                t.set_bullet_current_class();
-            }
-		}
-
-		function scrollImages( distance, duration ) {
-                        
-			t.obj.slide.css({
-                '-webkit-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
-                '-moz-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
-                '-o-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
-                '-ms-transition-duration': ( duration / 1000 ).toFixed(1) + 's',
-                'transition-duration': ( duration / 1000 ).toFixed(1) + 's',
-                '-webkit-transition-timing-function': t.param.animationtype,
-                '-moz-transition-timing-function': t.param.animationtype,
-                '-o-transition-timing-function': t.param.animationtype,
-                '-ms-transition-timing-function': t.param.animationtype,
-                'transition-timing-function': t.param.animationtype
-			});
-            
-			//inverse the number we set in the css
-			var value = ( distance < 0 ? '' : '-' ) + Math.abs(distance).toString();
-
-			t.obj.slide.css({
-                '-webkit-transform': 'translate3d('+value +'px,0px,0px)',
-                '-moz-transform': 'translate3d('+value +'px,0px,0px)',
-                '-o-transform': 'translate3d('+value +'px,0px,0px)',
-                '-ms-transform': 'translate3d('+value +'px,0px,0px)',
-                'transform': 'translate3d('+value +'px,0px,0px)' 
-			});
-		}
-        */
-        
 		// init touch swipe
 		t.obj.slide.swipe( {
 			triggerOnTouchEnd: true,
