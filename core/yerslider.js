@@ -252,7 +252,7 @@ function yerSlider() {
          
          /* touch swipe */
 
-         if ( t.param.swipe ) {
+         if ( t.stat.touch && t.param.swipe ) {
 
              t.touchswipe();
          }
@@ -1054,7 +1054,7 @@ function yerSlider() {
         
         var sliderposition = t.stat.currentslideposition * -1,
             duration = 0,
-            transform= false,
+            transform = false,
             gotopos = sliderposition;
         
         if ( direction === 'left' ) {
