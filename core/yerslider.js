@@ -55,7 +55,7 @@ function yerSlider() {
         swipeanimationspeed: 300,
         videoembed: 'onload', /* viewport */
         videoembedgroupsbefore: 0, /* viewport */
-        youtubeparam: '?rel=1&autoplay=0&showinfo=0',
+        youtubeparam: '?rel=1&autoplay=0&showinfo=0&wmode=opaque', /* do not remove &wmode=opaque */
         youtubeurl: 'http://www.youtube.com/embed/{code}{param}',
         youtubehtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no"></iframe>',
         vimeoparam: '?byline=0&amp;portrait=0&amp;autoplay=0',
