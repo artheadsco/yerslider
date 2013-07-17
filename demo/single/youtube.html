@@ -102,16 +102,28 @@ myslider.init({
 				jQuery.noConflict();
 				jQuery(document).ready(function(){
 
-					jQuery('.test').on('click', function() {
+					//jQuery('.test').on('click', function() {
 
 							player1 = new YT.Player('player-1', {
-								videoId: 'lMtXfwk7PXg'
+								videoId: 'lMtXfwk7PXg',
+								playerVars: {
+									rel: 1,
+									autoplay: 0,
+									showinfo: 0,
+									wmode: 'opaque'
+								}
 							});
 
 							player2 = new YT.Player('player-2', {
-								videoId: 'KaOC9danxNo'
+								videoId: 'KaOC9danxNo',
+								playerVars: {
+									rel: 1,
+									autoplay: 0,
+									showinfo: 0,
+									wmode: 'opaque'
+								}
 							});
-					});
+					//});
 
 
 				});

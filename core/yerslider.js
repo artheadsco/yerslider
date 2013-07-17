@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Johann Heyne
  *
  * Version 1
- * Update 2013-05-27
+ * Update 2013-07-16
  *
  * Minimum requirements: jQuery v1.6+
  *
@@ -301,14 +301,9 @@ function yerSlider() {
         window.setTimeout(function(){
             
             if ( t.stat.cssanimation ) {
-            
-                t.obj.slider.css({
-                    '-webkit-transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's',
-                    '-moz-transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's',
-                    '-o-transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's',
-                    '-ms-transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's',
-                    'transition-duration': ( t.param.showslidestime / 1000 ).toFixed(1) + 's'
-                });
+                
+                t.css_transitionduration( t.obj.slider, t.param.showslidestime );
+                
                 t.obj.slider.fadeIn(10);
             }
         
@@ -932,25 +927,12 @@ function yerSlider() {
     
     t.animate_slider_to_current_position_css = function( duration ) {
         
-        
-        var sliderposition = t.get_sliderposition() * -1,
-            transform = 'translate3d(' + sliderposition.toString() + 'px,0px,0px)';
+        var sliderposition = t.get_sliderposition() * -1;
             
         t.css_transitionduration( t.obj.slider, duration );
-        
-        t.obj.slider.css({
-            '-webkit-transform': transform,
-            '-ms-transform': transform,
-            '-o-transform': transform,
-            '-moz-transform': transform,
-            'transform': transform,
-            '-webkit-transition-timing-function': t.param.animationtype,
-            '-moz-transition-timing-function': t.param.animationtype,
-            '-o-transition-timing-function': t.param.animationtype,
-            '-ms-transition-timing-function': t.param.animationtype,
-            'transition-timing-function': t.param.animationtype
-        });
-        
+        t.css_transform( t.obj.slider, sliderposition );
+        t.css_transitiontiming( t.obj.slider, t.param.animationtype );
+        t.css_marginleft( t.obj.slider );
         
         window.setTimeout( function () {
             
@@ -959,8 +941,15 @@ function yerSlider() {
             t.animation_finshed();
             t.videos_in_viewport();
             
+            if ( t.stat.isios === false ) {
+                
+                t.css_transitionduration( t.obj.slider );
+                t.css_transform( t.obj.slider );
+                t.css_transitiontiming( t.obj.slider );
+                t.css_marginleft( t.obj.slider, '-' + t.stat.currentslideposition + 'px' );
+            }
+            
         }, duration );
-        
     };
     
     t.animation_finshed = function () {
@@ -1053,8 +1042,6 @@ function yerSlider() {
     t.scroll_slider = function ( distance, direction ) {
         
         var sliderposition = t.stat.currentslideposition * -1,
-            duration = 0,
-            transform = false,
             gotopos = sliderposition;
         
         if ( direction === 'left' ) {
@@ -1067,22 +1054,12 @@ function yerSlider() {
             gotopos = ( sliderposition + Math.abs(distance) );
         }
         
-        transform = 'translate3d(' + gotopos.toString() + 'px,0px,0px)';
-            
-        t.css_transitionduration( t.obj.slider, duration );
+        t.css_transitionduration( t.obj.slider );
         
-        t.obj.slider.css({
-            '-webkit-transform': transform,
-            '-ms-transform': transform,
-            '-o-transform': transform,
-            '-moz-transform': transform,
-            'transform': transform,
-            '-webkit-transition-timing-function': t.param.animationtype,
-            '-moz-transition-timing-function': t.param.animationtype,
-            '-o-transition-timing-function': t.param.animationtype,
-            '-ms-transition-timing-function': t.param.animationtype,
-            'transition-timing-function': t.param.animationtype
-        });
+        t.css_transform( t.obj.slider, gotopos );
+        
+        t.css_transitiontiming( t.obj.slider, t.param.animationtype );
+        
     };
     
     
@@ -1361,11 +1338,54 @@ function yerSlider() {
 	};
     
     
-    /* helper */
     
-    t.css_transitionduration = function ( obj, duration ) {
+    /* css */
+    
+    // disable CSS3 styles: https://github.com/chriscoyier/CSS3-StripTease/blob/master/striptease.js
+    
+    t.css_transform = function ( obj, value ) {
         
-        duration = ( ( duration / 1000 ).toFixed(1) + 's' );
+        var transform = 'none';
+        
+        if ( typeof(value) !== 'undefined' ) {
+            
+            transform = 'translate3d(' + value.toString() + 'px,0px,0px)';
+        }
+        
+        obj.css({
+            '-webkit-transform': transform,
+            '-ms-transform': transform,
+            '-o-transform': transform,
+            '-moz-transform': transform,
+            'transform': transform
+        });
+    };
+    
+    t.css_transitiontiming = function ( obj, value ) {
+        
+        if ( typeof(value) === 'undefined' ) {
+            
+            value = 'none';
+        }
+        
+        obj.css({
+            '-webkit-transition-timing-function': value,
+            '-ms-transition-timing-function': value,
+            '-o-transition-timing-function': value,
+            '-moz-transition-timing-function': value,
+            'transition-timing-function': value
+        });
+    };
+    
+    t.css_transitionduration = function ( obj, value ) {
+        
+        if ( typeof(value) === 'undefined' ) {
+            
+            value = 0;
+        }
+        
+        var duration = ( ( value / 1000 ).toFixed(1) + 's' );
+        
         obj.css({
             '-webkit-transition-duration': duration,
             '-ms-transition-duration': duration,
@@ -1374,6 +1394,22 @@ function yerSlider() {
             'transition-duration': duration
         });
     };
+    
+    t.css_marginleft = function ( obj, value ) {
+        
+        if ( typeof(value) === 'undefined' ) {
+            
+            value = 0;
+        }
+        
+        obj.css({
+            'margin-left': value
+        });
+    };
+    
+    
+    
+    /* helper */
     
     t.translate_easing = function ( name, type ) {
         
