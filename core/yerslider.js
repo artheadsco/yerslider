@@ -1173,10 +1173,11 @@ function yerSlider() {
            
                temp = t.stat.currentslideindex - t.stat.slidecount;
             
-                t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup - shift_jump;
-            
-                t.animate_slider_to_current_position( 0 );
-            
+                t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup;
+                
+                //t.animate_slider_to_current_position( 0 );
+                t.move_slider_to_current_index();
+                
                 t.stat.currentslideindex = temp;
             }
         
@@ -1209,7 +1210,8 @@ function yerSlider() {
 
                 t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + t.stat.slidegroup;
 
-                t.animate_slider_to_current_position( 0 );
+                //t.animate_slider_to_current_position( 0 );
+                t.move_slider_to_current_index();
 
                 t.stat.currentslideindex = temp;
             }
