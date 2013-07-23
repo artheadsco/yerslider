@@ -524,8 +524,7 @@ function yerSlider() {
         
         /* current class */
         
-        t.obj.slide.removeClass('current');
-        jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
+        t.set_slide_current_class();
         
         
         /* group indexes */
@@ -544,10 +543,9 @@ function yerSlider() {
         t.check_slider_current_index();
         
         
-        /* crurrent class */
+        /* current class */
         
-        t.obj.slide.removeClass('current');
-        jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
+        t.set_slide_current_class();
         
         
         /* group indexes */
@@ -704,6 +702,12 @@ function yerSlider() {
         }
     };
     
+    t.set_slide_current_class = function () {
+    
+        t.obj.slide.removeClass('current');
+        jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
+    
+    };
     
     /* autoplay */
     
