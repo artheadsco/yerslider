@@ -49,6 +49,7 @@ function yerSlider() {
         loop: 'none', /* appending, rollback, from-first */
         autoplay: false, /* true */
         autoplayinterval: 3000, /* integer sec, 0 */
+        autoplaystoponhover: true,
         showslidestype: 'fade',
         showslidestime: 500,
         swipe: false,
@@ -90,7 +91,8 @@ function yerSlider() {
         isresizing: false,
         videoembedindexbegin: false,
         videoembedindexend: false,
-        videoembedindexes: false
+        videoembedindexes: false,
+        autoplayinterval: false
     };
     
     t.obj = {
@@ -140,10 +142,7 @@ function yerSlider() {
             
             t.init_showslides();
             
-            if ( t.param.autoplay ) {
-            
-                t.autoplay();
-            }
+            t.autoplayinit();
             //t.init_video();
         }
     };
@@ -705,9 +704,26 @@ function yerSlider() {
         }
     };
     
-    t.autoplay = function () {
+    
+    /* autoplay */
+    
+    t.autoplayinit = function () {
+
+        if ( t.param.autoplay ) {
+            
+            t.autoplayset();
+
+            if ( t.param.autoplaystoponhover ) {
+
+                t.autoplayhover();
+            }
+        }
+
+    };
+    
+    t.autoplayset = function () {
        
-        window.setInterval( function () {
+        t.stat.autoplayinterval = window.setInterval( function () {
 
             if ( !t.stat.isanimating ) {
 
@@ -732,6 +748,26 @@ function yerSlider() {
         }, t.param.autoplayinterval );
        
     };
+    
+    t.autoplayclear = function () {
+       
+        t.stat.autoplayinterval = clearInterval( t.stat.autoplayinterval );
+       
+    };
+    
+    t.autoplayhover = function () {
+       
+        jQuery( t.param.slidermaskclass + ',' + t.param.nextclass + ',' + t.param.prevclass + ',' + t.param.bulletclass ).mouseenter(function() {
+            t.autoplayclear();
+        });
+       
+       jQuery( t.param.slidermaskclass + ',' + t.param.nextclass + ',' + t.param.prevclass + ',' + t.param.bulletclass ).mouseleave(function() {
+           
+           t.autoplayset();
+       });
+       
+    };
+    
     
     
     /* bullets */
@@ -892,6 +928,7 @@ function yerSlider() {
             t.refresh_prevnext();
         });
     };
+    
     
     
     /* animation */
