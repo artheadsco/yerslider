@@ -1195,18 +1195,7 @@ function yerSlider() {
             }
        
         
-            /* loop-appending */
-        
-            var shift_break = 1,
-                shift_jump = 0;
-        
-            /*if ( t.param.autoplay === true ) {
-        
-                shift_break = 1;
-                shift_jump = 0;
-            }*/
-        
-            if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - shift_break + t.stat.slidegroup ) {
+            if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
            
                temp = t.stat.currentslideindex - t.stat.slidecount;
             
