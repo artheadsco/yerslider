@@ -938,6 +938,7 @@ function yerSlider() {
     /* animation */
     
     t.move_slider_to_current_index = function () {
+        
         t.obj.slider.css({
             'margin-left': '-' + t.get_sliderposition() + 'px'
         });
@@ -1198,7 +1199,8 @@ function yerSlider() {
                 t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
             }
        
-        
+            /* appending */
+            
             if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
            
                temp = t.stat.currentslideindex - t.stat.slidecount;
