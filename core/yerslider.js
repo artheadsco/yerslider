@@ -330,6 +330,7 @@ function yerSlider() {
     };
     
     
+    
     /* setup */
     
     t.set_slidermaskwidth = function () {
@@ -466,6 +467,7 @@ function yerSlider() {
             }
         }
     };
+    
     
     
     /* prev next */
@@ -717,6 +719,8 @@ function yerSlider() {
         jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
     
     };
+    
+    
     
     /* autoplay */
     
