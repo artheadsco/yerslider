@@ -31,6 +31,16 @@ Just ask me for your needs at mail@johannheyne.de or create a new issue.
 
 
 
+h2. Dependencies
+
+* "jQuery":http://jquery.com/
+* "modernizr.js":http://modernizr.com/
+feature detection of javascript, touch, csstransforms3d and csstransitions
+* "jquery.touchSwipe.js":https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
+for touch and swipe functionality
+
+
+
 h2. Setup
 
 h3. Basic HTML
