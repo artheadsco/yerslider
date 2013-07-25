@@ -63,6 +63,7 @@
 	/* default begin */
 	position: absolute;
 	cursor: pointer;
+	z-index: 99999;
 	/* default end */
 	/* theme begin */
 	opacity: 0;
