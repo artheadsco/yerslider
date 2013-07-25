@@ -170,6 +170,7 @@ h3. Autoplay Interval
 <pre><code>autoplayinterval: 3000,</code></pre>
 
 
+
 h3. Autoplay Stop On Hover
 
 <pre><code>autoplaystoponhover: true,</code></pre>
@@ -177,9 +178,10 @@ h3. Autoplay Stop On Hover
 The autoplay stops while the mouse is over the slider or over an slider-navigation-element.
 
 
-h3. <span style="text-decoration: line-through;">Time for fading slides in on sliderload</span>
 
-<pre><code><span style="text-decoration: line-through;">showslidestime: 1000,</span></code></pre>
+h3. -Time for fading slides in on sliderload-
+
+<pre><code>showslidestime: 1000,</code></pre>
 
 
 
