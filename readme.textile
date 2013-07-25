@@ -1,25 +1,31 @@
 h1. yerSlider
 
-is a javascript function that allows fluid responsive slideshows using jQuery.
-"Demopage":http://demo.johannheyne.de/yerslider/demo/
+yerSlider is designed for developpers, high responsive and potentially can slide anything.
+"Demos and Documentation":http://demo.johannheyne.de/yerslider/demo/
+
+The script was started to personel understand all the limitations and problems I had with other slider-scripts.
 
 This documentation is incomplete and corrupting changes still may ahead!
 
-The script was started to personel understand all the limitations and problems I had with other slider-scripts.
+
+
+h2. Properties
+
+* fluid slider
+* bullets
+* touch gestures
+* css-transition for smooth sliding with javascript fallback
+* grouping slides depending on breackpoints
 
 
 
 h2. Roadmap
 
-* options and themes
+* fix video (YouTube/Vimeo)
+- previewimage witch playicon
+- open video options (size of previewimage or slide or custom)
 * thumbs
-
-* [done] touch gestures
-* [done] csstransitions for smoth sliding
-* [done] bullets
-* [done] breackpoints for slidegroups
-* [done] slidegroups
-* [done] fluid slider
+* themes
 
 Just ask me for your needs at mail@johannheyne.de or create a new issue.
 
