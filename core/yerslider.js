@@ -442,12 +442,12 @@ function yerSlider() {
     
     t.set_slidesinviewport = function () {
          
-        t.stat.slidesinviewportindexbegin = t.stat.currentslideindex + 1 - ( t.stat.slidegroup * t.param.slidesinviewportgroupsbefore );
-        t.stat.slidesinviewportindexend = t.stat.currentslideindex + t.stat.slidegroup + ( t.stat.slidegroup * t.param.slidesinviewportgroupsbefore );
+        t.stat.slidesinviewportindexbegin = t.stat.currentslideindex;
+        t.stat.slidesinviewportindexend = t.stat.currentslideindex + ( t.stat.slidegroup - 1 );
         
         t.stat.slidesinviewportindexes = [];
         
-        for ( i = 1; i <= t.stat.slidecount; i++ ) {
+        for ( i = 0; i < t.stat.slidecount; i++ ) {
 
             if ( i >= t.stat.slidesinviewportindexbegin && i <= t.stat.slidesinviewportindexend ) {
                 t.stat.slidesinviewportindexes.push(i);
