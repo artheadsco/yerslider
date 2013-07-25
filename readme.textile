@@ -38,6 +38,7 @@ h2. Dependencies
 feature detection of javascript, touch, csstransforms3d and csstransitions
 * "jquery.touchSwipe.js":https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
 for touch and swipe functionality
+* "YouTube iframe API":https://www.youtube.com/iframe_api
 
 
 
