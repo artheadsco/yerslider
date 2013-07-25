@@ -952,9 +952,12 @@ function yerSlider() {
     
     t.move_slider_to_current_index = function () {
         
-        t.obj.slider.css({
-            'margin-left': '-' + t.get_sliderposition() + 'px'
-        });
+        t.css_transitionduration( t.obj.slider, 0 );
+        t.css_transform( t.obj.slider, t.get_sliderposition() * -1 );
+        
+        //t.obj.slider.css({
+        //    'margin-left': '-' + t.get_sliderposition() + 'px'
+        //});
     };
     
     t.animate_slider_to_current_position = function ( duration) {
@@ -987,7 +990,7 @@ function yerSlider() {
         t.css_transitionduration( t.obj.slider, duration );
         t.css_transform( t.obj.slider, sliderposition );
         t.css_transitiontiming( t.obj.slider, t.param.animationtype );
-        t.css_marginleft( t.obj.slider );
+        //t.css_marginleft( t.obj.slider );
         
         window.setTimeout( function () {
             
@@ -998,10 +1001,10 @@ function yerSlider() {
             
             if ( t.stat.isios === false ) {
                 
-                t.css_transitionduration( t.obj.slider );
-                t.css_transform( t.obj.slider );
-                t.css_transitiontiming( t.obj.slider );
-                t.css_marginleft( t.obj.slider, '-' + t.stat.currentslideposition + 'px' );
+                //t.css_transitionduration( t.obj.slider );
+                //t.css_transform( t.obj.slider );
+                //t.css_transitiontiming( t.obj.slider );
+                //t.css_marginleft( t.obj.slider, '-' + t.stat.currentslideposition + 'px' );
             }
             
         }, duration );
