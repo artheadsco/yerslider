@@ -186,47 +186,10 @@ h3. -Time for fading slides in on sliderload-
 
 
 
-h3. Video Embed
-
-<pre><code>videoembed: 'onload',</code></pre>
-
-Options: onload, viewport
-
-<code>viewport</code> 
-The video is embedding, if the slide slides in the viewport and will removed, if the slide slides out of the viewport.
-
-
-
-h3. Video Embed Groups before
-
-Define the amount of groups in distance to the viewport, the video should be embeded or removed.
-
-<pre><code>videoembedgroupsbefore: 0,</code></pre>
-
-
-
 h3. YouTube
-
-<pre><code>youtubeparam: '?rel=1&autoplay=0&showinfo=0',
-youtubeurl: 'http://www.youtube.com/embed/{code}{param}',
-youtubehtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no"></iframe>',
-</code></pre>
-
-<pre><code><li class="yerslider-slide js media">
-    <div class="yerslider-video" data-video-type="youtube" data-video-code="KaOC9danxNo" data-video-width="320" data-video-height="180">
-        <iframe width="320" height="180" src="http://www.youtube.com/embed/KaOC9danxNo?rel=1&autoplay=0&showinfo=0" frameborder="no"></iframe>
-    </div>
-</li>
-</code></pre>
-
 
 
 h3. Vimeo
-
-<pre><code>vimeoparam: '?byline=0&amp;portrait=0&amp;autoplay=0',
-vimeourl: 'http://player.vimeo.com/video/{code}{param}',
-vimeohtml: '<iframe width="{width}" height="{height}" src="{url}" frameborder="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
-</code></pre>
 
 
 

@@ -17,6 +17,12 @@
 	box-sizing: border-box;
 	/* default end */
 }
+
+.yerslider-wrap iframe {
+	position: relative;
+	z-index: 9999;
+}
+
 .yerslider-mask {
 	/* no-js begin */
 	position: relative;
