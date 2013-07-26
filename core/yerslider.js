@@ -369,7 +369,6 @@ function yerSlider() {
                             start: function(player) {
                                 t.obj.videoplayers[ id ].status = 'started'; 
                                 t.stat.lastplayedvideo = id;
-                                alert('started');
                             },
                             pause: function(player) {
                                 t.obj.videoplayers[ id ].status = 'paused';
