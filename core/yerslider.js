@@ -53,7 +53,8 @@ function yerSlider() {
         showslidestype: 'fade',
         showslidestime: 500,
         swipe: false,
-        swipeanimationspeed: 300
+        swipeanimationspeed: 300,
+        sublimevideo: false
     };
 
     t.stat = {
@@ -84,7 +85,10 @@ function yerSlider() {
         slidesinviewportindexbegin: false,
         slidesinviewportindexend: false,
         slidesinviewportindexes: false,
-        autoplayinterval: false
+        autoplayinterval: false,
+        videoidindex: 0,
+        videoplayerindex: 0,
+        lastplayedvideo: false
     };
     
     t.obj = {
@@ -95,7 +99,9 @@ function yerSlider() {
         bulletswrap: undefined,
         bullets: undefined,
         prevbtn: undefined,
-        nextbtn: undefined
+        nextbtn: undefined,
+        videoplayers: {},
+        slides_videoplayers: {}
     };
     
     t.init = function ( p ) {
@@ -103,6 +109,11 @@ function yerSlider() {
         t.init_getdefaultparam( p );
         
         if ( jQuery( t.param.sliderid ).length > 0 ) {
+            
+            if ( t.param.sublimevideo ) {
+                
+                
+            }
             
             t.init_animation();
         
@@ -138,7 +149,7 @@ function yerSlider() {
             
             t.autoplayinit();
             
-            //t.init_video();
+            t.init_video();
         }
     };
     
@@ -279,8 +290,112 @@ function yerSlider() {
     };
     
     t.init_video = function () {
-         
         
+        /* t.obj.videoplayers */
+        
+        var slideindex = 0;
+        
+        t.obj.slide.each( function () {
+            
+            slideindex++;
+            
+            var slide = jQuery( this );
+            
+            slide.data('slideindex', slideindex );
+            
+            slide.find('[data-videotype]').each( function () {
+                
+                var obj = jQuery( this ),
+                    param = obj.data(),
+                    id = obj.attr('id');
+                
+                if ( param.videotype === 'youtube' ) {
+                    
+                    t.stat.videoidindex++;
+                    
+                    var intervalvalue = 1,
+                        playerid = 'playerid' + t.stat.videoidindex;
+                        
+                    var checkinterval = window.setInterval( function () {
+                    
+                        if ( typeof YT !== 'undefined' && typeof YT.Player === 'function' ) {
+                        
+                            jQuery( this ).attr('id', playerid );
+                        
+                            var player = new YT.Player( playerid, {
+                                videoId: param.id,
+                                playerVars: {
+                                    height: '100%',
+                                    width: '100%',
+                                    rel: param.rel,
+                                    autoplay: param.autoplay,
+                                    showinfo: param.showinfo,
+                                    wmode: 'opaque'
+                                }
+                            });
+                        
+                            intervalvalue = intervalvalue * 2;
+                            checkinterval = clearInterval( checkinterval );
+                        }
+                    
+                        if ( intervalvalue > 2048 ) {
+                        
+                            checkinterval = clearInterval( checkinterval );
+                        }
+                    }, checkinterval );
+                
+                }
+            
+                else if ( param.videotype === 'vimeo' ) {
+                
+                    //console.log( 'vimeo' );
+                }
+            
+                else if ( param.videotype === 'sublimevideo' ) {
+                    
+                    sublime.ready(function(){
+                        
+                        /* t.obj.videoplayers */
+                        
+                        t.obj.videoplayers[ id ] = {
+                            'type': 'sublimevideo',
+                            'id': id,
+                            'slide': slide.data('slideindex'),
+                            'api': sublime.player( id ),
+                            'status': false
+                        };
+                        
+                        t.obj.videoplayers[ id ].api.on({
+                            start: function(player) {
+                                t.obj.videoplayers[ id ].status = 'started'; 
+                                t.stat.lastplayedvideo = id;
+                                alert('started');
+                            },
+                            pause: function(player) {
+                                t.obj.videoplayers[ id ].status = 'paused';
+                                t.stat.lastplayedvideo = id;
+                            },
+                            end:   function(player) {
+                                t.obj.videoplayers[ id ].status = 'ended';
+                                t.stat.lastplayedvideo = id;
+                            }
+                        });
+                        
+                        t.stat.videoplayerindex++;
+                        
+                        /* t.obj.slides_videoplayers */
+                        
+                        if ( typeof t.obj.slides_videoplayers[ slide.data('slideindex') ] === 'undefined' ) {
+                        
+                            t.obj.slides_videoplayers[ slide.data('slideindex') ] = {};
+                        }
+                        
+                        t.obj.slides_videoplayers[ slide.data('slideindex') ][ id ] = true; 
+                    });
+                }
+            });
+            
+        });
     };
     
     t.init_showslides = function () {
@@ -450,7 +565,8 @@ function yerSlider() {
         for ( i = 0; i < t.stat.slidecount; i++ ) {
 
             if ( i >= t.stat.slidesinviewportindexbegin && i <= t.stat.slidesinviewportindexend ) {
-                t.stat.slidesinviewportindexes.push(i);
+                
+                t.stat.slidesinviewportindexes.push(i + 1);
             }
         }
     };
@@ -558,7 +674,11 @@ function yerSlider() {
             t.stat.isanimating = true;
             t.stat.slidingright = true;
             
+            t.pausevideosofcurrentslide();
+            
             t.next_slide();
+            
+            t.playlastplayedvideoofcurrentslide();
             
             if ( t.param.scrolltop ) {
             
@@ -589,7 +709,11 @@ function yerSlider() {
             t.stat.isanimating = true;
             t.stat.slidingleft = true;
             
+            t.pausevideosofcurrentslide();
+            
             t.prev_slide();
+            
+            t.playlastplayedvideoofcurrentslide();
             
             if ( t.param.scrolltop ) {
             
@@ -707,6 +831,38 @@ function yerSlider() {
     
     };
     
+    t.pausevideosofcurrentslide = function () {
+    
+        for ( var i in t.obj.videoplayers ) {
+
+            if ( jQuery.inArray( t.obj.videoplayers[ i ].slide, t.stat.slidesinviewportindexes ) !== -1 ) {
+
+                //if (  t.obj.videoplayers[ i ].status === 'started' ) {
+                    
+                    if ( t.obj.videoplayers[ i ].type === 'sublimevideo' ) {
+                        
+                        t.obj.videoplayers[ i ].api.pause();
+                    }
+                //}
+            }
+        }
+    };
+    
+    t.playlastplayedvideoofcurrentslide = function () {
+    
+        for ( var i in t.obj.videoplayers ) {
+            
+            if ( jQuery.inArray( t.obj.videoplayers[ i ].slide, t.stat.slidesinviewportindexes ) !== -1 && i === t.stat.lastplayedvideo ) {
+                
+                if ( t.obj.videoplayers[ i ].type === 'sublimevideo' ) {
+                
+                    t.obj.videoplayers[ i ].api.play();
+                }
+            }
+        }
+        
+        t.stat.lastplayedvideo = false;
+    };
     
     
     /* autoplay */
@@ -897,6 +1053,8 @@ function yerSlider() {
                 
                 var currentbullet = jQuery(this).data('index');
                 
+                t.pausevideosofcurrentslide();
+                
                 t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
                 
                 
@@ -904,6 +1062,9 @@ function yerSlider() {
 
                 t.check_slider_current_index();
                 
+                t.set_slidesinviewport();
+                
+                t.playlastplayedvideoofcurrentslide();
                 
                 //t.proof_slider_current_index();
                 
