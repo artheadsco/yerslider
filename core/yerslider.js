@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Johann Heyne
  *
  * Version 1
- * Update 2013-07-16
+ * Update 2013-07-26
  *
  * Minimum requirements: jQuery v1.6+
  *
@@ -13,6 +13,14 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  */
+var yerslider = {};
+    yerslider.youtubeready = false;
+    yerslider.youtubeloaded = false;
+
+function onYouTubeIframeAPIReady() {
+
+	yerslider.youtubeready = true;
+}
 
 function yerSlider() {
     
@@ -54,7 +62,8 @@ function yerSlider() {
         showslidestime: 500,
         swipe: false,
         swipeanimationspeed: 300,
-        sublimevideo: false
+        sublimevideo: false,
+        autoloadyoutubeiframeapi: true
     };
 
     t.stat = {
@@ -110,6 +119,8 @@ function yerSlider() {
         
         if ( jQuery( t.param.sliderid ).length > 0 ) {
             
+            t.init_loadyoutubeiframeapi();
+            
             if ( t.param.sublimevideo ) {
                 
                 
@@ -151,6 +162,17 @@ function yerSlider() {
             
             t.init_video();
         }
+    };
+    
+    t.init_loadyoutubeiframeapi = function () {
+        
+        if ( t.param.autoloadyoutubeiframeapi && !yerslider.youtubeloaded ) {
+			
+			jQuery.getScript("http://www.youtube.com/iframe_api", function( data, textStatus, jqxhr ) {
+				
+				yerslider.youtubeloaded = true;
+			});
+		}
     };
     
     t.init_getdefaultparam = function ( p ) {
@@ -305,45 +327,55 @@ function yerSlider() {
             
             slide.find('[data-videotype]').each( function () {
                 
-                var obj = jQuery( this ),
-                    param = obj.data(),
-                    id = obj.attr('id');
+                var videoobj = jQuery( this ),
+                    param = videoobj.data(),
+                    id = videoobj.attr('id');
+                
                 
                 if ( param.videotype === 'youtube' ) {
                     
+                    var count = 0,
+                    timer = setInterval( function() {
+
+                        if ( yerslider.youtubeready ) {
+                            
+                            /* youtubeready body begin */
+
+                            var intervalvalue = 1,
+                            playerid = 'playerid' + t.stat.videoidindex++;
+                            
+                            videoobj.attr('id', playerid );
+                            
+                            t.obj.videoplayers[ id ] = {
+                                'type': 'youtube',
+                                'id': playerid,
+                                'slide': slide.data('slideindex'),
+                                'api': new YT.Player( playerid, {
+                                    videoId: param.youtubeid,
+                                    playerVars: {
+                                        height: '100%',
+                                        width: '100%',
+                                        rel: param.rel,
+                                        autoplay: param.autoplay,
+                                        showinfo: param.showinfo,
+                                        wmode: 'opaque'
+                                    }
+                                }),
+                                'status': false
+                            };
+
+                            /* youtubeready body end */
+
+                            clearInterval( timer );
+                        }
+
+                        if ( ++count > 600 ) {
+
+                            clearInterval( timer );
+                        }
+                    }, 100 );
+                    
                     t.stat.videoidindex++;
-                    
-                    var intervalvalue = 1,
-                        playerid = 'playerid' + t.stat.videoidindex;
-                        
-                    var checkinterval = window.setInterval( function () {
-                    
-                        if ( typeof YT !== 'undefined' && typeof YT.Player === 'function' ) {
-                        
-                            jQuery( this ).attr('id', playerid );
-                        
-                            var player = new YT.Player( playerid, {
-                                videoId: param.id,
-                                playerVars: {
-                                    height: '100%',
-                                    width: '100%',
-                                    rel: param.rel,
-                                    autoplay: param.autoplay,
-                                    showinfo: param.showinfo,
-                                    wmode: 'opaque'
-                                }
-                            });
-                        
-                            intervalvalue = intervalvalue * 2;
-                            checkinterval = clearInterval( checkinterval );
-                        }
-                    
-                        if ( intervalvalue > 2048 ) {
-                        
-                            checkinterval = clearInterval( checkinterval );
-                        }
-                    }, checkinterval );
-                
                 }
             
                 else if ( param.videotype === 'vimeo' ) {
