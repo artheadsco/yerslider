@@ -71,7 +71,6 @@
 	z-index: 99999;
 	/* default end */
 	/* theme begin */
-	opacity: 0;
 	width: 40px;
 	height: 80px;
 	top: 50%;
@@ -131,23 +130,8 @@
 	display: none;
 	/* default end */
 }
-.yerslider-wrap:hover .yerslider-prevnext {
-	/* default begin */
-	opacity: 1;
-	/* default end */
-}
-.yerslider-wrap:hover .yerslider-next-inactive {
-	/* default begin */
-	opacity: 0.2;
-	cursor: default;
-	/* default end */
-}
-.yerslider-wrap:hover .yerslider-prev-inactive {
-	/* default begin */
-	opacity: 0.2;
-	cursor: default;
-	/* default end */
-}
+
+
 
 .csstransforms3d .yerslider-next:after {
 	content: "";

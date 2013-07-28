@@ -56,6 +56,7 @@ function yerSlider() {
         animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
         bullets: false,
         loop: 'none', /* appending, rollback, from-first */
+        loopswipe: 'none',
         autoplay: false, /* true */
         autoplayinterval: 3000, /* integer sec, 0 */
         autoplaystoponhover: true,
@@ -101,7 +102,8 @@ function yerSlider() {
         videoidindex: 0,
         videoplayerindex: 0,
         lastplayedvideo: false,
-        videoisplaying: false
+        videoisplaying: false,
+        loop: false
     };
     
     t.obj = {
@@ -133,7 +135,9 @@ function yerSlider() {
             t.init_animation();
         
             t.init_touch();
-        
+            
+            t.init_param_changin();
+            
             t.init_isios();
         
             t.init_ojects();
@@ -194,6 +198,7 @@ function yerSlider() {
             p: p,
             d: t.param
         });
+        
     };
     
     t.init_animation = function () {
@@ -222,6 +227,20 @@ function yerSlider() {
              t.param.nextbtn = false;
              t.param.prevbtn = false;
          }
+    };
+    
+    t.init_param_changin = function () {
+    
+        // set t.stat.loop {
+        
+            t.stat.loop = t.param.loop;
+        
+            if ( t.stat.touch && t.param.swipe ) {
+            
+                t.stat.loop = t.param.loopswipe;
+            }
+        
+        // }
     };
     
     t.init_isios = function () {
@@ -1112,7 +1131,7 @@ function yerSlider() {
         
         /* then unbind in some kind of slider situation */
         
-        if ( t.param.loop === 'none' ) {
+        if ( t.stat.loop === 'none' ) {
 
             if ( t.obj.nextbtn && t.stat.currentslideindex >= ( t.stat.slidecount - t.stat.slidegroup ) ) {
                 
@@ -1384,7 +1403,7 @@ function yerSlider() {
 
         /* current bullet index */
 
-        if ( t.param.loop === 'none' ) {
+        if ( t.stat.loop === 'none' ) {
             
             t.stat.bulletcurrent = Math.ceil( currentslideindex / t.stat.slidegroup ) + 1;
         }
@@ -1563,40 +1582,42 @@ function yerSlider() {
     
     t.clon_slides = function () {
         
-        var index = 0,
-            i = 0;
+        if ( !t.stat.touch || ( t.stat.touch && t.stat.loop !== 'none' ) ) {
             
-        if ( t.stat.slidegroup > 0 && t.param.loop !== 'none' ) {
+            var index = 0,
+                i = 0;
+            
+            if ( t.stat.slidegroup > 0 && t.stat.loop !== 'none' ) {
         
+                for ( i = 0; i < t.stat.slidegroupmax * 2; i++ ) {
             
-            for ( i = 0; i < t.stat.slidegroupmax * 2; i++ ) {
+                    if ( index > t.stat.slidecount ) {
+                        index = 0;
+                    }
             
-                if ( index > t.stat.slidecount ) {
-                    index = 0;
+                    t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
+            
+                    index++;
                 }
             
-                t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
-            
-                index++;
+                t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
             }
-            
-            t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
-        }
         
-        if ( t.stat.slidegroup === 0 ) {
+            if ( t.stat.slidegroup === 0 ) {
             
-            for ( i = 0; i < t.stat.slidecount; i++ ) {
+                for ( i = 0; i < t.stat.slidecount; i++ ) {
             
-                if ( index > t.stat.slidecount ) {
-                    index = 0;
+                    if ( index > t.stat.slidecount ) {
+                        index = 0;
+                    }
+            
+                    t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
+            
+                    index++;
                 }
-            
-                t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
-            
-                index++;
-            }
         
-            t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+                t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+            }
         }
     };
     
@@ -1637,7 +1658,7 @@ function yerSlider() {
     
     t.check_slider_current_index_at_start = function () {
         
-        if ( t.param.loop === 'appending' ) {
+        if ( t.stat.loop === 'appending' ) {
 
             if ( t.stat.currentslideindex === 0 ) {
 
@@ -1660,14 +1681,14 @@ function yerSlider() {
             }
         
             /* loop-none */
-            if ( t.param.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+            if ( t.stat.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
            
                 t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
             }
        
             /* appending */
             
-            if ( t.param.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
+            if ( t.stat.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
            
                temp = t.stat.currentslideindex - t.stat.slidecount;
             
@@ -1694,7 +1715,7 @@ function yerSlider() {
         
             /* loop-none */
 
-            if ( t.param.loop === 'none' && t.stat.currentslideindex <= 0 ) {
+            if ( t.stat.loop === 'none' && t.stat.currentslideindex <= 0 ) {
 
                 t.stat.currentslideindex = 0;
             }
@@ -1702,7 +1723,7 @@ function yerSlider() {
 
             /* loop-appending */
 
-            if ( t.param.loop === 'appending' && t.stat.currentslideindex < 0 ) {
+            if ( t.stat.loop === 'appending' && t.stat.currentslideindex < 0 ) {
 
                 temp = t.stat.slidecount + t.stat.currentslideindex;
 
