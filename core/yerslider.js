@@ -45,6 +45,7 @@ function yerSlider() {
         scrolltop: false,
         scrolltopval: 0,
         scrolltopspeed: 500,
+        prevnextclass: '.yerslider-prevnext',
         nextclass: '.yerslider-next',
         prevclass: '.yerslider-prev',
         nextclassadd: '',
@@ -96,9 +97,11 @@ function yerSlider() {
         slidesinviewportindexend: false,
         slidesinviewportindexes: false,
         autoplayinterval: false,
+        autoplayison: false,
         videoidindex: 0,
         videoplayerindex: 0,
-        lastplayedvideo: false
+        lastplayedvideo: false,
+        videoisplaying: false
     };
     
     t.obj = {
@@ -173,14 +176,14 @@ function yerSlider() {
     };
     
     t.init_loadyoutubeiframeapi = function () {
-        
+
         if ( t.param.autoloadyoutubeiframeapi && !yerslider.youtubeloaded ) {
-			
-			jQuery.getScript("http://www.youtube.com/iframe_api", function( data, textStatus, jqxhr ) {
-				
-				yerslider.youtubeloaded = true;
-			});
-		}
+
+            jQuery.getScript("http://www.youtube.com/iframe_api", function( data, textStatus, jqxhr ) {
+
+                yerslider.youtubeloaded = true;
+            });
+        }
     };
     
     t.init_getdefaultparam = function ( p ) {
@@ -453,7 +456,16 @@ function yerSlider() {
                                                     t.obj.videoplayers[ data.videoid ].status = 'started'; 
                                                     t.obj.videoplayers[ data.videoid ].api.addEventListener( 'onStateChange', t.player_youtube_statechange );
                                                 // }
-                                            
+                                                
+                                                // set stat video is playing if autoplay = 1 {
+                                                    
+                                                    if ( data.autoplay === 1 ) {
+                                                    
+                                                        t.stat.videoisplaying = true;
+                                                    }
+                                                
+                                                // }
+                                                
                                                 t.stat.lastplayedvideo = data.videoid;
                                             
                                                 // player is in slide {
@@ -553,7 +565,6 @@ function yerSlider() {
             
                 else if ( param.videotype === 'vimeo' ) {
                 
-                    // console.log( 'vimeo' );
                 }
             
                 else if ( param.videotype === 'sublimevideo' ) {
@@ -647,11 +658,13 @@ function yerSlider() {
     t.player_youtube_play = function ( id ) {
         
         t.obj.videoplayers[ id ].api.playVideo();
+        t.stat.videoisplaying = true;
     };
     
     t.player_youtube_pause = function ( id ) {
         
         t.obj.videoplayers[ id ].api.pauseVideo();
+        t.stat.videoisplaying = false;
     };
     
     t.player_youtube_statechange = function ( event ) {
@@ -661,7 +674,25 @@ function yerSlider() {
             if ( t.param.videoplayercloseafterend ) {
             
                 t.player_remove();
+
+                if ( t.param.autoplay && t.stat.touch && t.param.swipe ) {
+
+                    t.autoplayset();
+                }
             }
+        }
+        
+        if ( event.data === 1 ) {
+        
+            if ( t.param.autoplay ) {
+
+                t.autoplayclear();
+            }
+        }
+        
+        if ( event.data === 2 ) {
+            
+            t.stat.videoisplaying = false;
         }
     };
     
@@ -685,6 +716,8 @@ function yerSlider() {
     };
     
     t.player_remove = function ( id ) {
+         
+         t.stat.videoisplaying = false;
          
          if ( typeof id !== 'undefined' ) {
             
@@ -779,8 +812,8 @@ function yerSlider() {
         
             t.obj.slide
                 .width( t.stat.slidewidth )
-                .css( 'margin-right', t.param.slidegap + 'px' )
-                .last().css( 'margin-right', '0' );
+                .css( 'margin-right', t.param.slidegap + 'px' );
+                //.last().css( 'margin-right', '0' );
         
         
             /* streching the width of some slides by 1 pixel to fit the sliderwrapwidth */
@@ -843,55 +876,51 @@ function yerSlider() {
     
     t.set_prevnext = function () {
         
-        window.setTimeout(function(){
+        /* init */
+        if ( t.stat.slidecount > t.stat.slidegroup ) {
         
-            /* init */
-            if ( t.stat.slidecount > t.stat.slidegroup ) {
+            var nextclassadd = '',
+                prevclassadd = '';
             
-                var nextclassadd = '',
-                    prevclassadd = '';
+            if ( typeof t.obj.nextbtn !== 'object' && t.param.nextbtn ) {
+            
+                if ( t.param.nextclassadd !== '' ) {
                 
-                if ( typeof t.obj.nextbtn !== 'object' && t.param.nextbtn ) {
-                
-                    if ( t.param.nextclassadd !== '' ) {
-                    
-                        nextclassadd = ' ' + t.param.nextclassadd.replace( '.', '' );
-                    }
-                
-                    t.obj.sliderwrap.append('<div class="js-yerslider-next yerslider-prevnext ' + t.param.nextclass.replace( '.', '' ) + nextclassadd + '">');
-                    t.obj.nextbtn = jQuery( t.param.sliderid + ' ' + t.param.nextclass );
-                }
-        
-                if ( typeof t.obj.prevbtn !== 'object' && t.param.prevbtn ) {
-                
-                    if ( t.param.prevclassadd !== '' ) {
-                    
-                        prevclassadd = ' ' + t.param.prevclassadd.replace( '.', '' );
-                    }
-                
-                    t.obj.sliderwrap.append('<div class="js-yerslider-prev yerslider-prevnext ' + t.param.prevclass.replace( '.', '' ) + prevclassadd + '">');
-                    t.obj.prevbtn = jQuery( t.param.sliderid + ' ' + t.param.prevclass );
+                    nextclassadd = ' ' + t.param.nextclassadd.replace( '.', '' );
                 }
             
-                t.refresh_prevnext();
+                t.obj.sliderwrap.append('<div class="js-yerslider-next ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.nextclass.replace( '.', '' ) + nextclassadd + '">');
+                t.obj.nextbtn = jQuery( t.param.sliderid + ' ' + t.param.nextclass );
+            }
+    
+            if ( typeof t.obj.prevbtn !== 'object' && t.param.prevbtn ) {
+            
+                if ( t.param.prevclassadd !== '' ) {
+                
+                    prevclassadd = ' ' + t.param.prevclassadd.replace( '.', '' );
+                }
+            
+                t.obj.sliderwrap.append('<div class="js-yerslider-prev ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.prevclass.replace( '.', '' ) + prevclassadd + '">');
+                t.obj.prevbtn = jQuery( t.param.sliderid + ' ' + t.param.prevclass );
             }
         
-            /* remove */
-            else {
-        
-                if ( typeof t.obj.nextbtn === 'object' ) {
-                    t.obj.nextbtn.remove();
-                    t.obj.nextbtn = undefined;
-                    t.stat.nextbtnclickable = false;
-                }
-                if ( typeof t.obj.prevbtn === 'object' ) {
-                    t.obj.prevbtn.remove();
-                    t.obj.prevbtn = undefined;
-                    t.stat.prevbtnclickable = false;
-                }
+            t.refresh_prevnext();
+        }
+    
+        /* remove */
+        else {
+    
+            if ( typeof t.obj.nextbtn === 'object' ) {
+                t.obj.nextbtn.remove();
+                t.obj.nextbtn = undefined;
+                t.stat.nextbtnclickable = false;
             }
-            
-        }, 200 );
+            if ( typeof t.obj.prevbtn === 'object' ) {
+                t.obj.prevbtn.remove();
+                t.obj.prevbtn = undefined;
+                t.stat.prevbtnclickable = false;
+            }
+        }
         
     };
     
@@ -1158,7 +1187,7 @@ function yerSlider() {
         if ( t.param.autoplay ) {
             
             t.autoplayset();
-
+            
             if ( t.param.autoplaystoponhover ) {
 
                 t.autoplayhover();
@@ -1168,7 +1197,9 @@ function yerSlider() {
     };
     
     t.autoplayset = function () {
-       
+        
+        t.stat.autoplayison = true;
+        
         t.stat.autoplayinterval = window.setInterval( function () {
 
             if ( !t.stat.isanimating ) {
@@ -1176,6 +1207,8 @@ function yerSlider() {
                 t.stat.isanimating = true;
                 t.stat.slidingright = true;
 
+                //t.player_remove();
+                
                 t.next_slide();
                 
                 t.animate_slider_to_current_position( t.get_animationspeed() );
@@ -1192,25 +1225,67 @@ function yerSlider() {
                 
             }  
         }, t.param.autoplayinterval );
-       
     };
     
     t.autoplayclear = function () {
-       
+        
+        t.stat.autoplayison = false;
+        
         t.stat.autoplayinterval = clearInterval( t.stat.autoplayinterval );
-       
     };
     
     t.autoplayhover = function () {
-       
-        jQuery( t.param.slidermaskclass + ',' + t.param.nextclass + ',' + t.param.prevclass + ',' + t.param.bulletclass ).mouseenter(function() {
-            t.autoplayclear();
+        
+        // slidermask
+        
+        jQuery( t.obj.slidermask ).mouseenter(function() {
+            
+            if ( !t.stat.videoisplaying ) {
+                
+                t.autoplayclear();
+            }
+            
+        }).mouseleave(function() {
+
+            if ( !t.stat.videoisplaying ) {
+
+                t.autoplayset();
+            }
         });
-       
-       jQuery( t.param.slidermaskclass + ',' + t.param.nextclass + ',' + t.param.prevclass + ',' + t.param.bulletclass ).mouseleave(function() {
-           
-           t.autoplayset();
-       });
+        
+        // prevnextclass
+        
+        jQuery( t.obj.sliderwrap.find( t.param.prevnextclass ) ).mouseenter(function() {
+            
+            if ( !t.stat.videoisplaying ) {
+                
+                t.autoplayclear();
+            }
+            
+        }).mouseleave(function() {
+
+            if ( !t.stat.videoisplaying ) {
+
+                t.autoplayset();
+            }
+        });
+        
+        // bulletclass
+        
+        jQuery( t.obj.sliderwrap.find( t.param.bulletclass ) ).mouseenter(function() {
+            
+            if ( !t.stat.videoisplaying ) {
+                
+                t.autoplayclear();
+            }
+            
+        }).mouseleave(function() {
+
+            if ( !t.stat.videoisplaying ) {
+
+                t.autoplayset();
+            }
+        });
        
     };
     
@@ -1222,7 +1297,7 @@ function yerSlider() {
         
         if ( t.param.bullets ) {
             
-            window.setTimeout(function(){
+            //window.setTimeout(function(){
                 
                 /* add bullet class to wrap */
             
@@ -1262,7 +1337,7 @@ function yerSlider() {
             
                 t.bullet_click();
             
-            }, 200);
+            //}, 200);
             
         }
     };
@@ -1726,6 +1801,11 @@ function yerSlider() {
 				
                     t.scroll_slider( distance, direction );
 				}
+
+                if ( t.param.autoplay && t.stat.autoplayison ) {
+
+                    t.autoplayclear();
+                }
 			}
 
 
@@ -1734,6 +1814,11 @@ function yerSlider() {
 			else if ( phase === 'cancel' ) {
 			
 				t.animate_slider_to_current_position( t.get_animationspeed() );
+				
+                if ( t.param.autoplay && !t.stat.autoplayison ) {
+
+                    t.autoplayset();
+                }
 			}
 
 
@@ -1750,6 +1835,11 @@ function yerSlider() {
                     
                     t.next_job();
 				}
+				
+                if ( t.param.autoplay && !t.stat.autoplayison ) {
+
+                    t.autoplayset();
+                }
 			}
 			
 			t.stat.isswiping = false;
