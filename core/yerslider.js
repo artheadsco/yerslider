@@ -180,6 +180,16 @@ function yerSlider() {
 
             }, 150);
             
+            // slider opening delay plus effect {
+            
+                t.obj.sliderwrap.css('opacity','0');
+            
+                window.setTimeout(function(){
+            
+                    t.obj.sliderwrap.css('opacity','1').hide().fadeIn('fast');
+                }, 250);
+            
+            // }
         }
     };
     
