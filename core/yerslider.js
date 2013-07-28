@@ -63,6 +63,7 @@ function yerSlider() {
         showslidestype: 'fade',
         showslidestime: 500,
         swipe: false,
+        swipeandprevnextbtn: false,
         swipeanimationspeed: 300,
         sublimevideo: false,
         autoloadyoutubeiframeapi: true,
@@ -225,7 +226,7 @@ function yerSlider() {
             t.stat.clicktype = 'touchend';
         }
         
-        if ( t.stat.touch && t.param.swipe ) {
+        if ( t.stat.touch && t.param.swipe && !t.param.swipeandprevnextbtn ) {
 
              t.param.nextbtn = false;
              t.param.prevbtn = false;
@@ -705,7 +706,7 @@ function yerSlider() {
             }
         }
         
-        if ( event.data === 1 ) {
+        if ( event.data === 1 && event.data === -1 ) {
         
             if ( t.param.autoplay ) {
 
@@ -716,6 +717,11 @@ function yerSlider() {
         if ( event.data === 2 ) {
             
             t.stat.videoisplaying = false;
+            
+            if ( t.stat.touch && t.param.autoplay ) {
+            
+                t.autoplayset();
+            }
         }
     };
     
@@ -1223,34 +1229,37 @@ function yerSlider() {
     
     t.autoplayset = function () {
         
-        t.stat.autoplayison = true;
+        if ( t.stat.autoplayison === false ) {
         
-        t.stat.autoplayinterval = window.setInterval( function () {
+            t.stat.autoplayison = true;
+        
+            t.stat.autoplayinterval = window.setInterval( function () {
 
-            if ( !t.stat.isanimating ) {
+                if ( !t.stat.isanimating ) {
 
-                t.stat.isanimating = true;
-                t.stat.slidingright = true;
-                t.stat.lasteventtype = 'autoplay';
+                    t.stat.isanimating = true;
+                    t.stat.slidingright = true;
+                    t.stat.lasteventtype = 'autoplay';
                 
-                //t.player_remove();
+                    t.player_remove();
                 
-                t.next_slide();
+                    t.next_slide();
                 
-                t.animate_slider_to_current_position( t.get_animationspeed() );
+                    t.animate_slider_to_current_position( t.get_animationspeed() );
 
-                t.refresh_prevnext();
+                    t.refresh_prevnext();
 
-                if ( t.param.bullets ) {
+                    if ( t.param.bullets ) {
 
-                    t.set_bullet_current();
-                    t.set_bullet_current_class();
-                }
+                        t.set_bullet_current();
+                        t.set_bullet_current_class();
+                    }
 
-                t.stat.slidingright = false;
+                    t.stat.slidingright = false;
                 
-            }  
-        }, t.param.autoplayinterval );
+                }  
+            }, t.param.autoplayinterval );
+        }
     };
     
     t.autoplayclear = function () {
