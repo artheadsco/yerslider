@@ -79,6 +79,7 @@ function yerSlider() {
         slidewidth: 0,
         isanimating: false,
         isswiping: false,
+        lasteventtype: false,
         nextbtnclickable: false,
         prevbtnclickable: false,
         bulletscount: 0,
@@ -1068,6 +1069,7 @@ function yerSlider() {
             t.obj.nextbtn.on( t.stat.clicktype, function () {
                 
                 t.next_job();
+                t.stat.lasteventtype = 'click-next';
             });
         
             t.stat.nextbtnclickable = true;
@@ -1081,6 +1083,7 @@ function yerSlider() {
             t.obj.prevbtn.on( t.stat.clicktype, function () {
                 
                 t.prev_job();
+                t.stat.lasteventtype = 'click-prev';
             });
             
             t.stat.prevbtnclickable = true;
@@ -1866,12 +1869,13 @@ function yerSlider() {
 				if ( direction === 'right' ) {
                     
                     t.prev_job();
-                    
+                    t.stat.lasteventtype = 'swipe-right';
 				}
 				else if ( direction === 'left' ) {
                     
                     t.next_job();
-				}
+                    t.stat.lasteventtype = 'swipe-left';
+                }
 				
                 if ( t.param.autoplay && !t.stat.autoplayison ) {
 
