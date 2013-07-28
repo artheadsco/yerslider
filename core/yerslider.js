@@ -1068,8 +1068,8 @@ function yerSlider() {
             
             t.obj.nextbtn.on( t.stat.clicktype, function () {
                 
-                t.next_job();
                 t.stat.lasteventtype = 'click-next';
+                t.next_job();
             });
         
             t.stat.nextbtnclickable = true;
@@ -1082,8 +1082,8 @@ function yerSlider() {
         
             t.obj.prevbtn.on( t.stat.clicktype, function () {
                 
-                t.prev_job();
                 t.stat.lasteventtype = 'click-prev';
+                t.prev_job();
             });
             
             t.stat.prevbtnclickable = true;
@@ -1231,7 +1231,8 @@ function yerSlider() {
 
                 t.stat.isanimating = true;
                 t.stat.slidingright = true;
-
+                t.stat.lasteventtype = 'autoplay';
+                
                 //t.player_remove();
                 
                 t.next_slide();
@@ -1695,12 +1696,20 @@ function yerSlider() {
                     t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
                 }
             }
-            
-            if ( t.param.autoplay ) {
+
+            if ( t.param.autoplay && t.stat.lasteventtype === 'autoplay' ) {
                 
                 if ( t.stat.loop === 'none' && t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
            
                     t.stat.currentslideindex = 0;
+                }
+            }
+            
+            if ( t.param.autoplay && t.stat.lasteventtype === 'swipe-left' ) {
+                
+                if ( t.stat.loop === 'none' && t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
+           
+                    t.stat.currentslideindex =  t.stat.currentslideindex - t.stat.slidegroup;
                 }
             }
             
@@ -1868,13 +1877,13 @@ function yerSlider() {
 			
 				if ( direction === 'right' ) {
                     
-                    t.prev_job();
                     t.stat.lasteventtype = 'swipe-right';
+                    t.prev_job();
 				}
 				else if ( direction === 'left' ) {
                     
-                    t.next_job();
                     t.stat.lasteventtype = 'swipe-left';
+                    t.next_job();
                 }
 				
                 if ( t.param.autoplay && !t.stat.autoplayison ) {
