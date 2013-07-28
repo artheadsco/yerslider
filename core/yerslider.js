@@ -483,6 +483,7 @@ function yerSlider() {
                                                     if ( data.autoplay === 1 ) {
                                                     
                                                         t.stat.videoisplaying = true;
+                                                        t.autoplayclear();
                                                     }
                                                 
                                                 // }
