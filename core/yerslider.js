@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Johann Heyne
  *
  * Version 1
- * Update 2013-07-26
+ * Update 2013-28-00
  *
  * Minimum requirements: jQuery v1.6+
  *
