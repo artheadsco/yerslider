@@ -1925,8 +1925,13 @@ function YerSlider() {
     
     t.slides_equal_height = function () {
         
-        t.obj.slide.css( 'height', 'auto' );
-        t.obj.slide.height( t.obj.slider.height() );
+        window.setTimeout( function () {
+
+            t.obj.slide.css( 'height', 'auto' );
+            t.obj.slide.height( t.obj.slider.height() );
+            
+        }, 1000);
+        
     };
     
     // }
