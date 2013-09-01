@@ -284,8 +284,7 @@ function YerSlider() {
         
         t.obj.sliderwrap.css({
             position: 'relative',
-            width: '100%',
-            overflow: 'hidden'
+            width: '100%'
         });
         
         t.obj.slidermask.css({
