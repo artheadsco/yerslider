@@ -22,7 +22,7 @@ function onYouTubeIframeAPIReady() {
 	yerslider.youtubeready = true;
 }
 
-function yerSlider() {
+function YerSlider() {
     
     var t = this;
     
