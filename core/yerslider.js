@@ -2073,4 +2073,60 @@ function YerSlider() {
     };
 
     // }
+
+    // public {
+    
+        t.goto_slide = function ( p ) {
+
+            window.setTimeout(function(){
+            
+                var d = {
+                        id: false,
+                        align: false // false, center
+                    },
+                    i = 0,
+                    curr_index = false;
+
+                p = jQuery.extend ( true, d, p );
+
+                t.obj.slide.each( function () {
+
+                    var yersliderid = jQuery( this ).data('yersliderid').toString();
+
+                    if ( p.id.toString() === yersliderid ) {
+
+                        curr_index = i;
+
+                        if ( p.align === 'center' ) {
+                        
+                            curr_index = i - ( Math.ceil( t.stat.slidegroup / 2 ) - 1 );
+                        }
+                    }
+
+                    i++;
+                });
+
+                if ( curr_index ) {
+
+
+                    t.stat.currentslideindex = curr_index;
+
+                    t.check_slider_current_index();
+                    t.set_slide_current_class();
+                    t.set_slidesinviewport();
+                    t.refresh_prevnext();
+
+                    t.move_slider_to_current_index();
+
+                    if ( t.param.bullets ) {
+
+                        t.set_bullet_current();
+                        t.set_bullet_current_class();
+                    }
+                }
+
+            }, 250);
+        };
+        
+    // }
 }
