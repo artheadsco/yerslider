@@ -1921,7 +1921,13 @@ function YerSlider() {
 			allowPageScroll: 'vertical',
 			tap:function(event, target) {
                 /* this was a tab event */
+                
                 var href = jQuery(target).attr('href');
+                
+                if ( typeof href === 'undefined' ) {
+                    href = jQuery(target).parents('a').attr('href');
+                }
+                
                 if ( typeof href !== 'undefined' ) {
                     window.location = href;
                 }
