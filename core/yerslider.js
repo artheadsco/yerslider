@@ -1918,7 +1918,14 @@ function YerSlider() {
 		t.obj.slide.swipe( {
 			triggerOnTouchEnd: true,
 			swipeStatus: swipeStatus,
-			allowPageScroll: 'vertical'
+			allowPageScroll: 'vertical',
+			tap:function(event, target) {
+                /* this was a tab event */
+                var href = jQuery(target).attr('href');
+                if ( typeof href !== 'undefined' ) {
+                    window.location = href;
+                }
+            },
 		});
 
 	};
