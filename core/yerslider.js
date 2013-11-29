@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Johann Heyne
  *
  * Version 1
- * Update 2013-09-12
+ * Update 2013-11-29
  *
  * Minimum requirements: jQuery v1.6+
  *
@@ -1513,8 +1513,11 @@ function YerSlider() {
     
     t.move_slider_to_current_index = function () {
         
-        t.css_transitionduration( t.obj.slider, 0 );
-        t.css_transform( t.obj.slider, t.get_sliderposition() * -1 );
+        if ( t.stat.slidecount > 1 ) {
+
+            t.css_transitionduration( t.obj.slider, 0 );
+            t.css_transform( t.obj.slider, t.get_sliderposition() * -1 );
+        }
         
         //t.obj.slider.css({
         //    'margin-left': '-' + t.get_sliderposition() + 'px'
