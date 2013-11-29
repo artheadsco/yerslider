@@ -61,7 +61,7 @@ function YerSlider() {
         autoplayinterval: 3000, /* integer sec, 0 */
         autoplaystoponhover: true,
         showslidestype: 'fade',
-        showslidestime: 500,
+        //showslidestime: 500,
         swipe: false,
         swipeandprevnextbtn: false,
         swipeanimationspeed: 300,
