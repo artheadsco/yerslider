@@ -289,7 +289,8 @@ function YerSlider() {
         
         t.obj.slidermask.css({
             position: 'relative',
-            width: '100%'
+            width: '100%',
+            overflow: 'hidden',
         });
         
         /* remember font-size and line-height for the slides because
