@@ -1,0 +1,22 @@
+{
+    "name": "YerSlider",
+    "version": "1.0.0",
+    "description": "YerSlider is designed for developpers, high responsive and potentially can slide anything.",
+    "homepage": "http://demo.johannheyne.de/yerslider/demo/",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/johannheyne/yerslider.git"
+    },
+    "author": {
+        "name": "Johann Heyne",
+        "email": "mail@johannheyne.de",
+        "url": "http://www.johannheyne.de/"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.2",
+        "grunt-contrib-jshint": "~0.6.3",
+        "grunt-contrib-uglify": "~0.2.7",
+        "grunt-contrib-less": "~0.8.3"
+    },
+    "license": "MIT or GPL"
+}
