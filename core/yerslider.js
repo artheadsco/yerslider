@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Johann Heyne
  *
  * Version 1
- * Update 2013-11-29
+ * Update 2013-12-14
  *
  * Minimum requirements: jQuery v1.6+
  *
@@ -60,8 +60,10 @@ function YerSlider() {
         autoplay: false, /* true */
         autoplayinterval: 3000, /* integer sec, 0 */
         autoplaystoponhover: true,
-        showslidestype: 'fade',
-        //showslidestime: 500,
+        autoplaycontinuously: false, /* true */
+        autoplaycontinuouslyspeed: 10000,
+        autoplaycontinuouslystoponhover: true,
+        // showslidestime: 500,
         swipe: false,
         swipeandprevnextbtn: false,
         swipeanimationspeed: 300,
@@ -646,7 +648,7 @@ function YerSlider() {
 
         window.setTimeout(function(){
 
-            t.obj.slider.show( );
+            t.obj.slider.show();
 
         }, 200);
 
@@ -1224,35 +1226,67 @@ function YerSlider() {
     t.autoplayset = function () {
 
         if ( t.stat.autoplayison === false ) {
-        
-            t.stat.autoplayison = true;
-        
-            t.stat.autoplayinterval = window.setInterval( function () {
+            
+            // if autoplay continuously and CSS animation is possible
+            if ( t.param.autoplaycontinuously && t.stat.cssanimation ) {
 
-                if ( !t.stat.isanimating ) {
+                t.obj.slider.css({
+                    '-webkit-animation': 'slideshow ' + Math.round( t.param.autoplaycontinuouslyspeed / 1000 ) + 's linear infinite',
+                    '-webkit-transform': 'translate3d(0, 0, 0)',
+                });
 
-                    t.stat.isanimating = true;
-                    t.stat.slidingright = true;
-                    t.stat.lasteventtype = 'autoplay';
-                
-                    t.player_remove();
-                
-                    t.next_slide();
-                
-                    t.animate_slider_to_current_position( t.get_animationspeed() );
+                t.obj.sliderwrap.prev('style').remove();
+                t.obj.sliderwrap.before('<style>@-webkit-keyframes slideshow {0%{ -webkit-transform: translateX(0);}100%{-webkit-transform: translateX(-' + ( t.stat.slidewidth * t.stat.slidecount ) + 'px);}}</style>');
 
-                    t.refresh_prevnext();
+                if ( t.param.autoplaycontinuouslystoponhover ) {
 
-                    if ( t.param.bullets ) {
+                    t.obj.sliderwrap.on( 'mouseenter', function() {
+                        t.obj.slider.css({
+                            '-webkit-animation-play-state': 'paused',
+                        });
+                    });
 
-                        t.set_bullet_current();
-                        t.set_bullet_current_class();
-                    }
+                    t.obj.sliderwrap.on( 'mouseleave', function() {
+                        t.obj.slider.css({
+                            '-webkit-animation-play-state': 'running',
+                        });
+                    });
+                }
 
-                    t.stat.slidingright = false;
-                
-                }  
-            }, t.param.autoplayinterval );
+            }
+            
+            // if not autoplay continuously or autoplay continuously fallback if CSS animation is not possible
+            if ( !t.param.autoplaycontinuously || !t.stat.cssanimation ) {
+
+                t.stat.autoplayison = true;
+
+                t.stat.autoplayinterval = window.setInterval( function () {
+
+                    if ( !t.stat.isanimating ) {
+
+                        t.stat.isanimating = true;
+                        t.stat.slidingright = true;
+                        t.stat.lasteventtype = 'autoplay';
+
+                        t.player_remove();
+
+                        t.next_slide();
+
+                        t.animate_slider_to_current_position( t.get_animationspeed() );
+
+                        t.refresh_prevnext();
+
+                        if ( t.param.bullets ) {
+
+                            t.set_bullet_current();
+                            t.set_bullet_current_class();
+                        }
+
+                        t.stat.slidingright = false;
+
+                    }  
+                }, t.param.autoplayinterval );
+            }
         }
     };
 
