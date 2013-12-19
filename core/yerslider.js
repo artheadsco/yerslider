@@ -1230,26 +1230,23 @@ function YerSlider() {
             // if autoplay continuously and CSS animation is possible
             if ( t.param.autoplaycontinuously && t.stat.cssanimation ) {
 
-                t.obj.slider.css({
-                    '-webkit-animation': 'slideshow ' + Math.round( t.param.autoplaycontinuouslyspeed / 1000 ) + 's linear infinite',
-                    '-webkit-transform': 'translate3d(0, 0, 0)',
-                });
+                t.css_animation( t.obj.slider, 'slideshow ' + Math.round( t.param.autoplaycontinuouslyspeed / 1000 ) + 's linear infinite' );
+                t.css_transform( t.obj.slider, 'translate3d(0, 0, 0)' );
+
 
                 t.obj.sliderwrap.prev('style').remove();
-                t.obj.sliderwrap.before('<style>@-webkit-keyframes slideshow {0%{ -webkit-transform: translateX(0);}100%{-webkit-transform: translateX(-' + ( t.stat.slidewidth * t.stat.slidecount ) + 'px);}}</style>');
+                t.obj.sliderwrap.before('<style>' + t.css_keyframes( ( t.stat.slidewidth * t.stat.slidecount ) ) + '</style>');
 
                 if ( t.param.autoplaycontinuouslystoponhover ) {
 
                     t.obj.sliderwrap.on( 'mouseenter', function() {
-                        t.obj.slider.css({
-                            '-webkit-animation-play-state': 'paused',
-                        });
+                        
+                        t.css_animation_play_state( t.obj.slider, 'paused' );
                     });
 
                     t.obj.sliderwrap.on( 'mouseleave', function() {
-                        t.obj.slider.css({
-                            '-webkit-animation-play-state': 'running',
-                        });
+                        
+                        t.css_animation_play_state( t.obj.slider, 'running' );
                     });
                 }
 
@@ -1972,6 +1969,48 @@ function YerSlider() {
             });
         }
     };
+    
+    t.css_animation = function ( obj, value ) {
+
+        var animation = 'none';
+
+        if ( typeof(value) !== 'undefined' ) {
+
+            animation = value;
+        }
+        
+        if ( t.stat.cssanimation ) {
+        
+            obj.css({
+                '-webkit-animation': animation,
+                '-ms-animation': animation,
+                '-o-animation': animation,
+                '-moz-animation': animation,
+                'animation': animation
+            });
+        }
+    };
+    
+    t.css_animation_play_state = function ( obj, value ) {
+
+        var state = 'none';
+
+        if ( typeof(value) !== 'undefined' ) {
+
+            state = value;
+        }
+        
+        if ( t.stat.cssanimation ) {
+        
+            obj.css({
+                '-webkit-animation-play-state': state,
+                '-ms-animation-play-state': state,
+                '-o-animation-play-state': state,
+                '-moz-animation-play-state': state,
+                'animation-play-state': state
+            });
+        }
+    };
 
     t.css_transitiontiming = function ( obj, value ) {
 
@@ -2012,7 +2051,21 @@ function YerSlider() {
             });
         }
     };
+    
+    t.css_keyframes = function ( value ) {
 
+        if ( typeof(value) !== 'undefined' && t.stat.cssanimation ) {
+            
+            var ret = '@-webkit-keyframes slideshow {0%{ -webkit-transform: translateX(0);}100%{-webkit-transform: translateX(-' + value + 'px);}}' +
+                        '@-webkit-keyframes slideshow {0%{ -webkit-transform: translateX(0);}100%{-webkit-transform: translateX(-' + value + 'px);}}' +
+                        '@-ms-keyframes slideshow {0%{ -ms-transform: translateX(0);}100%{-ms-transform: translateX(-' + value + 'px);}}' +
+                        '@-o-keyframes slideshow {0%{ -o-transform: translateX(0);}100%{-o-transform: translateX(-' + value + 'px);}}' +
+                        '@-moz-keyframes slideshow {0%{ -moz-transform: translateX(0);}100%{-moz-transform: translateX(-' + value + 'px);}}' +
+                        '@keyframes slideshow {0%{ transform: translateX(0);}100%{transform: translateX(-' + value + 'px);}}';
+            return ret;
+        }
+    };
+    
     t.css_marginleft = function ( obj, value ) {
 
         if ( typeof(value) === 'undefined' ) {
