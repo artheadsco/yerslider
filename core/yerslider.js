@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Johann Heyne
  *
  * Version 1
- * Update 2013-12-14
+ * Update 2013-12-19
  *
  * Minimum requirements: jQuery v1.6+
  *
@@ -220,7 +220,7 @@ function YerSlider() {
 
         /* css animation */
 
-        if ( jQuery('html').hasClass('csstransforms3d csstransitions') && t.param.slidegroup > 0 ) {
+        if ( jQuery('html').is( '.csstransitions, .csstransforms3d, .cssanimations' ) && t.param.slidegroup > 0 ) {
 
             t.stat.cssanimation = true;
         }
@@ -1522,14 +1522,19 @@ function YerSlider() {
     t.move_slider_to_current_index = function () {
 
         if ( t.stat.slidecount > 1 ) {
+        
+            if ( t.stat.cssanimation ) {
+        
+                t.css_transitionduration( t.obj.slider, 0 );
+                t.css_transform( t.obj.slider, t.get_sliderposition() * -1 );
+            }
+            else {
 
-            t.css_transitionduration( t.obj.slider, 0 );
-            t.css_transform( t.obj.slider, t.get_sliderposition() * -1 );
+                t.obj.slider.css({
+                    'margin-left': '-' + t.get_sliderposition() + 'px'
+                });
+            }
         }
-
-        //t.obj.slider.css({
-        //    'margin-left': '-' + t.get_sliderposition() + 'px'
-        //});
     };
 
     t.animate_slider_to_current_position = function ( duration) {
@@ -1955,14 +1960,17 @@ function YerSlider() {
 
             transform = 'translate3d(' + value.toString() + 'px,0px,0px)';
         }
-
-        obj.css({
-            '-webkit-transform': transform,
-            '-ms-transform': transform,
-            '-o-transform': transform,
-            '-moz-transform': transform,
-            'transform': transform
-        });
+        
+        if ( t.stat.cssanimation ) {
+        
+            obj.css({
+                '-webkit-transform': transform,
+                '-ms-transform': transform,
+                '-o-transform': transform,
+                '-moz-transform': transform,
+                'transform': transform
+            });
+        }
     };
 
     t.css_transitiontiming = function ( obj, value ) {
@@ -1971,14 +1979,17 @@ function YerSlider() {
 
             value = 'none';
         }
+        
+        if ( t.stat.cssanimation ) {
 
-        obj.css({
-            '-webkit-transition-timing-function': value,
-            '-ms-transition-timing-function': value,
-            '-o-transition-timing-function': value,
-            '-moz-transition-timing-function': value,
-            'transition-timing-function': value
-        });
+            obj.css({
+                '-webkit-transition-timing-function': value,
+                '-ms-transition-timing-function': value,
+                '-o-transition-timing-function': value,
+                '-moz-transition-timing-function': value,
+                'transition-timing-function': value
+            });
+        }
     };
 
     t.css_transitionduration = function ( obj, value ) {
@@ -1990,13 +2001,16 @@ function YerSlider() {
 
         var duration = ( ( value / 1000 ).toFixed(1) + 's' );
 
-        obj.css({
-            '-webkit-transition-duration': duration,
-            '-ms-transition-duration': duration,
-            '-o-transition-duration': duration,
-            '-moz-transition-duration': duration,
-            'transition-duration': duration
-        });
+        if ( t.stat.cssanimation ) {
+        
+            obj.css({
+                '-webkit-transition-duration': duration,
+                '-ms-transition-duration': duration,
+                '-o-transition-duration': duration,
+                '-moz-transition-duration': duration,
+                'transition-duration': duration
+            });
+        }
     };
 
     t.css_marginleft = function ( obj, value ) {
