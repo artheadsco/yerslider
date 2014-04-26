@@ -1,18 +1,14 @@
 /*
- * yerSlider
+ * YerSlider
  * A javascript object for slided content
  *
- * Copyright (c) 2013 Johann Heyne
- *
- * Version 1
- * Update 2013-12-19
- *
- * Minimum requirements: jQuery v1.6+
+ * Copyright (c) 2014 Johann Heyne
  *
  * Terms of use:
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  */
+
 var yerslider = {};
 	yerslider.youtubeready = false;
 	yerslider.youtubeloaded = false;
