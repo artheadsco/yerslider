@@ -14,8 +14,8 @@
  *
  */
 var yerslider = {};
-    yerslider.youtubeready = false;
-    yerslider.youtubeloaded = false;
+	yerslider.youtubeready = false;
+	yerslider.youtubeloaded = false;
 
 function onYouTubeIframeAPIReady() {
 
@@ -24,1827 +24,1826 @@ function onYouTubeIframeAPIReady() {
 
 function YerSlider() {
 
-    var t = this;
-
-    t.param = {
-        slidegap: 0,
-        slidegroupresp: {},
-        slidegroup: 1,
-        sliderid: '.yerslider',
-        sliderwrapclass: '.yerslider-wrap',
-        sliderwrapclasshasbullets: '.yerslider-has-bullets',
-        slidermaskclass: '.yerslider-mask',
-        sliderclass: '.yerslider-slider',
-        slideclass: '.yerslider-slide',
-        bulletswrapclass: '.yerslider-bullets-wrap',
-        bulletclass: '.yerslider-bullet',
-        bulletcurrentclass: '.yerslider-bullet-current',
-        bulletclickable: true,
-        nextbtn: true,
-        prevbtn: true,
-        scrolltop: false,
-        scrolltopval: 0,
-        scrolltopspeed: 500,
-        prevnextclass: '.yerslider-prevnext',
-        nextclass: '.yerslider-next',
-        prevclass: '.yerslider-prev',
-        nextclassadd: '',
-        prevclassadd: '',
-        nextinactiveclass: '.yerslider-next-inactive',
-        previnactiveclass: '.yerslider-prev-inactive',
-        animationspeed: 1000,
-        animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
-        bullets: false,
-        loop: 'none', /* appending, rollback, from-first */
-        loopswipe: 'none',
-        autoplay: false, /* true */
-        autoplayinterval: 3000, /* integer sec, 0 */
-        autoplaystoponhover: true,
-        autoplaycontinuously: false, /* true */
-        autoplaycontinuouslyspeed: 10000,
-        autoplaycontinuouslystoponhover: true,
-        // showslidestime: 500,
-        swipe: false,
-        swipeandprevnextbtn: false,
-        swipeanimationspeed: 300,
-        sublimevideo: false,
-        autoloadyoutubeiframeapi: true,
-        videoplayercloseafterend: true
-    };
-
-    t.stat = {
-        slidegroupmax: 1,
-        slidegroup: 1,
-        currentslideindex: 0,
-        currentslideposition: 0,
-        slidecount: 0,
-        slidermaskwidth: 0,
-        slidewidth: 0,
-        isanimating: false,
-        isswiping: false,
-        lasteventtype: false,
-        nextbtnclickable: false,
-        prevbtnclickable: false,
-        bulletscount: 0,
-        bulletscountcache: 0,
-        bulletcurrent: 0,
-        bulletschanged: false,
-        slidingleft: false,
-        slidingright: false,
-        resizing: false,
-        cssanimation: false,
-        isevent: false,
-        touch: false,
-        clicktype: 'click',
-        isios: false,
-        isresizing: false,
-        slidesinviewportindexbegin: false,
-        slidesinviewportindexend: false,
-        slidesinviewportindexes: false,
-        autoplayinterval: false,
-        autoplayison: false,
-        videoidindex: 0,
-        videoplayerindex: 0,
-        lastplayedvideo: false,
-        videoisplaying: false,
-        loop: false
-    };
-
-    t.obj = {
-        sliderid: undefined,
-        sliderwrap: undefined,
-        slider: undefined,
-        slide: undefined,
-        bulletswrap: undefined,
-        bullets: undefined,
-        prevbtn: undefined,
-        nextbtn: undefined,
-        videoplayers: {},
-        slides_videoplayers: {}
-    };
-
-    // init {
-
-    t.init = function ( p ) {
+	var t = this;
+
+	t.param = {
+		slidegap: 0,
+		slidegroupresp: {},
+		slidegroup: 1,
+		sliderid: '.yerslider',
+		sliderwrapclass: '.yerslider-wrap',
+		sliderwrapclasshasbullets: '.yerslider-has-bullets',
+		slidermaskclass: '.yerslider-mask',
+		sliderclass: '.yerslider-slider',
+		slideclass: '.yerslider-slide',
+		bulletswrapclass: '.yerslider-bullets-wrap',
+		bulletclass: '.yerslider-bullet',
+		bulletcurrentclass: '.yerslider-bullet-current',
+		bulletclickable: true,
+		nextbtn: true,
+		prevbtn: true,
+		scrolltop: false,
+		scrolltopval: 0,
+		scrolltopspeed: 500,
+		prevnextclass: '.yerslider-prevnext',
+		nextclass: '.yerslider-next',
+		prevclass: '.yerslider-prev',
+		nextclassadd: '',
+		prevclassadd: '',
+		nextinactiveclass: '.yerslider-next-inactive',
+		previnactiveclass: '.yerslider-prev-inactive',
+		animationspeed: 1000,
+		animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
+		bullets: false,
+		loop: 'none', /* appending, rollback, from-first */
+		loopswipe: 'none',
+		autoplay: false, /* true */
+		autoplayinterval: 3000, /* integer sec, 0 */
+		autoplaystoponhover: true,
+		autoplaycontinuously: false, /* true */
+		autoplaycontinuouslyspeed: 10000,
+		autoplaycontinuouslystoponhover: true,
+		// showslidestime: 500,
+		swipe: false,
+		swipeandprevnextbtn: false,
+		swipeanimationspeed: 300,
+		sublimevideo: false,
+		autoloadyoutubeiframeapi: true,
+		videoplayercloseafterend: true
+	};
+
+	t.stat = {
+		slidegroupmax: 1,
+		slidegroup: 1,
+		currentslideindex: 0,
+		currentslideposition: 0,
+		slidecount: 0,
+		slidermaskwidth: 0,
+		slidewidth: 0,
+		isanimating: false,
+		isswiping: false,
+		lasteventtype: false,
+		nextbtnclickable: false,
+		prevbtnclickable: false,
+		bulletscount: 0,
+		bulletscountcache: 0,
+		bulletcurrent: 0,
+		bulletschanged: false,
+		slidingleft: false,
+		slidingright: false,
+		resizing: false,
+		cssanimation: false,
+		isevent: false,
+		touch: false,
+		clicktype: 'click',
+		isios: false,
+		isresizing: false,
+		slidesinviewportindexbegin: false,
+		slidesinviewportindexend: false,
+		slidesinviewportindexes: false,
+		autoplayinterval: false,
+		autoplayison: false,
+		videoidindex: 0,
+		videoplayerindex: 0,
+		lastplayedvideo: false,
+		videoisplaying: false,
+		loop: false
+	};
+
+	t.obj = {
+		sliderid: undefined,
+		sliderwrap: undefined,
+		slider: undefined,
+		slide: undefined,
+		bulletswrap: undefined,
+		bullets: undefined,
+		prevbtn: undefined,
+		nextbtn: undefined,
+		videoplayers: {},
+		slides_videoplayers: {}
+	};
+
+	// init {
+
+	t.init = function ( p ) {
 
-        t.init_getdefaultparam( p );
+		t.init_getdefaultparam( p );
 
-        if ( jQuery( t.param.sliderid ).length > 0 ) {
+		if ( jQuery( t.param.sliderid ).length > 0 ) {
 
-            t.init_loadyoutubeiframeapi();
+			t.init_loadyoutubeiframeapi();
 
-            if ( t.param.sublimevideo ) {
+			if ( t.param.sublimevideo ) {
 
-            }
+			}
 
-            t.init_animation();
+			t.init_animation();
 
-            t.init_touch();
+			t.init_touch();
 
-            t.init_param_changin();
+			t.init_param_changin();
 
-            t.init_isios();
+			t.init_isios();
 
-            t.init_ojects();
+			t.init_ojects();
 
-            t.obj.slider.hide();
+			t.obj.slider.hide();
 
-            t.init_css();
+			t.init_css();
 
-            t.set_slidermaskwidth();
-            t.set_slidecount();
-            t.set_slidegroup();
-            t.set_slidegroupmax();
-            t.set_slidesinviewport();
-            t.set_slidewidth();
-            t.set_slideheight();
-            t.clon_slides();
-            t.set_prevnext();
+			t.set_slidermaskwidth();
+			t.set_slidecount();
+			t.set_slidegroup();
+			t.set_slidegroupmax();
+			t.set_slidesinviewport();
+			t.set_slidewidth();
+			t.set_slideheight();
+			t.clon_slides();
+			t.set_prevnext();
 
-            t.bullets();
+			t.bullets();
 
-            t.init_touchswipe();
+			t.init_touchswipe();
 
-            t.init_iosresizeclickbug();
+			t.init_iosresizeclickbug();
 
-            t.init_showslides();
+			t.init_showslides();
 
-            t.check_slider_current_index_at_start();
+			t.check_slider_current_index_at_start();
 
-            t.autoplayinit();
+			t.autoplayinit();
 
-            t.init_video();
+			t.init_video();
 
-            window.setTimeout(function(){
+			window.setTimeout(function(){
 
-                t.slides_equal_height();
+				t.slides_equal_height();
 
-            }, 150);
+			}, 150);
 
-            // slider opening delay plus effect {
+			// slider opening delay plus effect {
 
-                t.obj.sliderwrap.css('opacity','0');
+				t.obj.sliderwrap.css('opacity','0');
 
-                window.setTimeout(function(){
+				window.setTimeout(function(){
 
-                    t.obj.sliderwrap.css('opacity','1').hide().fadeIn('fast');
-                }, 250);
+					t.obj.sliderwrap.css('opacity','1').hide().fadeIn('fast');
+				}, 250);
 
-            // }
-        }
-    };
+			// }
+		}
+	};
 
-    t.init_loadyoutubeiframeapi = function () {
+	t.init_loadyoutubeiframeapi = function () {
 
-        if ( t.param.autoloadyoutubeiframeapi && !yerslider.youtubeloaded ) {
+		if ( t.param.autoloadyoutubeiframeapi && !yerslider.youtubeloaded ) {
 
-            jQuery.getScript("http://www.youtube.com/iframe_api", function( data, textStatus, jqxhr ) {
+			jQuery.getScript("http://www.youtube.com/iframe_api", function( data, textStatus, jqxhr ) {
 
-                yerslider.youtubeloaded = true;
-            });
-        }
-    };
+				yerslider.youtubeloaded = true;
+			});
+		}
+	};
 
-    t.init_getdefaultparam = function ( p ) {
+	t.init_getdefaultparam = function ( p ) {
 
-        /* get default parameters */
+		/* get default parameters */
 
-        t.param = t.helper.setDefaultParam({
-            p: p,
-            d: t.param
-        });
+		t.param = t.helper.setDefaultParam({
+			p: p,
+			d: t.param
+		});
 
-    };
+	};
 
-    t.init_animation = function () {
+	t.init_animation = function () {
 
-        /* css animation */
+		/* css animation */
 
-        if ( jQuery('html').is( '.csstransitions, .csstransforms3d, .cssanimations' ) && t.param.slidegroup > 0 ) {
+		if ( jQuery('html').is( '.csstransitions, .csstransforms3d, .cssanimations' ) && t.param.slidegroup > 0 ) {
 
-            t.stat.cssanimation = true;
-        }
+			t.stat.cssanimation = true;
+		}
 
-    };
+	};
 
-    t.init_touch = function () {
+	t.init_touch = function () {
 
-        /* touch */
+		/* touch */
 
-        if ( jQuery('html').hasClass('touch') ) {
+		if ( jQuery('html').hasClass('touch') ) {
 
-            t.stat.touch = true;
-            t.stat.clicktype = 'touchend';
-        }
+			t.stat.touch = true;
+			t.stat.clicktype = 'touchend';
+		}
 
-        if ( t.stat.touch && t.param.swipe && !t.param.swipeandprevnextbtn ) {
+		if ( t.stat.touch && t.param.swipe && !t.param.swipeandprevnextbtn ) {
 
-             t.param.nextbtn = false;
-             t.param.prevbtn = false;
-         }
-    };
+			 t.param.nextbtn = false;
+			 t.param.prevbtn = false;
+		 }
+	};
 
-    t.init_param_changin = function () {
+	t.init_param_changin = function () {
 
-        // set t.stat.loop {
+		// set t.stat.loop {
 
-            t.stat.loop = t.param.loop;
+			t.stat.loop = t.param.loop;
 
-            if ( t.stat.touch && t.param.swipe ) {
+			if ( t.stat.touch && t.param.swipe ) {
 
-                t.stat.loop = t.param.loopswipe;
-            }
+				t.stat.loop = t.param.loopswipe;
+			}
 
-        // }
-    };
+		// }
+	};
 
-    t.init_isios = function () {
+	t.init_isios = function () {
 
-        /* is iOS */
+		/* is iOS */
 
-        if ( navigator.userAgent.match(/(iPod|iPhone|iPad)/) ) {
+		if ( navigator.userAgent.match(/(iPod|iPhone|iPad)/) ) {
 
-            t.stat.isios = true;
-        }
-    };
+			t.stat.isios = true;
+		}
+	};
 
-    t.init_ojects = function () {
+	t.init_ojects = function () {
 
-        /* define slider objects */
+		/* define slider objects */
 
-        t.obj.sliderid = jQuery( t.param.sliderid );
-        t.obj.sliderwrap = jQuery( t.param.sliderid );
-        t.obj.slidermask = jQuery( t.param.sliderid + ' ' + t.param.slidermaskclass );
-        t.obj.slider = jQuery( t.param.sliderid + ' ' + t.param.sliderclass );
-        t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
-    };
+		t.obj.sliderid = jQuery( t.param.sliderid );
+		t.obj.sliderwrap = jQuery( t.param.sliderid );
+		t.obj.slidermask = jQuery( t.param.sliderid + ' ' + t.param.slidermaskclass );
+		t.obj.slider = jQuery( t.param.sliderid + ' ' + t.param.sliderclass );
+		t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+	};
 
-    t.init_css = function () {
+	t.init_css = function () {
 
-        /* layout slider */
+		/* layout slider */
 
-        t.obj.sliderwrap.css({
-            position: 'relative',
-            width: '100%'
-        });
+		t.obj.sliderwrap.css({
+			position: 'relative',
+			width: '100%'
+		});
 
-        t.obj.slidermask.css({
-            position: 'relative',
-            width: '100%',
-            overflow: 'hidden',
-        });
+		t.obj.slidermask.css({
+			position: 'relative',
+			width: '100%',
+			overflow: 'hidden',
+		});
 
-        /* remember font-size and line-height for the slides because
-        the font-size and line-height of the slider needs to be zero
+		/* remember font-size and line-height for the slides because
+		the font-size and line-height of the slider needs to be zero
 
-        var obj_slide_css = [];
+		var obj_slide_css = [];
 
-            obj_slide_css.fontsize = t.obj.slide.css('font-size');
-            obj_slide_css.lineheight = t.obj.slide.css('line-height'); */
+			obj_slide_css.fontsize = t.obj.slide.css('font-size');
+			obj_slide_css.lineheight = t.obj.slide.css('line-height'); */
 
-        t.obj.slider.css({
-            'white-space': 'nowrap',
-            position: 'relative',
-            'list-style-type': 'none',
-            padding: 0,
-            margin: 0,
-            'line-height': 0,
-            'font-size': 0
-        });
+		t.obj.slider.css({
+			'white-space': 'nowrap',
+			position: 'relative',
+			'list-style-type': 'none',
+			padding: 0,
+			margin: 0,
+			'line-height': 0,
+			'font-size': 0
+		});
 
-        t.obj.slide.css({
-            display: 'inline-block',
-            'white-space': 'normal'/*,
-            'font-size': obj_slide_css.fontsize,
-            'line-height': obj_slide_css.lineheight*/
-        });
-    };
+		t.obj.slide.css({
+			display: 'inline-block',
+			'white-space': 'normal'/*,
+			'font-size': obj_slide_css.fontsize,
+			'line-height': obj_slide_css.lineheight*/
+		});
+	};
 
-    t.init_touchswipe = function () {
+	t.init_touchswipe = function () {
 
-         /* touch swipe */
+		 /* touch swipe */
 
-         if ( t.stat.touch && t.param.swipe ) {
+		 if ( t.stat.touch && t.param.swipe ) {
 
-             t.touchswipe();
-         }
-    };
+			 t.touchswipe();
+		 }
+	};
 
-    t.init_iosresizeclickbug = function () {
+	t.init_iosresizeclickbug = function () {
 
-         /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
+		 /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
 
-         /*t.obj.sliderwrap.on( t.stat.clicktype, function () {
+		 /*t.obj.sliderwrap.on( t.stat.clicktype, function () {
 
-             t.stat.isevent  = true;
+			 t.stat.isevent	 = true;
 
-             window.setTimeout(function(){
+			 window.setTimeout(function(){
 
-                 t.stat.isevent= false;
-             }, 200);
-         });
-         */
-         jQuery(window).resize( function() {
+				 t.stat.isevent= false;
+			 }, 200);
+		 });
+		 */
+		 jQuery(window).resize( function() {
 
-            window.setTimeout(function(){
+			window.setTimeout(function(){
 
-                if ( !t.stat.isresizing && !t.stat.isevent ) {
+				if ( !t.stat.isresizing && !t.stat.isevent ) {
 
-                    t.resize();
-                }
-             }, 100);
-         }); 
-    };
+					t.resize();
+				}
+			 }, 100);
+		 }); 
+	};
 
-    t.init_video = function () {
+	t.init_video = function () {
 
-        // hide play button text {
+		// hide play button text {
 
-            jQuery('.yerslider-video-play').wrapInner('<div style="visibility: hidden;">');
+			jQuery('.yerslider-video-play').wrapInner('<div style="visibility: hidden;">');
 
-        // }
+		// }
 
-        // set slide index {
+		// set slide index {
 
-        var slide,
-            slideindex = 0;
+		var slide,
+			slideindex = 0;
 
-        t.obj.slide.each( function () {
+		t.obj.slide.each( function () {
 
-            slide = jQuery( this );
-            slide.data('slideindex', ++slideindex );
-        });
+			slide = jQuery( this );
+			slide.data('slideindex', ++slideindex );
+		});
 
-        // }
+		// }
 
-        // each video {
+		// each video {
 
-            t.obj.slider.find('.yerslider-video').each( function() {
+			t.obj.slider.find('.yerslider-video').each( function() {
 
-                // default video data {
+				// default video data {
 
-                    var obj = {
-                            video: {},
-                            play: {},
-                            player: {},
-                            preview: {}
-                        },
-                        data = {
-                            videotype: false,
-                            videoid: false,
-                            previewimg: false,
-                            autoplay: 1,
-                            showinfo: 0,
-                            rel: 1,
-                            ratio: '16:9'
-                        };
+					var obj = {
+							video: {},
+							play: {},
+							player: {},
+							preview: {}
+						},
+						data = {
+							videotype: false,
+							videoid: false,
+							previewimg: false,
+							autoplay: 1,
+							showinfo: 0,
+							rel: 1,
+							ratio: '16:9'
+						};
 
-                // }
+				// }
 
-                // extend data from video element {
+				// extend data from video element {
 
-                    obj.video = jQuery( this );
-                    jQuery.extend( data, obj.video.data() );
+					obj.video = jQuery( this );
+					jQuery.extend( data, obj.video.data() );
 
-                // }
+				// }
 
-                // load auto preview image {
+				// load auto preview image {
 
-                if ( data.previewimg === 'auto' ) {
+				if ( data.previewimg === 'auto' ) {
 
-                    if ( data.videotype === 'youtube' ) {
+					if ( data.videotype === 'youtube' ) {
 
-                        if ( data.ratio === '16:9' ) {
+						if ( data.ratio === '16:9' ) {
 
-                            obj.video.append('<img class="yerslider-video-preview" src="http://img.youtube.com/vi/' + data.videoid + '/mqdefault.jpg"/>');
-                        }
+							obj.video.append('<img class="yerslider-video-preview" src="http://img.youtube.com/vi/' + data.videoid + '/mqdefault.jpg"/>');
+						}
 
-                        if ( data.ratio === '4:3' ) {
+						if ( data.ratio === '4:3' ) {
 
-                            obj.video.append('<img class="yerslider-video-preview" class="" src="http://img.youtube.com/vi/' + data.videoid + '/0.jpg"/>');
-                        }
-                    }
+							obj.video.append('<img class="yerslider-video-preview" class="" src="http://img.youtube.com/vi/' + data.videoid + '/0.jpg"/>');
+						}
+					}
 
-                    obj.preview = obj.video.find( '.yerslider-video-preview' );
-                }
+					obj.preview = obj.video.find( '.yerslider-video-preview' );
+				}
 
-                // }
+				// }
 
-                // set play event {
+				// set play event {
 
-                    if ( data.videotype === 'youtube' ) {
+					if ( data.videotype === 'youtube' ) {
 
-                        obj.play = obj.video.find( '.yerslider-video-play' );
+						obj.play = obj.video.find( '.yerslider-video-play' );
 
-                        obj.play.on('click', function( event ) {
+						obj.play.on('click', function( event ) {
 
-                            event.preventDefault();
+							event.preventDefault();
 
-                            // hide preview {
+							// hide preview {
 
-                            obj.preview.hide();
-                            obj.play.hide();
+							obj.preview.hide();
+							obj.play.hide();
 
-                            // }
+							// }
 
-                            // ini player {
+							// ini player {
 
-                                // youtubeready {
+								// youtubeready {
 
-                                    var count = 0,
-                                    timer = setInterval( function() {
+									var count = 0,
+									timer = setInterval( function() {
 
-                                        if ( yerslider.youtubeready ) {
+										if ( yerslider.youtubeready ) {
 
-                                            // body {
+											// body {
 
-                                                // player html {
+												// player html {
 
-                                                    obj.video.append('<div id="' + data.videoid + '" class="yerslider-video-player">');
-                                                    obj.player = obj.video.find('.yerslider-video-player');
+													obj.video.append('<div id="' + data.videoid + '" class="yerslider-video-player">');
+													obj.player = obj.video.find('.yerslider-video-player');
 
-                                                // }
+												// }
 
-                                                // player object {
+												// player object {
 
-                                                    t.obj.videoplayers[ data.videoid ] = {
-                                                        'type': 'youtube',
-                                                        'id': data.videoid,
-                                                        'slide': obj.video.parents('.yerslider-slide').data('slideindex'),
-                                                        'api': new YT.Player( data.videoid, {
-                                                            videoId: data.videoid,
-                                                            playerVars: {
-                                                                rel: data.rel,
-                                                                autoplay: data.autoplay,
-                                                                showinfo: data.showinfo,
-                                                                wmode: 'opaque',
-                                                                events: {
-                                                                    'onReady': t.player_fix_ratio( data.videoid )
-                                                                }
-                                                            }
-                                                        }),
-                                                        'status': false
-                                                    };
+													t.obj.videoplayers[ data.videoid ] = {
+														'type': 'youtube',
+														'id': data.videoid,
+														'slide': obj.video.parents('.yerslider-slide').data('slideindex'),
+														'api': new YT.Player( data.videoid, {
+															videoId: data.videoid,
+															playerVars: {
+																rel: data.rel,
+																autoplay: data.autoplay,
+																showinfo: data.showinfo,
+																wmode: 'opaque',
+																events: {
+																	'onReady': t.player_fix_ratio( data.videoid )
+																}
+															}
+														}),
+														'status': false
+													};
 
-                                                    t.obj.videoplayers[ data.videoid ].status = 'started'; 
-                                                    t.obj.videoplayers[ data.videoid ].api.addEventListener( 'onStateChange', t.player_youtube_statechange );
-                                                // }
+													t.obj.videoplayers[ data.videoid ].status = 'started'; 
+													t.obj.videoplayers[ data.videoid ].api.addEventListener( 'onStateChange', t.player_youtube_statechange );
+												// }
 
-                                                // set stat video is playing if autoplay = 1 {
+												// set stat video is playing if autoplay = 1 {
 
-                                                    if ( data.autoplay === 1 ) {
+													if ( data.autoplay === 1 ) {
 
-                                                        t.stat.videoisplaying = true;
-                                                        t.autoplayclear();
-                                                    }
+														t.stat.videoisplaying = true;
+														t.autoplayclear();
+													}
 
-                                                // }
+												// }
 
-                                                t.stat.lastplayedvideo = data.videoid;
+												t.stat.lastplayedvideo = data.videoid;
 
-                                                // player is in slide {
+												// player is in slide {
 
-                                                    if ( typeof t.obj.slides_videoplayers[ slide.data('slideindex') ] === 'undefined' ) {
+													if ( typeof t.obj.slides_videoplayers[ slide.data('slideindex') ] === 'undefined' ) {
 
-                                                        t.obj.slides_videoplayers[ slide.data('slideindex') ] = {};
-                                                    }
+														t.obj.slides_videoplayers[ slide.data('slideindex') ] = {};
+													}
 
-                                                    t.obj.slides_videoplayers[ slide.data('slideindex') ][ data.videoid ] = true;
+													t.obj.slides_videoplayers[ slide.data('slideindex') ][ data.videoid ] = true;
 
-                                                // }
+												// }
 
-                                            // }
+											// }
 
-                                            clearInterval( timer );
-                                        }
+											clearInterval( timer );
+										}
 
-                                        if ( ++count > 600 ) {
+										if ( ++count > 600 ) {
 
-                                            clearInterval( timer );
-                                        }
-                                    }, 100 );
+											clearInterval( timer );
+										}
+									}, 100 );
 
-                                // }
+								// }
 
-                                t.stat.videoidindex++;
+								t.stat.videoidindex++;
 
-                            // }
-                        });
-                    }
+							// }
+						});
+					}
 
-                    else if ( param.videotype === 'vimeo' ) {
+					else if ( param.videotype === 'vimeo' ) {
 
-                    }
+					}
 
-                    else if ( param.videotype === 'sublimevideo' ) {
+					else if ( param.videotype === 'sublimevideo' ) {
 
-                    }
+					}
 
-                // }
-            });
+				// }
+			});
 
-        // }
+		// }
 
-        /* old stuff {
+		/* old stuff {
 
-        // t.obj.videoplayers
+		// t.obj.videoplayers
 
-                if ( param.videotype === 'youtube' ) {
+				if ( param.videotype === 'youtube' ) {
 
-                    var count = 0,
-                    timer = setInterval( function() {
+					var count = 0,
+					timer = setInterval( function() {
 
-                        if ( yerslider.youtubeready ) {
+						if ( yerslider.youtubeready ) {
 
-                            // youtubeready body begin
+							// youtubeready body begin
 
-                            var intervalvalue = 1,
-                            playerid = 'playerid' + t.stat.videoidindex++;
+							var intervalvalue = 1,
+							playerid = 'playerid' + t.stat.videoidindex++;
 
-                            videoobj.attr('id', playerid );
+							videoobj.attr('id', playerid );
 
-                            t.obj.videoplayers[ id ] = {
-                                'type': 'youtube',
-                                'id': playerid,
-                                'slide': slide.data('slideindex'),
-                                'api': new YT.Player( playerid, {
-                                    videoId: param.youtubeid,
-                                    playerVars: {
-                                        height: '100%',
-                                        width: '100%',
-                                        rel: param.rel,
-                                        autoplay: param.autoplay,
-                                        showinfo: param.showinfo,
-                                        wmode: 'opaque'
-                                    }
-                                }),
-                                'status': false
-                            };
+							t.obj.videoplayers[ id ] = {
+								'type': 'youtube',
+								'id': playerid,
+								'slide': slide.data('slideindex'),
+								'api': new YT.Player( playerid, {
+									videoId: param.youtubeid,
+									playerVars: {
+										height: '100%',
+										width: '100%',
+										rel: param.rel,
+										autoplay: param.autoplay,
+										showinfo: param.showinfo,
+										wmode: 'opaque'
+									}
+								}),
+								'status': false
+							};
 
-                            // youtubeready body end
+							// youtubeready body end
 
-                            clearInterval( timer );
-                        }
+							clearInterval( timer );
+						}
 
-                        if ( ++count > 600 ) {
+						if ( ++count > 600 ) {
 
-                            clearInterval( timer );
-                        }
-                    }, 100 );
+							clearInterval( timer );
+						}
+					}, 100 );
 
-                    t.stat.videoidindex++;
-                }
+					t.stat.videoidindex++;
+				}
 
-                else if ( param.videotype === 'vimeo' ) {
+				else if ( param.videotype === 'vimeo' ) {
 
-                }
+				}
 
-                else if ( param.videotype === 'sublimevideo' ) {
+				else if ( param.videotype === 'sublimevideo' ) {
 
-                    sublime.ready(function(){
+					sublime.ready(function(){
 
-                        // t.obj.videoplayers
+						// t.obj.videoplayers
 
-                        t.obj.videoplayers[ id ] = {
-                            'type': 'sublimevideo',
-                            'id': id,
-                            'slide': slide.data('slideindex'),
-                            'api': sublime.player( id ),
-                            'status': false
-                        };
+						t.obj.videoplayers[ id ] = {
+							'type': 'sublimevideo',
+							'id': id,
+							'slide': slide.data('slideindex'),
+							'api': sublime.player( id ),
+							'status': false
+						};
 
-                        t.obj.videoplayers[ id ].api.on({
-                            start: function(player) {
-                                t.obj.videoplayers[ id ].status = 'started'; 
-                                t.stat.lastplayedvideo = id;
-                            },
-                            pause: function(player) {
-                                t.obj.videoplayers[ id ].status = 'paused';
-                                t.stat.lastplayedvideo = id;
-                            },
-                            end:   function(player) {
-                                t.obj.videoplayers[ id ].status = 'ended';
-                                t.stat.lastplayedvideo = id;
-                            }
-                        });
+						t.obj.videoplayers[ id ].api.on({
+							start: function(player) {
+								t.obj.videoplayers[ id ].status = 'started'; 
+								t.stat.lastplayedvideo = id;
+							},
+							pause: function(player) {
+								t.obj.videoplayers[ id ].status = 'paused';
+								t.stat.lastplayedvideo = id;
+							},
+							end:   function(player) {
+								t.obj.videoplayers[ id ].status = 'ended';
+								t.stat.lastplayedvideo = id;
+							}
+						});
 
-                        t.stat.videoplayerindex++;
+						t.stat.videoplayerindex++;
 
-                        // t.obj.slides_videoplayers
+						// t.obj.slides_videoplayers
 
-                        if ( typeof t.obj.slides_videoplayers[ slide.data('slideindex') ] === 'undefined' ) {
+						if ( typeof t.obj.slides_videoplayers[ slide.data('slideindex') ] === 'undefined' ) {
 
-                            t.obj.slides_videoplayers[ slide.data('slideindex') ] = {};
-                        }
+							t.obj.slides_videoplayers[ slide.data('slideindex') ] = {};
+						}
 
-                        t.obj.slides_videoplayers[ slide.data('slideindex') ][ id ] = true; 
-                    });
-                }
+						t.obj.slides_videoplayers[ slide.data('slideindex') ][ id ] = true; 
+					});
+				}
 
-        } */
-    };
+		} */
+	};
 
-    t.init_showslides = function () {
+	t.init_showslides = function () {
 
-        window.setTimeout(function(){
+		window.setTimeout(function(){
 
-            t.obj.slider.show();
+			t.obj.slider.show();
 
-        }, 200);
+		}, 200);
 
-        /*
-        t.stat.isanimating = true;
+		/*
+		t.stat.isanimating = true;
 
-        window.setTimeout(function(){
+		window.setTimeout(function(){
 
-            if ( t.stat.cssanimation ) {
+			if ( t.stat.cssanimation ) {
 
-                t.css_transitionduration( t.obj.slider, t.param.showslidestime );
+				t.css_transitionduration( t.obj.slider, t.param.showslidestime );
 
-                t.obj.slider.fadeIn( 1000 );
+				t.obj.slider.fadeIn( 1000 );
 
-                t.css_transitionduration( t.obj.slider );
-            }
+				t.css_transitionduration( t.obj.slider );
+			}
 
-            else {
+			else {
 
-                t.obj.slider.fadeIn(t.param.showslidestime);
-            }
+				t.obj.slider.fadeIn(t.param.showslidestime);
+			}
 
-        }, 5000);
+		}, 5000);
 
-        window.setTimeout(function(){
+		window.setTimeout(function(){
 
-            t.stat.isanimating = false;
+			t.stat.isanimating = false;
 
-        }, t.param.showslidestime + 100);
-        */
-    };
+		}, t.param.showslidestime + 100);
+		*/
+	};
 
-    // }
+	// }
 
-    // video players {
+	// video players {
 
-    t.player_youtube_play = function ( id ) {
+	t.player_youtube_play = function ( id ) {
 
-        t.obj.videoplayers[ id ].api.playVideo();
-        t.stat.videoisplaying = true;
-    };
+		t.obj.videoplayers[ id ].api.playVideo();
+		t.stat.videoisplaying = true;
+	};
 
-    t.player_youtube_pause = function ( id ) {
+	t.player_youtube_pause = function ( id ) {
 
-        t.obj.videoplayers[ id ].api.pauseVideo();
-        t.stat.videoisplaying = false;
-    };
+		t.obj.videoplayers[ id ].api.pauseVideo();
+		t.stat.videoisplaying = false;
+	};
 
-    t.player_youtube_statechange = function ( event ) {
+	t.player_youtube_statechange = function ( event ) {
 
-        if ( event.data === 0 ) {
+		if ( event.data === 0 ) {
 
-            if ( t.param.videoplayercloseafterend ) {
+			if ( t.param.videoplayercloseafterend ) {
 
-                t.player_remove();
+				t.player_remove();
 
-                if ( t.param.autoplay && t.stat.touch && t.param.swipe ) {
+				if ( t.param.autoplay && t.stat.touch && t.param.swipe ) {
 
-                    t.autoplayset();
-                }
-            }
-        }
+					t.autoplayset();
+				}
+			}
+		}
 
-        if ( event.data === 1 && event.data === -1 ) {
+		if ( event.data === 1 && event.data === -1 ) {
 
-            if ( t.param.autoplay ) {
+			if ( t.param.autoplay ) {
 
-                t.autoplayclear();
-            }
-        }
+				t.autoplayclear();
+			}
+		}
 
-        if ( event.data === 2 ) {
+		if ( event.data === 2 ) {
 
-            t.stat.videoisplaying = false;
+			t.stat.videoisplaying = false;
 
-            if ( t.stat.touch && t.param.autoplay ) {
+			if ( t.stat.touch && t.param.autoplay ) {
 
-                t.autoplayset();
-            }
-        }
-    };
+				t.autoplayset();
+			}
+		}
+	};
 
-    t.player_fix_ratio = function ( id ) {
+	t.player_fix_ratio = function ( id ) {
 
-         if ( typeof id !== 'undefined' ) {
+		 if ( typeof id !== 'undefined' ) {
 
-            var obj = jQuery( '#' + id );
+			var obj = jQuery( '#' + id );
 
-            obj.height( obj.width() / 16 * 9 ); 
-         }
-         else {
+			obj.height( obj.width() / 16 * 9 ); 
+		 }
+		 else {
 
-             jQuery('.yerslider-video-player').each( function () {
+			 jQuery('.yerslider-video-player').each( function () {
 
-                    var obj = jQuery( this );
+					var obj = jQuery( this );
 
-                   jQuery( obj ).height( jQuery( obj ).width() / 16 * 9 ); 
-             });
-         }
-    };
+				   jQuery( obj ).height( jQuery( obj ).width() / 16 * 9 ); 
+			 });
+		 }
+	};
 
-    t.player_remove = function ( id ) {
+	t.player_remove = function ( id ) {
 
-         t.stat.videoisplaying = false;
+		 t.stat.videoisplaying = false;
 
-         if ( typeof id !== 'undefined' ) {
+		 if ( typeof id !== 'undefined' ) {
 
-            jQuery( '#' + id ).parents('.yerslider-video').find('.yerslider-video-preview, .yerslider-video-play').show().find('#' + id).remove();
-         }
-         else {
+			jQuery( '#' + id ).parents('.yerslider-video').find('.yerslider-video-preview, .yerslider-video-play').show().find('#' + id).remove();
+		 }
+		 else {
 
-             jQuery('.yerslider-video-player').remove();
-             jQuery('.yerslider-video-preview, .yerslider-video-play').show();
-         }
-    };
+			 jQuery('.yerslider-video-player').remove();
+			 jQuery('.yerslider-video-preview, .yerslider-video-play').show();
+		 }
+	};
 
-    // }
+	// }
 
-    // set something {
+	// set something {
 
-    t.set_slidermaskwidth = function () {
+	t.set_slidermaskwidth = function () {
 
-        if ( t.param.insidetablecellfix ) {
-            t.obj.slider.hide();
-            t.obj.slidermask.css('width','100%');
-        }
+		if ( t.param.insidetablecellfix ) {
+			t.obj.slider.hide();
+			t.obj.slidermask.css('width','100%');
+		}
 
-        t.stat.slidermaskwidth = t.obj.slidermask.innerWidth();
+		t.stat.slidermaskwidth = t.obj.slidermask.innerWidth();
 
-        if ( t.param.insidetablecellfix ) {
-            t.obj.slidermask.css('width',t.obj.slidermask.width() + 'px');
-            t.obj.slider.show();
-        }
-    };
+		if ( t.param.insidetablecellfix ) {
+			t.obj.slidermask.css('width',t.obj.slidermask.width() + 'px');
+			t.obj.slider.show();
+		}
+	};
 
-    t.set_slidecount = function () {
+	t.set_slidecount = function () {
 
-        t.stat.slidecount = t.obj.slide.size();
-    };
+		t.stat.slidecount = t.obj.slide.size();
+	};
 
-    t.set_slidegroup = function () {
+	t.set_slidegroup = function () {
 
-        var slidermaskwidth = t.obj.slidermask.innerWidth();
+		var slidermaskwidth = t.obj.slidermask.innerWidth();
 
-        var temp = t.param.slidegroup;
+		var temp = t.param.slidegroup;
 
-        if ( t.helper.getLength( t.param.slidegroupresp ) > 0 ) {
+		if ( t.helper.getLength( t.param.slidegroupresp ) > 0 ) {
 
-            for ( var i in t.param.slidegroupresp ) {
+			for ( var i in t.param.slidegroupresp ) {
 
-                if ( i <= t.stat.slidermaskwidth ) {
+				if ( i <= t.stat.slidermaskwidth ) {
 
-                    temp = t.param.slidegroupresp[ i ];
-                }
-            }
-        }
+					temp = t.param.slidegroupresp[ i ];
+				}
+			}
+		}
 
-        if ( temp >= t.stat.slidecount ) {
+		if ( temp >= t.stat.slidecount ) {
 
-            temp = t.stat.slidecount;
-            t.stat.currentslideindex = 0;
-            t.move_slider_to_current_index();
-        }
+			temp = t.stat.slidecount;
+			t.stat.currentslideindex = 0;
+			t.move_slider_to_current_index();
+		}
 
-        t.stat.slidegroup = temp;
-    };
+		t.stat.slidegroup = temp;
+	};
 
-    t.set_slidegroupmax = function () {
+	t.set_slidegroupmax = function () {
 
-        t.stat.slidegroupmax = t.stat.slidegroup;
+		t.stat.slidegroupmax = t.stat.slidegroup;
 
-        for ( var i in t.param.slidegroupresp ) {
-            if ( t.stat.slidegroupmax < t.param.slidegroupresp[ i ] ) {
-                t.stat.slidegroupmax = t.param.slidegroupresp[ i ];
-            }
-        }
-    };
+		for ( var i in t.param.slidegroupresp ) {
+			if ( t.stat.slidegroupmax < t.param.slidegroupresp[ i ] ) {
+				t.stat.slidegroupmax = t.param.slidegroupresp[ i ];
+			}
+		}
+	};
 
-    t.set_slidewidth = function () {
+	t.set_slidewidth = function () {
 
-        /** Not dodo. This commented code calculating the slidewidth including slide padding (border should added).
-            But i think it is saver to left the styles of the slide element untouched because the calculation 
-            is allways save and correct. Use a inner div and margin to simmulate slide-padding.
+		/** Not dodo. This commented code calculating the slidewidth including slide padding (border should added).
+			But i think it is saver to left the styles of the slide element untouched because the calculation 
+			is allways save and correct. Use a inner div and margin to simmulate slide-padding.
 
-            var slidepadding = {};
-            slidepadding.left = parseInt( t.obj.slide.css('padding-left'), 10 );
-            slidepadding.right = parseInt( t.obj.slide.css('padding-right'), 10 );
-            t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) + ( ( slidepadding.left + slidepadding.left )  * t.stat.slidegroup ) ) ) / t.stat.slidegroup  );
-        */
+			var slidepadding = {};
+			slidepadding.left = parseInt( t.obj.slide.css('padding-left'), 10 );
+			slidepadding.right = parseInt( t.obj.slide.css('padding-right'), 10 );
+			t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) + ( ( slidepadding.left + slidepadding.left )	 * t.stat.slidegroup ) ) ) / t.stat.slidegroup	);
+		*/
 
-        if ( t.stat.slidegroup > 0 ) {
+		if ( t.stat.slidegroup > 0 ) {
 
-            t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) ) / t.stat.slidegroup );
+			t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) ) / t.stat.slidegroup );
 
-            var diff = t.stat.slidermaskwidth - ( ( t.stat.slidewidth * t.stat.slidegroup ) + ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) );
+			var diff = t.stat.slidermaskwidth - ( ( t.stat.slidewidth * t.stat.slidegroup ) + ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) );
 
-            t.obj.slide
-                .width( t.stat.slidewidth )
-                .css( 'margin-right', t.param.slidegap + 'px' );
-                //.last().css( 'margin-right', '0' );
+			t.obj.slide
+				.width( t.stat.slidewidth )
+				.css( 'margin-right', t.param.slidegap + 'px' );
+				//.last().css( 'margin-right', '0' );
 
-            /* streching the width of some slides by 1 pixel to fit the sliderwrapwidth */
+			/* streching the width of some slides by 1 pixel to fit the sliderwrapwidth */
 
-            if ( diff > 0 ) {
+			if ( diff > 0 ) {
 
-                for ( var i = 0; i < diff; i++ ) {
-                    jQuery( t.param.sliderid + ' ' + t.param.slideclass + ':nth-child(' + ( 1 + i )  + 'n-' + (t.stat.slidegroup - 1) + ')' ).css( 'margin-right', ( t.param.slidegap + 1 ) + 'px' );
+				for ( var i = 0; i < diff; i++ ) {
+					jQuery( t.param.sliderid + ' ' + t.param.slideclass + ':nth-child(' + ( 1 + i )	 + 'n-' + (t.stat.slidegroup - 1) + ')' ).css( 'margin-right', ( t.param.slidegap + 1 ) + 'px' );
 
-                }
-            }
-        }
+				}
+			}
+		}
 
-        if ( t.stat.slidegroup === 0 ) {
+		if ( t.stat.slidegroup === 0 ) {
 
-            t.obj.slide.css({
-                'width': 'auto',
-                'margin-right': t.param.slidegap + 'px'
-            });
-        }
-    };
+			t.obj.slide.css({
+				'width': 'auto',
+				'margin-right': t.param.slidegap + 'px'
+			});
+		}
+	};
 
-    t.set_slideheight = function () {
+	t.set_slideheight = function () {
 
-        /** Fix fitVids and slider height
-            If the jQuery('.fitvids').fitVids(); is placed after the t.init than the 
-            timeout is needet to result the fitted video height in the slider height. 
-            The jQuery('.fitvids').fitVids(); has to be inside the jQuery(document).ready…
+		/** Fix fitVids and slider height
+			If the jQuery('.fitvids').fitVids(); is placed after the t.init than the 
+			timeout is needet to result the fitted video height in the slider height. 
+			The jQuery('.fitvids').fitVids(); has to be inside the jQuery(document).ready…
 
-            window.setTimeout( function () {
+			window.setTimeout( function () {
 
-                t.obj.slide.height('auto');
+				t.obj.slide.height('auto');
 
-                var height = t.obj.slider.height();
-                t.obj.slide.height( height );
+				var height = t.obj.slider.height();
+				t.obj.slide.height( height );
 
-            }, 0);
-        */
-    };
+			}, 0);
+		*/
+	};
 
-    t.set_slidesinviewport = function () {
+	t.set_slidesinviewport = function () {
 
-        t.stat.slidesinviewportindexbegin = t.stat.currentslideindex;
-        t.stat.slidesinviewportindexend = t.stat.currentslideindex + ( t.stat.slidegroup - 1 );
+		t.stat.slidesinviewportindexbegin = t.stat.currentslideindex;
+		t.stat.slidesinviewportindexend = t.stat.currentslideindex + ( t.stat.slidegroup - 1 );
 
-        t.stat.slidesinviewportindexes = [];
+		t.stat.slidesinviewportindexes = [];
 
-        for ( i = 0; i < t.stat.slidecount; i++ ) {
+		for ( i = 0; i < t.stat.slidecount; i++ ) {
 
-            if ( i >= t.stat.slidesinviewportindexbegin && i <= t.stat.slidesinviewportindexend ) {
+			if ( i >= t.stat.slidesinviewportindexbegin && i <= t.stat.slidesinviewportindexend ) {
 
-                t.stat.slidesinviewportindexes.push(i + 1);
-            }
-        }
-    };
+				t.stat.slidesinviewportindexes.push(i + 1);
+			}
+		}
+	};
 
-    // }
+	// }
 
-    // prev next {
+	// prev next {
 
-    t.set_prevnext = function () {
+	t.set_prevnext = function () {
 
-        /* init */
-        if ( t.stat.slidecount > t.stat.slidegroup ) {
+		/* init */
+		if ( t.stat.slidecount > t.stat.slidegroup ) {
 
-            var nextclassadd = '',
-                prevclassadd = '';
+			var nextclassadd = '',
+				prevclassadd = '';
 
-            if ( typeof t.obj.nextbtn !== 'object' && t.param.nextbtn ) {
+			if ( typeof t.obj.nextbtn !== 'object' && t.param.nextbtn ) {
 
-                if ( t.param.nextclassadd !== '' ) {
+				if ( t.param.nextclassadd !== '' ) {
 
-                    nextclassadd = ' ' + t.param.nextclassadd.replace( '.', '' );
-                }
+					nextclassadd = ' ' + t.param.nextclassadd.replace( '.', '' );
+				}
 
-                t.obj.sliderwrap.append('<div class="js-yerslider-next ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.nextclass.replace( '.', '' ) + nextclassadd + '">');
-                t.obj.nextbtn = jQuery( t.param.sliderid + ' ' + t.param.nextclass );
-            }
+				t.obj.sliderwrap.append('<div class="js-yerslider-next ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.nextclass.replace( '.', '' ) + nextclassadd + '">');
+				t.obj.nextbtn = jQuery( t.param.sliderid + ' ' + t.param.nextclass );
+			}
 
-            if ( typeof t.obj.prevbtn !== 'object' && t.param.prevbtn ) {
+			if ( typeof t.obj.prevbtn !== 'object' && t.param.prevbtn ) {
 
-                if ( t.param.prevclassadd !== '' ) {
+				if ( t.param.prevclassadd !== '' ) {
 
-                    prevclassadd = ' ' + t.param.prevclassadd.replace( '.', '' );
-                }
+					prevclassadd = ' ' + t.param.prevclassadd.replace( '.', '' );
+				}
 
-                t.obj.sliderwrap.append('<div class="js-yerslider-prev ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.prevclass.replace( '.', '' ) + prevclassadd + '">');
-                t.obj.prevbtn = jQuery( t.param.sliderid + ' ' + t.param.prevclass );
-            }
+				t.obj.sliderwrap.append('<div class="js-yerslider-prev ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.prevclass.replace( '.', '' ) + prevclassadd + '">');
+				t.obj.prevbtn = jQuery( t.param.sliderid + ' ' + t.param.prevclass );
+			}
 
-            t.refresh_prevnext();
-        }
+			t.refresh_prevnext();
+		}
 
-        /* remove */
-        else {
+		/* remove */
+		else {
 
-            if ( typeof t.obj.nextbtn === 'object' ) {
-                t.obj.nextbtn.remove();
-                t.obj.nextbtn = undefined;
-                t.stat.nextbtnclickable = false;
-            }
-            if ( typeof t.obj.prevbtn === 'object' ) {
-                t.obj.prevbtn.remove();
-                t.obj.prevbtn = undefined;
-                t.stat.prevbtnclickable = false;
-            }
-        }
+			if ( typeof t.obj.nextbtn === 'object' ) {
+				t.obj.nextbtn.remove();
+				t.obj.nextbtn = undefined;
+				t.stat.nextbtnclickable = false;
+			}
+			if ( typeof t.obj.prevbtn === 'object' ) {
+				t.obj.prevbtn.remove();
+				t.obj.prevbtn = undefined;
+				t.stat.prevbtnclickable = false;
+			}
+		}
 
-    };
+	};
 
-    t.next_slide = function () {
+	t.next_slide = function () {
 
-        t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidegroup;
+		t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidegroup;
 
-        /* check currentslideindex */
+		/* check currentslideindex */
 
-        t.check_slider_current_index();
+		t.check_slider_current_index();
 
-        /* current class */
+		/* current class */
 
-        t.set_slide_current_class();
+		t.set_slide_current_class();
 
-        /* group indexes */
+		/* group indexes */
 
-        t.set_slidesinviewport();
+		t.set_slidesinviewport();
 
-    };
+	};
 
-    t.prev_slide = function () {
+	t.prev_slide = function () {
 
-        t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidegroup;
+		t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidegroup;
 
-        /* check currentslideindex */
+		/* check currentslideindex */
 
-        t.check_slider_current_index();
+		t.check_slider_current_index();
 
-        /* current class */
+		/* current class */
 
-        t.set_slide_current_class();
+		t.set_slide_current_class();
 
-        /* group indexes */
+		/* group indexes */
 
-        t.set_slidesinviewport();
-    };
+		t.set_slidesinviewport();
+	};
 
-    t.next_job = function () {
+	t.next_job = function () {
 
-        if ( !t.stat.isanimating ) {
+		if ( !t.stat.isanimating ) {
 
-            t.stat.isanimating = true;
-            t.stat.slidingright = true;
+			t.stat.isanimating = true;
+			t.stat.slidingright = true;
 
-            t.player_remove();
+			t.player_remove();
 
-            // t.pausevideosofcurrentslide();
+			// t.pausevideosofcurrentslide();
 
-            t.next_slide();
+			t.next_slide();
 
-            // t.playlastplayedvideoofcurrentslide();
+			// t.playlastplayedvideoofcurrentslide();
 
-            if ( t.param.scrolltop ) {
+			if ( t.param.scrolltop ) {
 
-                jQuery('body').animate({
+				jQuery('body').animate({
 
-                    scrollTop: t.param.scrolltopval
-                }, t.param.scrolltopspeed );
-            }
+					scrollTop: t.param.scrolltopval
+				}, t.param.scrolltopspeed );
+			}
 
-            t.animate_slider_to_current_position( t.get_animationspeed() );
+			t.animate_slider_to_current_position( t.get_animationspeed() );
 
-            t.refresh_prevnext();
+			t.refresh_prevnext();
 
-            if ( t.param.bullets ) {
+			if ( t.param.bullets ) {
 
-                t.set_bullet_current();
-                t.set_bullet_current_class();
-            }
+				t.set_bullet_current();
+				t.set_bullet_current_class();
+			}
 
-            t.stat.slidingright = false;
-        }
-    };
+			t.stat.slidingright = false;
+		}
+	};
 
-    t.prev_job = function () {
+	t.prev_job = function () {
 
-        if ( !t.stat.isanimating ) {
+		if ( !t.stat.isanimating ) {
 
-            t.stat.isanimating = true;
-            t.stat.slidingleft = true;
+			t.stat.isanimating = true;
+			t.stat.slidingleft = true;
 
-            t.player_remove();
+			t.player_remove();
 
-            // t.pausevideosofcurrentslide();
+			// t.pausevideosofcurrentslide();
 
-            t.prev_slide();
+			t.prev_slide();
 
-            // t.playlastplayedvideoofcurrentslide();
+			// t.playlastplayedvideoofcurrentslide();
 
-            if ( t.param.scrolltop ) {
+			if ( t.param.scrolltop ) {
 
-                jQuery('body').animate({
+				jQuery('body').animate({
 
-                    scrollTop: t.param.scrolltopval
-                }, t.param.scrolltopspeed );
-            }
+					scrollTop: t.param.scrolltopval
+				}, t.param.scrolltopspeed );
+			}
 
-            t.animate_slider_to_current_position( t.get_animationspeed() );
+			t.animate_slider_to_current_position( t.get_animationspeed() );
 
-            t.refresh_prevnext();
+			t.refresh_prevnext();
 
-            if ( t.param.bullets ) {
+			if ( t.param.bullets ) {
 
-                t.set_bullet_current();
-                t.set_bullet_current_class();
-            }
+				t.set_bullet_current();
+				t.set_bullet_current_class();
+			}
 
-            t.stat.slidingleft = false;
-        }
-    };
+			t.stat.slidingleft = false;
+		}
+	};
 
-    t.nextbtn_click = function () {
+	t.nextbtn_click = function () {
 
-        if ( t.obj.nextbtn && !t.stat.nextbtnclickable ) {
+		if ( t.obj.nextbtn && !t.stat.nextbtnclickable ) {
 
-            t.obj.nextbtn.on( t.stat.clicktype, function () {
+			t.obj.nextbtn.on( t.stat.clicktype, function () {
 
-                t.stat.lasteventtype = 'click-next';
-                t.next_job();
-            });
+				t.stat.lasteventtype = 'click-next';
+				t.next_job();
+			});
 
-            t.stat.nextbtnclickable = true;
-        }
-    };
+			t.stat.nextbtnclickable = true;
+		}
+	};
 
-    t.prevbtn_click = function () {
+	t.prevbtn_click = function () {
 
-        if ( t.obj.prevbtn && !t.stat.prevbtnclickable ) {
+		if ( t.obj.prevbtn && !t.stat.prevbtnclickable ) {
 
-            t.obj.prevbtn.on( t.stat.clicktype, function () {
+			t.obj.prevbtn.on( t.stat.clicktype, function () {
 
-                t.stat.lasteventtype = 'click-prev';
-                t.prev_job();
-            });
+				t.stat.lasteventtype = 'click-prev';
+				t.prev_job();
+			});
 
-            t.stat.prevbtnclickable = true;
-        }
+			t.stat.prevbtnclickable = true;
+		}
 
-    };
+	};
 
-    t.nextbtn_click_unbind = function () {
+	t.nextbtn_click_unbind = function () {
 
-        t.obj.nextbtn.unbind( 'click' )
-            .addClass( t.param.nextinactiveclass.replace( '.', '' ) );
+		t.obj.nextbtn.unbind( 'click' )
+			.addClass( t.param.nextinactiveclass.replace( '.', '' ) );
 
-        t.stat.nextbtnclickable = false;
-    };
+		t.stat.nextbtnclickable = false;
+	};
 
-    t.prevbtn_click_unbind = function () {
+	t.prevbtn_click_unbind = function () {
 
-        t.obj.prevbtn.unbind( 'click' )
-            .addClass( t.param.previnactiveclass.replace( '.', '' ) );
+		t.obj.prevbtn.unbind( 'click' )
+			.addClass( t.param.previnactiveclass.replace( '.', '' ) );
 
-        t.stat.prevbtnclickable = false;
-    };
+		t.stat.prevbtnclickable = false;
+	};
 
-    t.refresh_prevnext = function () {
+	t.refresh_prevnext = function () {
 
-        /* bind click events if unbinded in general */
+		/* bind click events if unbinded in general */
 
-        if ( !t.stat.nextbtnclickable ) {
+		if ( !t.stat.nextbtnclickable ) {
 
-            t.nextbtn_click();
-        }
+			t.nextbtn_click();
+		}
 
-        if ( !t.stat.prevbtnclickable ) {
+		if ( !t.stat.prevbtnclickable ) {
 
-            t.prevbtn_click();
-        }
+			t.prevbtn_click();
+		}
 
-        /* remove inactive classes in general */
+		/* remove inactive classes in general */
 
-        if ( t.obj.nextbtn ) {
+		if ( t.obj.nextbtn ) {
 
-            t.obj.nextbtn.removeClass( t.param.nextinactiveclass.replace( '.', '' ) );
-        }
+			t.obj.nextbtn.removeClass( t.param.nextinactiveclass.replace( '.', '' ) );
+		}
 
-        if ( t.obj.prevbtn ) {
+		if ( t.obj.prevbtn ) {
 
-            t.obj.prevbtn.removeClass( t.param.previnactiveclass.replace( '.', '' ) );
-        }
+			t.obj.prevbtn.removeClass( t.param.previnactiveclass.replace( '.', '' ) );
+		}
 
-        /* then unbind in some kind of slider situation */
+		/* then unbind in some kind of slider situation */
 
-        if ( t.stat.loop === 'none' ) {
+		if ( t.stat.loop === 'none' ) {
 
-            if ( t.obj.nextbtn && t.stat.currentslideindex >= ( t.stat.slidecount - t.stat.slidegroup ) ) {
+			if ( t.obj.nextbtn && t.stat.currentslideindex >= ( t.stat.slidecount - t.stat.slidegroup ) ) {
 
-                t.nextbtn_click_unbind();
-            }
+				t.nextbtn_click_unbind();
+			}
 
-            if ( t.obj.prevbtn && t.stat.currentslideindex <= 0 ) {
+			if ( t.obj.prevbtn && t.stat.currentslideindex <= 0 ) {
 
-                t.prevbtn_click_unbind();
-            }
-        }
-    };
+				t.prevbtn_click_unbind();
+			}
+		}
+	};
 
-    t.set_slide_current_class = function () {
+	t.set_slide_current_class = function () {
 
-        t.obj.slide.removeClass('current');
-        jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
+		t.obj.slide.removeClass('current');
+		jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
 
-    };
+	};
 
-    /*
-    t.pausevideosofcurrentslide = function () {
+	/*
+	t.pausevideosofcurrentslide = function () {
 
-        for ( var i in t.obj.videoplayers ) {
+		for ( var i in t.obj.videoplayers ) {
 
-            if ( jQuery.inArray( t.obj.videoplayers[ i ].slide, t.stat.slidesinviewportindexes ) !== -1 ) {
+			if ( jQuery.inArray( t.obj.videoplayers[ i ].slide, t.stat.slidesinviewportindexes ) !== -1 ) {
 
-                if ( t.obj.videoplayers[ i ].type === 'youtube' ) {
+				if ( t.obj.videoplayers[ i ].type === 'youtube' ) {
 
-                    t.player_youtube_pause( i );
-                }
+					t.player_youtube_pause( i );
+				}
 
-                if ( t.obj.videoplayers[ i ].type === 'sublimevideo' ) {
+				if ( t.obj.videoplayers[ i ].type === 'sublimevideo' ) {
 
-                    t.obj.videoplayers[ i ].api.pause();
-                }
-            }
-        }
-    };
+					t.obj.videoplayers[ i ].api.pause();
+				}
+			}
+		}
+	};
 
-    t.playlastplayedvideoofcurrentslide = function () {
+	t.playlastplayedvideoofcurrentslide = function () {
 
-        for ( var i in t.obj.videoplayers ) {
+		for ( var i in t.obj.videoplayers ) {
 
-            //console.log( t.stat.slidesinviewportindexes, t.obj.videoplayers[ i ].slide, t.stat.lastplayedvideo );
+			//console.log( t.stat.slidesinviewportindexes, t.obj.videoplayers[ i ].slide, t.stat.lastplayedvideo );
 
-            if ( jQuery.inArray( t.obj.videoplayers[ i ].slide, t.stat.slidesinviewportindexes ) !== -1 && i === t.stat.lastplayedvideo ) {
+			if ( jQuery.inArray( t.obj.videoplayers[ i ].slide, t.stat.slidesinviewportindexes ) !== -1 && i === t.stat.lastplayedvideo ) {
 
-                if ( t.obj.videoplayers[ i ].type === 'youtube' ) {
+				if ( t.obj.videoplayers[ i ].type === 'youtube' ) {
 
-                    t.player_youtube_play( i );
-                }
+					t.player_youtube_play( i );
+				}
 
-                if ( t.obj.videoplayers[ i ].type === 'sublimevideo' ) {
+				if ( t.obj.videoplayers[ i ].type === 'sublimevideo' ) {
 
-                    t.obj.videoplayers[ i ].api.play();
-                }
-            }
-        }
+					t.obj.videoplayers[ i ].api.play();
+				}
+			}
+		}
 
-        t.stat.lastplayedvideo = false;
-    };
-    */
+		t.stat.lastplayedvideo = false;
+	};
+	*/
 
-    // }
+	// }
 
-    // autoplay {
+	// autoplay {
 
-    t.autoplayinit = function () {
+	t.autoplayinit = function () {
 
-        if ( t.param.autoplay ) {
+		if ( t.param.autoplay ) {
 
-            t.autoplayset();
+			t.autoplayset();
 
-            if ( t.param.autoplaystoponhover ) {
+			if ( t.param.autoplaystoponhover ) {
 
-                t.autoplayhover();
-            }
-        }
+				t.autoplayhover();
+			}
+		}
 
-    };
+	};
 
-    t.autoplayset = function () {
+	t.autoplayset = function () {
 
-        if ( t.stat.autoplayison === false ) {
-            
-            // if autoplay continuously and CSS animation is possible
-            if ( t.param.autoplaycontinuously && t.stat.cssanimation ) {
+		if ( t.stat.autoplayison === false ) {
 
-                t.css_animation( t.obj.slider, 'slideshow ' + Math.round( t.param.autoplaycontinuouslyspeed / 1000 ) + 's linear infinite' );
-                t.css_transform( t.obj.slider, 'translate3d(0, 0, 0)' );
+			// if autoplay continuously and CSS animation is possible
+			if ( t.param.autoplaycontinuously && t.stat.cssanimation ) {
 
+				t.css_animation( t.obj.slider, 'slideshow ' + Math.round( t.param.autoplaycontinuouslyspeed / 1000 ) + 's linear infinite' );
+				t.css_transform( t.obj.slider, 'translate3d(0, 0, 0)' );
 
-                t.obj.sliderwrap.prev('style').remove();
-                t.obj.sliderwrap.before('<style>' + t.css_keyframes( ( t.stat.slidewidth * t.stat.slidecount ) ) + '</style>');
+				t.obj.sliderwrap.prev('style').remove();
+				t.obj.sliderwrap.before('<style>' + t.css_keyframes( ( t.stat.slidewidth * t.stat.slidecount ) ) + '</style>');
 
-                if ( t.param.autoplaycontinuouslystoponhover ) {
+				if ( t.param.autoplaycontinuouslystoponhover ) {
 
-                    t.obj.sliderwrap.on( 'mouseenter', function() {
-                        
-                        t.css_animation_play_state( t.obj.slider, 'paused' );
-                    });
+					t.obj.sliderwrap.on( 'mouseenter', function() {
 
-                    t.obj.sliderwrap.on( 'mouseleave', function() {
-                        
-                        t.css_animation_play_state( t.obj.slider, 'running' );
-                    });
-                }
+						t.css_animation_play_state( t.obj.slider, 'paused' );
+					});
 
-            }
-            
-            // if not autoplay continuously or autoplay continuously fallback if CSS animation is not possible
-            if ( !t.param.autoplaycontinuously || !t.stat.cssanimation ) {
+					t.obj.sliderwrap.on( 'mouseleave', function() {
 
-                t.stat.autoplayison = true;
+						t.css_animation_play_state( t.obj.slider, 'running' );
+					});
+				}
 
-                t.stat.autoplayinterval = window.setInterval( function () {
+			}
 
-                    if ( !t.stat.isanimating ) {
+			// if not autoplay continuously or autoplay continuously fallback if CSS animation is not possible
+			if ( !t.param.autoplaycontinuously || !t.stat.cssanimation ) {
 
-                        t.stat.isanimating = true;
-                        t.stat.slidingright = true;
-                        t.stat.lasteventtype = 'autoplay';
+				t.stat.autoplayison = true;
 
-                        t.player_remove();
+				t.stat.autoplayinterval = window.setInterval( function () {
 
-                        t.next_slide();
+					if ( !t.stat.isanimating ) {
 
-                        t.animate_slider_to_current_position( t.get_animationspeed() );
+						t.stat.isanimating = true;
+						t.stat.slidingright = true;
+						t.stat.lasteventtype = 'autoplay';
 
-                        t.refresh_prevnext();
+						t.player_remove();
 
-                        if ( t.param.bullets ) {
+						t.next_slide();
 
-                            t.set_bullet_current();
-                            t.set_bullet_current_class();
-                        }
+						t.animate_slider_to_current_position( t.get_animationspeed() );
 
-                        t.stat.slidingright = false;
+						t.refresh_prevnext();
 
-                    }  
-                }, t.param.autoplayinterval );
-            }
-        }
-    };
+						if ( t.param.bullets ) {
 
-    t.autoplayclear = function () {
+							t.set_bullet_current();
+							t.set_bullet_current_class();
+						}
 
-        t.stat.autoplayison = false;
+						t.stat.slidingright = false;
 
-        t.stat.autoplayinterval = clearInterval( t.stat.autoplayinterval );
-    };
+					}  
+				}, t.param.autoplayinterval );
+			}
+		}
+	};
 
-    t.autoplayhover = function () {
+	t.autoplayclear = function () {
 
-        // slidermask
+		t.stat.autoplayison = false;
 
-        jQuery( t.obj.slidermask ).mouseenter(function() {
+		t.stat.autoplayinterval = clearInterval( t.stat.autoplayinterval );
+	};
 
-            if ( !t.stat.videoisplaying ) {
+	t.autoplayhover = function () {
 
-                t.autoplayclear();
-            }
+		// slidermask
 
-        }).mouseleave(function() {
+		jQuery( t.obj.slidermask ).mouseenter(function() {
 
-            if ( !t.stat.videoisplaying ) {
+			if ( !t.stat.videoisplaying ) {
 
-                t.autoplayset();
-            }
-        });
+				t.autoplayclear();
+			}
 
-        // prevnextclass
+		}).mouseleave(function() {
 
-        jQuery( t.obj.sliderwrap.find( t.param.prevnextclass ) ).mouseenter(function() {
+			if ( !t.stat.videoisplaying ) {
 
-            if ( !t.stat.videoisplaying ) {
+				t.autoplayset();
+			}
+		});
 
-                t.autoplayclear();
-            }
+		// prevnextclass
 
-        }).mouseleave(function() {
+		jQuery( t.obj.sliderwrap.find( t.param.prevnextclass ) ).mouseenter(function() {
 
-            if ( !t.stat.videoisplaying ) {
+			if ( !t.stat.videoisplaying ) {
 
-                t.autoplayset();
-            }
-        });
+				t.autoplayclear();
+			}
 
-        // bulletclass
+		}).mouseleave(function() {
 
-        jQuery( t.obj.sliderwrap.find( t.param.bulletclass ) ).mouseenter(function() {
+			if ( !t.stat.videoisplaying ) {
 
-            if ( !t.stat.videoisplaying ) {
+				t.autoplayset();
+			}
+		});
 
-                t.autoplayclear();
-            }
+		// bulletclass
 
-        }).mouseleave(function() {
+		jQuery( t.obj.sliderwrap.find( t.param.bulletclass ) ).mouseenter(function() {
 
-            if ( !t.stat.videoisplaying ) {
+			if ( !t.stat.videoisplaying ) {
 
-                t.autoplayset();
-            }
-        });
+				t.autoplayclear();
+			}
 
-    };
+		}).mouseleave(function() {
 
-    // }
+			if ( !t.stat.videoisplaying ) {
 
-    // bullets {
+				t.autoplayset();
+			}
+		});
 
-    t.bullets = function () {
+	};
 
-        if ( t.param.bullets ) {
+	// }
 
-            //window.setTimeout(function(){
+	// bullets {
 
-                /* add bullet class to wrap */
+	t.bullets = function () {
 
-                t.obj.sliderwrap.addClass( t.param.sliderwrapclasshasbullets.replace( '.', '' ) );
+		if ( t.param.bullets ) {
 
-                /* do bullets-wrap html and object */
+			//window.setTimeout(function(){
 
-                if ( typeof t.obj.bulletswrap !== 'object' ) {
+				/* add bullet class to wrap */
 
-                    t.obj.sliderwrap.append('<div class="' + t.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
-                    t.obj.bulletswrap = t.obj.sliderwrap.find( t.param.bulletswrapclass );
-                }
+				t.obj.sliderwrap.addClass( t.param.sliderwrapclasshasbullets.replace( '.', '' ) );
 
-                /* get amount of bullets */
+				/* do bullets-wrap html and object */
 
-                t.stat.bulletscount = Math.ceil( t.stat.slidecount / t.stat.slidegroup );
+				if ( typeof t.obj.bulletswrap !== 'object' ) {
 
-                /* current bullet index */
+					t.obj.sliderwrap.append('<div class="' + t.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
+					t.obj.bulletswrap = t.obj.sliderwrap.find( t.param.bulletswrapclass );
+				}
 
-                t.set_bullet_current();
+				/* get amount of bullets */
 
-                /* bullet items */
+				t.stat.bulletscount = Math.ceil( t.stat.slidecount / t.stat.slidegroup );
 
-                t.bullet_items();
+				/* current bullet index */
 
-                /* bullet current class */
+				t.set_bullet_current();
 
-                t.set_bullet_current_class();
+				/* bullet items */
 
-                /* bullets click */
+				t.bullet_items();
 
-                t.bullet_click();
+				/* bullet current class */
 
-            //}, 200);
+				t.set_bullet_current_class();
 
-        }
-    };
+				/* bullets click */
 
-    t.bullet_items = function () {
+				t.bullet_click();
 
-        /* do bullets html and object */
+			//}, 200);
 
-        if ( t.stat.bulletscountcache !== t.stat.bulletscount ) {
+		}
+	};
 
-            var bullets = '';
+	t.bullet_items = function () {
 
-            for ( var i = 1; i <= t.stat.bulletscount; i++ ) {
+		/* do bullets html and object */
 
-                bullets += '<div class="' + t.param.bulletclass.replace( '.', '' ) + '" data-index="' + i + '"></div>';
-            }
+		if ( t.stat.bulletscountcache !== t.stat.bulletscount ) {
 
-            t.obj.bulletswrap.empty();
+			var bullets = '';
 
-            if ( t.stat.bulletscount > 1 ) {
+			for ( var i = 1; i <= t.stat.bulletscount; i++ ) {
 
-                t.obj.bulletswrap.append( bullets );
-            }
+				bullets += '<div class="' + t.param.bulletclass.replace( '.', '' ) + '" data-index="' + i + '"></div>';
+			}
 
-            t.stat.bulletscountcache = t.stat.bulletscount;
-        }
+			t.obj.bulletswrap.empty();
 
-        t.obj.bullets = t.obj.bulletswrap.find( t.param.bulletclass );
+			if ( t.stat.bulletscount > 1 ) {
 
-        t.set_bullet_current_class();
-    };
+				t.obj.bulletswrap.append( bullets );
+			}
 
-    t.set_bullet_current = function () {
+			t.stat.bulletscountcache = t.stat.bulletscount;
+		}
 
-        var currentslideindex = t.stat.currentslideindex;
+		t.obj.bullets = t.obj.bulletswrap.find( t.param.bulletclass );
 
-        /* translate clone current slide index into original index */
+		t.set_bullet_current_class();
+	};
 
-        if ( currentslideindex + 1 > t.stat.slidecount ) {
+	t.set_bullet_current = function () {
 
-            currentslideindex = currentslideindex - t.stat.slidecount;
-        }
+		var currentslideindex = t.stat.currentslideindex;
 
-        /* current bullet index */
+		/* translate clone current slide index into original index */
 
-        if ( t.stat.loop === 'none' ) {
+		if ( currentslideindex + 1 > t.stat.slidecount ) {
 
-            t.stat.bulletcurrent = Math.ceil( currentslideindex / t.stat.slidegroup ) + 1;
-        }
-        else {
+			currentslideindex = currentslideindex - t.stat.slidecount;
+		}
 
-            t.stat.bulletcurrent = Math.round( currentslideindex / t.stat.slidegroup ) + 1;
+		/* current bullet index */
 
-            if ( t.stat.bulletcurrent > t.stat.bulletscount ) {
+		if ( t.stat.loop === 'none' ) {
 
-                t.stat.bulletcurrent = t.stat.bulletscount;
-            }
-        }
-    };
+			t.stat.bulletcurrent = Math.ceil( currentslideindex / t.stat.slidegroup ) + 1;
+		}
+		else {
 
-    t.set_bullet_current_class = function () {
+			t.stat.bulletcurrent = Math.round( currentslideindex / t.stat.slidegroup ) + 1;
 
-        /* current bullet class */
+			if ( t.stat.bulletcurrent > t.stat.bulletscount ) {
 
-        t.obj.bullets.removeClass( t.param.bulletcurrentclass.replace( '.', '' ) );
+				t.stat.bulletcurrent = t.stat.bulletscount;
+			}
+		}
+	};
 
-        t.obj.bulletswrap.find('[data-index="' + t.stat.bulletcurrent + '"]').addClass( t.param.bulletcurrentclass.replace( '.', '' ) );
-    };
+	t.set_bullet_current_class = function () {
 
-    t.bullet_click = function () {
+		/* current bullet class */
 
-        t.obj.bullets.on( 'click', function () {
+		t.obj.bullets.removeClass( t.param.bulletcurrentclass.replace( '.', '' ) );
 
-            if ( !t.stat.isanimating ) {
+		t.obj.bulletswrap.find('[data-index="' + t.stat.bulletcurrent + '"]').addClass( t.param.bulletcurrentclass.replace( '.', '' ) );
+	};
 
-                t.stat.isanimating = true;
-                t.stat.slidingright = true;
+	t.bullet_click = function () {
 
-                var currentbullet = jQuery(this).data('index');
+		t.obj.bullets.on( 'click', function () {
 
-                t.player_remove();
+			if ( !t.stat.isanimating ) {
 
-                // t.pausevideosofcurrentslide();
+				t.stat.isanimating = true;
+				t.stat.slidingright = true;
 
-                t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
+				var currentbullet = jQuery(this).data('index');
 
-                /* check currentslideindex */
+				t.player_remove();
 
-                t.check_slider_current_index();
+				// t.pausevideosofcurrentslide();
 
-                t.set_slidesinviewport();
+				t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
 
-                // t.playlastplayedvideoofcurrentslide();
+				/* check currentslideindex */
 
-                //t.proof_slider_current_index();
+				t.check_slider_current_index();
 
-                t.animate_slider_to_current_position( t.get_animationspeed() );
+				t.set_slidesinviewport();
 
-                if ( !t.stat.prevbtnclickable ) {
+				// t.playlastplayedvideoofcurrentslide();
 
-                    t.prevbtn_click();
-                }
+				//t.proof_slider_current_index();
 
-                t.stat.slidingright = false;
-            }
+				t.animate_slider_to_current_position( t.get_animationspeed() );
 
-            /* bullets */
+				if ( !t.stat.prevbtnclickable ) {
 
-            if ( t.param.bullets ) {
+					t.prevbtn_click();
+				}
 
-                t.set_bullet_current();
-                t.set_bullet_current_class();
-            }
+				t.stat.slidingright = false;
+			}
 
-            /* prev next buttons */
+			/* bullets */
 
-            t.refresh_prevnext();
-        });
-    };
+			if ( t.param.bullets ) {
 
-    // }
+				t.set_bullet_current();
+				t.set_bullet_current_class();
+			}
 
-    // animation {
+			/* prev next buttons */
 
-    t.move_slider_to_current_index = function () {
+			t.refresh_prevnext();
+		});
+	};
 
-        if ( t.stat.slidecount > 1 ) {
-        
-            if ( t.stat.cssanimation ) {
-        
-                t.css_transitionduration( t.obj.slider, 0 );
-                t.css_transform( t.obj.slider, t.get_sliderposition() * -1 );
-            }
-            else {
+	// }
 
-                t.obj.slider.css({
-                    'margin-left': '-' + t.get_sliderposition() + 'px'
-                });
-            }
-        }
-    };
+	// animation {
 
-    t.animate_slider_to_current_position = function ( duration) {
+	t.move_slider_to_current_index = function () {
 
-        if ( t.stat.cssanimation ) {
+		if ( t.stat.slidecount > 1 ) {
 
-            t.animate_slider_to_current_position_css( duration );
-        }
-        else {
+			if ( t.stat.cssanimation ) {
 
-            t.animate_slider_to_current_position_js( duration );
-        }
-    };
+				t.css_transitionduration( t.obj.slider, 0 );
+				t.css_transform( t.obj.slider, t.get_sliderposition() * -1 );
+			}
+			else {
 
-    t.animate_slider_to_current_position_js = function ( duration ) {
+				t.obj.slider.css({
+					'margin-left': '-' + t.get_sliderposition() + 'px'
+				});
+			}
+		}
+	};
 
-        t.obj.slider.animate({
-            'margin-left': '-' + t.get_sliderposition() + 'px'
-        }, duration, t.translate_easing( t.param.animationtype, 'jquery'), function () {
-           t.get_sliderposition();
-           t.stat.isanimating = false;
-        });
+	t.animate_slider_to_current_position = function ( duration) {
 
-    };
+		if ( t.stat.cssanimation ) {
 
-    t.animate_slider_to_current_position_css = function( duration ) {
+			t.animate_slider_to_current_position_css( duration );
+		}
+		else {
 
-        var sliderposition = t.get_sliderposition() * -1;
+			t.animate_slider_to_current_position_js( duration );
+		}
+	};
 
-        t.css_transitionduration( t.obj.slider, duration );
-        t.css_transform( t.obj.slider, sliderposition );
-        t.css_transitiontiming( t.obj.slider, t.param.animationtype );
-        //t.css_marginleft( t.obj.slider );
+	t.animate_slider_to_current_position_js = function ( duration ) {
 
-        window.setTimeout( function () {
+		t.obj.slider.animate({
+			'margin-left': '-' + t.get_sliderposition() + 'px'
+		}, duration, t.translate_easing( t.param.animationtype, 'jquery'), function () {
+		   t.get_sliderposition();
+		   t.stat.isanimating = false;
+		});
 
-            t.get_sliderposition();
-            t.stat.isanimating = false;
-            t.animation_finshed();
+	};
 
-            if ( t.stat.isios === false ) {
+	t.animate_slider_to_current_position_css = function( duration ) {
 
-                //t.css_transitionduration( t.obj.slider );
-                //t.css_transform( t.obj.slider );
-                //t.css_transitiontiming( t.obj.slider );
-                //t.css_marginleft( t.obj.slider, '-' + t.stat.currentslideposition + 'px' );
-            }
+		var sliderposition = t.get_sliderposition() * -1;
 
-        }, duration );
-    };
+		t.css_transitionduration( t.obj.slider, duration );
+		t.css_transform( t.obj.slider, sliderposition );
+		t.css_transitiontiming( t.obj.slider, t.param.animationtype );
+		//t.css_marginleft( t.obj.slider );
 
-    t.animation_finshed = function () {
+		window.setTimeout( function () {
 
-    };
+			t.get_sliderposition();
+			t.stat.isanimating = false;
+			t.animation_finshed();
 
-    t.video_load = function () {
+			if ( t.stat.isios === false ) {
 
-    };
+				//t.css_transitionduration( t.obj.slider );
+				//t.css_transform( t.obj.slider );
+				//t.css_transitiontiming( t.obj.slider );
+				//t.css_marginleft( t.obj.slider, '-' + t.stat.currentslideposition + 'px' );
+			}
 
-    t.scroll_slider = function ( distance, direction ) {
+		}, duration );
+	};
 
-        var sliderposition = t.stat.currentslideposition * -1,
-            gotopos = sliderposition;
+	t.animation_finshed = function () {
 
-        if ( direction === 'left' ) {
+	};
 
-            gotopos = ( sliderposition - Math.abs(distance) );
-        }
+	t.video_load = function () {
 
-        if ( direction === 'right' ) {
+	};
 
-            gotopos = ( sliderposition + Math.abs(distance) );
-        }
+	t.scroll_slider = function ( distance, direction ) {
 
-        t.css_transitionduration( t.obj.slider );
+		var sliderposition = t.stat.currentslideposition * -1,
+			gotopos = sliderposition;
 
-        t.css_transform( t.obj.slider, gotopos );
+		if ( direction === 'left' ) {
 
-        t.css_transitiontiming( t.obj.slider, t.param.animationtype );
+			gotopos = ( sliderposition - Math.abs(distance) );
+		}
 
-    };
+		if ( direction === 'right' ) {
 
-    // }
+			gotopos = ( sliderposition + Math.abs(distance) );
+		}
 
-    // misc {
+		t.css_transitionduration( t.obj.slider );
 
-    t.clon_slides = function () {
+		t.css_transform( t.obj.slider, gotopos );
 
-        if ( !t.stat.touch || ( t.stat.touch && t.stat.loop !== 'none' ) ) {
+		t.css_transitiontiming( t.obj.slider, t.param.animationtype );
 
-            var index = 0,
-                i = 0;
+	};
 
-            if ( t.stat.slidegroup > 0 && t.stat.loop !== 'none' ) {
+	// }
 
-                for ( i = 0; i < t.stat.slidegroupmax * 2; i++ ) {
+	// misc {
 
-                    if ( index > t.stat.slidecount ) {
-                        index = 0;
-                    }
+	t.clon_slides = function () {
 
-                    t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
+		if ( !t.stat.touch || ( t.stat.touch && t.stat.loop !== 'none' ) ) {
 
-                    index++;
-                }
+			var index = 0,
+				i = 0;
 
-                t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
-            }
+			if ( t.stat.slidegroup > 0 && t.stat.loop !== 'none' ) {
 
-            if ( t.stat.slidegroup === 0 ) {
+				for ( i = 0; i < t.stat.slidegroupmax * 2; i++ ) {
 
-                for ( i = 0; i < t.stat.slidecount; i++ ) {
+					if ( index > t.stat.slidecount ) {
+						index = 0;
+					}
 
-                    if ( index > t.stat.slidecount ) {
-                        index = 0;
-                    }
+					t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
 
-                    t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
+					index++;
+				}
 
-                    index++;
-                }
+				t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+			}
 
-                t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
-            }
-        }
-    };
+			if ( t.stat.slidegroup === 0 ) {
 
-    t.get_sliderposition = function () {
+				for ( i = 0; i < t.stat.slidecount; i++ ) {
 
-        //var pos = ( parseInt( t.stat.currentslideindex * t.stat.slidewidth, 10 ) + parseInt( t.param.slidegap * t.stat.currentslideindex, 10 ) );
-        var pos = jQuery( t.obj.slide[ t.stat.currentslideindex ] ).position().left;
+					if ( index > t.stat.slidecount ) {
+						index = 0;
+					}
 
-        t.stat.currentslideposition = pos;
+					t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
 
-        return pos;
-    };
+					index++;
+				}
 
-    t.get_animationspeed = function () {
+				t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+			}
+		}
+	};
 
-        var speed = t.param.animationspeed;
+	t.get_sliderposition = function () {
 
-        if ( t.stat.isswiping ) {
+		//var pos = ( parseInt( t.stat.currentslideindex * t.stat.slidewidth, 10 ) + parseInt( t.param.slidegap * t.stat.currentslideindex, 10 ) );
+		var pos = jQuery( t.obj.slide[ t.stat.currentslideindex ] ).position().left;
 
-            speed = t.param.swipeanimationspeed;
-        }
+		t.stat.currentslideposition = pos;
 
-        return speed;
-    };
+		return pos;
+	};
 
-    t.proof_slider_current_index = function () {
+	t.get_animationspeed = function () {
 
-        if ( t.stat.slidecount - t.stat.slidegroup > 0 && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+		var speed = t.param.animationspeed;
 
-            t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+		if ( t.stat.isswiping ) {
 
-            if ( t.param.nextbtnclickable ) {
+			speed = t.param.swipeanimationspeed;
+		}
 
-                t.nextbtn_click_unbind();
-            }
-        }
-    };
+		return speed;
+	};
 
-    t.check_slider_current_index_at_start = function () {
+	t.proof_slider_current_index = function () {
 
-        if ( t.stat.loop === 'appending' ) {
+		if ( t.stat.slidecount - t.stat.slidegroup > 0 && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
 
-            if ( t.stat.currentslideindex === 0 ) {
+			t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
 
-                t.stat.currentslideindex = t.stat.slidecount;
+			if ( t.param.nextbtnclickable ) {
 
-                t.move_slider_to_current_index();
-            }
-        }
-    };
+				t.nextbtn_click_unbind();
+			}
+		}
+	};
 
-    t.check_slider_current_index = function () {
+	t.check_slider_current_index_at_start = function () {
 
-        var temp = false;
+		if ( t.stat.loop === 'appending' ) {
 
-        // next {
+			if ( t.stat.currentslideindex === 0 ) {
 
-            if ( t.stat.slidegroup === 0 ) {
+				t.stat.currentslideindex = t.stat.slidecount;
 
-                t.stat.currentslideindex = t.stat.currentslideindex + 1;
-            }
+				t.move_slider_to_current_index();
+			}
+		}
+	};
 
-            /* loop-none */
+	t.check_slider_current_index = function () {
 
-            if ( !t.param.autoplay ) {
+		var temp = false;
 
-                if ( t.stat.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+		// next {
 
-                    t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
-                }
-            }
+			if ( t.stat.slidegroup === 0 ) {
 
-            if ( t.param.autoplay && t.stat.lasteventtype === 'autoplay' ) {
+				t.stat.currentslideindex = t.stat.currentslideindex + 1;
+			}
 
-                if ( t.stat.loop === 'none' && t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
+			/* loop-none */
 
-                    t.stat.currentslideindex = 0;
-                }
-            }
+			if ( !t.param.autoplay ) {
 
-            if ( t.param.autoplay && t.stat.lasteventtype === 'swipe-left' ) {
+				if ( t.stat.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
 
-                if ( t.stat.loop === 'none' && t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
+					t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+				}
+			}
 
-                    t.stat.currentslideindex =  t.stat.currentslideindex - t.stat.slidegroup;
-                }
-            }
+			if ( t.param.autoplay && t.stat.lasteventtype === 'autoplay' ) {
 
-            /* appending */
+				if ( t.stat.loop === 'none' && t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
 
-            if ( t.stat.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
+					t.stat.currentslideindex = 0;
+				}
+			}
 
-               temp = t.stat.currentslideindex - t.stat.slidecount;
+			if ( t.param.autoplay && t.stat.lasteventtype === 'swipe-left' ) {
 
-                t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup;
+				if ( t.stat.loop === 'none' && t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
 
-                //t.animate_slider_to_current_position( 0 );
-                t.move_slider_to_current_index();
+					t.stat.currentslideindex =	t.stat.currentslideindex - t.stat.slidegroup;
+				}
+			}
 
-                t.stat.currentslideindex = temp;
-            }
+			/* appending */
 
-            /* loop-rollback */
+			if ( t.stat.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
 
-            /* loop-from-first */
+			   temp = t.stat.currentslideindex - t.stat.slidecount;
 
-        // }
+				t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup;
 
-        // prev {
+				//t.animate_slider_to_current_position( 0 );
+				t.move_slider_to_current_index();
 
-            /* loop-none */
+				t.stat.currentslideindex = temp;
+			}
 
-            if ( t.stat.loop === 'none' && t.stat.currentslideindex <= 0 ) {
+			/* loop-rollback */
 
-                t.stat.currentslideindex = 0;
-            }
+			/* loop-from-first */
 
-            /* loop-appending */
+		// }
 
-            if ( t.stat.loop === 'appending' && t.stat.currentslideindex < 0 ) {
+		// prev {
 
-                temp = t.stat.slidecount + t.stat.currentslideindex;
+			/* loop-none */
 
-                t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + t.stat.slidegroup;
+			if ( t.stat.loop === 'none' && t.stat.currentslideindex <= 0 ) {
 
-                //t.animate_slider_to_current_position( 0 );
-                t.move_slider_to_current_index();
+				t.stat.currentslideindex = 0;
+			}
 
-                t.stat.currentslideindex = temp;
-            }
+			/* loop-appending */
 
-            /* loop-rollback */
+			if ( t.stat.loop === 'appending' && t.stat.currentslideindex < 0 ) {
 
-            /* loop-from-first */
+				temp = t.stat.slidecount + t.stat.currentslideindex;
 
-        // }
+				t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + t.stat.slidegroup;
 
-    };
+				//t.animate_slider_to_current_position( 0 );
+				t.move_slider_to_current_index();
 
-    t.resize = function () {
+				t.stat.currentslideindex = temp;
+			}
 
-        t.stat.resizing = true;
+			/* loop-rollback */
 
-            if ( t.stat.isios ) {
+			/* loop-from-first */
 
-                t.stat.isresizing = true;
-                //t.obj.slider.fadeOut();
-            }
+		// }
 
-            t.set_slidermaskwidth();
-            t.set_slidegroup();
-            t.set_slidesinviewport();
-            t.set_slidewidth();
-            t.set_slideheight();
-            t.proof_slider_current_index();
-            t.animate_slider_to_current_position( 0 );
+	};
 
-            t.set_prevnext();
+	t.resize = function () {
 
-            if ( t.param.bullets ) {
+		t.stat.resizing = true;
 
-                t.bullets();
-            }
+			if ( t.stat.isios ) {
 
-            t.player_fix_ratio();
+				t.stat.isresizing = true;
+				//t.obj.slider.fadeOut();
+			}
 
-            t.slides_equal_height();
+			t.set_slidermaskwidth();
+			t.set_slidegroup();
+			t.set_slidesinviewport();
+			t.set_slidewidth();
+			t.set_slideheight();
+			t.proof_slider_current_index();
+			t.animate_slider_to_current_position( 0 );
 
-        t.stat.resizing = false;
+			t.set_prevnext();
 
-        if ( t.stat.isios ) {
+			if ( t.param.bullets ) {
 
-            /*t.obj.slider.fadeIn( 'fast', function () {
+				t.bullets();
+			}
 
-            });*/
-            t.stat.isresizing = false;
-        }
-    };
+			t.player_fix_ratio();
 
-    t.touchswipe = function () {
+			t.slides_equal_height();
 
-        var slide_with_default = ( t.stat.slidewidth + t.param.slidegap ) * t.stat.slidegroup,
-            slide_with = slide_with_default,
-            current_slide = 0,
-            max_slides = Math.ceil( t.stat.slidecount / t.stat.slidegroup ),
-            speed = t.param.swipeanimationspeed,
-            slides = t.obj.slide;
+		t.stat.resizing = false;
 
-        /**
+		if ( t.stat.isios ) {
+
+			/*t.obj.slider.fadeIn( 'fast', function () {
+
+			});*/
+			t.stat.isresizing = false;
+		}
+	};
+
+	t.touchswipe = function () {
+
+		var slide_with_default = ( t.stat.slidewidth + t.param.slidegap ) * t.stat.slidegroup,
+			slide_with = slide_with_default,
+			current_slide = 0,
+			max_slides = Math.ceil( t.stat.slidecount / t.stat.slidegroup ),
+			speed = t.param.swipeanimationspeed,
+			slides = t.obj.slide;
+
+		/**
 		* Catch each phase of the swipe.
 		* move : we drag the div.
 		* cancel : we animate back to where we were
@@ -1852,27 +1851,27 @@ function YerSlider() {
 		*/
 		function swipeStatus(event, phase, direction, distance, fingers) {
 
-            t.stat.isswiping = true;
+			t.stat.isswiping = true;
 
 			//If we are moving before swipe, and we are going L or R, then manually drag the images
 
 			if ( phase === 'move' && ( direction === 'left' || direction === 'right' ) ) {
 
-				var duration =  0;
+				var duration =	0;
 
 				if ( direction === 'left' ) {
 
-                    t.scroll_slider( distance, direction );
-                }
+					t.scroll_slider( distance, direction );
+				}
 				else if ( direction === 'right' ) {
 
-                    t.scroll_slider( distance, direction );
+					t.scroll_slider( distance, direction );
 				}
 
-                if ( t.param.autoplay && t.stat.autoplayison ) {
+				if ( t.param.autoplay && t.stat.autoplayison ) {
 
-                    t.autoplayclear();
-                }
+					t.autoplayclear();
+				}
 			}
 
 			//Else, cancel means snap back to the begining
@@ -1881,10 +1880,10 @@ function YerSlider() {
 
 				t.animate_slider_to_current_position( t.get_animationspeed() );
 
-                if ( t.param.autoplay && !t.stat.autoplayison ) {
+				if ( t.param.autoplay && !t.stat.autoplayison ) {
 
-                    t.autoplayset();
-                }
+					t.autoplayset();
+				}
 			}
 
 			//Else end means the swipe was completed, so move to the next image
@@ -1893,19 +1892,19 @@ function YerSlider() {
 
 				if ( direction === 'right' ) {
 
-                    t.stat.lasteventtype = 'swipe-right';
-                    t.prev_job();
+					t.stat.lasteventtype = 'swipe-right';
+					t.prev_job();
 				}
 				else if ( direction === 'left' ) {
 
-                    t.stat.lasteventtype = 'swipe-left';
-                    t.next_job();
-                }
+					t.stat.lasteventtype = 'swipe-left';
+					t.next_job();
+				}
 
-                if ( t.param.autoplay && !t.stat.autoplayison ) {
+				if ( t.param.autoplay && !t.stat.autoplayison ) {
 
-                    t.autoplayset();
-                }
+					t.autoplayset();
+				}
 			}
 
 			t.stat.isswiping = false;
@@ -1917,289 +1916,289 @@ function YerSlider() {
 			swipeStatus: swipeStatus,
 			allowPageScroll: 'vertical',
 			tap:function(event, target) {
-                /* this was a tab event */
+				/* this was a tab event */
 
-                var href = jQuery(target).attr('href');
+				var href = jQuery(target).attr('href');
 
-                if ( typeof href === 'undefined' ) {
-                    href = jQuery(target).parents('a').attr('href');
-                }
+				if ( typeof href === 'undefined' ) {
+					href = jQuery(target).parents('a').attr('href');
+				}
 
-                if ( typeof href !== 'undefined' ) {
-                    window.location = href;
-                }
-            },
+				if ( typeof href !== 'undefined' ) {
+					window.location = href;
+				}
+			},
 		});
 
 	};
 
-    t.slides_equal_height = function () {
-
-        window.setTimeout( function () {
-
-            t.obj.slide.css( 'height', 'auto' );
-            t.obj.slide.height( t.obj.slider.height() );
-        }, 1000);
-
-    };
-
-    // }
-
-    // css {
-
-    // disable CSS3 styles: https://github.com/chriscoyier/CSS3-StripTease/blob/master/striptease.js
-
-    t.css_transform = function ( obj, value ) {
-
-        var transform = 'none';
-
-        if ( typeof(value) !== 'undefined' ) {
-
-            transform = 'translate3d(' + value.toString() + 'px,0px,0px)';
-        }
-        
-        if ( t.stat.cssanimation ) {
-        
-            obj.css({
-                '-webkit-transform': transform,
-                '-ms-transform': transform,
-                '-o-transform': transform,
-                '-moz-transform': transform,
-                'transform': transform
-            });
-        }
-    };
-    
-    t.css_animation = function ( obj, value ) {
-
-        var animation = 'none';
-
-        if ( typeof(value) !== 'undefined' ) {
-
-            animation = value;
-        }
-        
-        if ( t.stat.cssanimation ) {
-        
-            obj.css({
-                '-webkit-animation': animation,
-                '-ms-animation': animation,
-                '-o-animation': animation,
-                '-moz-animation': animation,
-                'animation': animation
-            });
-        }
-    };
-    
-    t.css_animation_play_state = function ( obj, value ) {
-
-        var state = 'none';
-
-        if ( typeof(value) !== 'undefined' ) {
-
-            state = value;
-        }
-        
-        if ( t.stat.cssanimation ) {
-        
-            obj.css({
-                '-webkit-animation-play-state': state,
-                '-ms-animation-play-state': state,
-                '-o-animation-play-state': state,
-                '-moz-animation-play-state': state,
-                'animation-play-state': state
-            });
-        }
-    };
-
-    t.css_transitiontiming = function ( obj, value ) {
-
-        if ( typeof(value) === 'undefined' ) {
-
-            value = 'none';
-        }
-        
-        if ( t.stat.cssanimation ) {
-
-            obj.css({
-                '-webkit-transition-timing-function': value,
-                '-ms-transition-timing-function': value,
-                '-o-transition-timing-function': value,
-                '-moz-transition-timing-function': value,
-                'transition-timing-function': value
-            });
-        }
-    };
-
-    t.css_transitionduration = function ( obj, value ) {
+	t.slides_equal_height = function () {
 
-        if ( typeof(value) === 'undefined' ) {
+		window.setTimeout( function () {
 
-            value = 0;
-        }
+			t.obj.slide.css( 'height', 'auto' );
+			t.obj.slide.height( t.obj.slider.height() );
+		}, 1000);
 
-        var duration = ( ( value / 1000 ).toFixed(1) + 's' );
+	};
 
-        if ( t.stat.cssanimation ) {
-        
-            obj.css({
-                '-webkit-transition-duration': duration,
-                '-ms-transition-duration': duration,
-                '-o-transition-duration': duration,
-                '-moz-transition-duration': duration,
-                'transition-duration': duration
-            });
-        }
-    };
-    
-    t.css_keyframes = function ( value ) {
+	// }
 
-        if ( typeof(value) !== 'undefined' && t.stat.cssanimation ) {
-            
-            var ret = '@-webkit-keyframes slideshow {0%{ -webkit-transform: translateX(0);}100%{-webkit-transform: translateX(-' + value + 'px);}}' +
-                        '@-webkit-keyframes slideshow {0%{ -webkit-transform: translateX(0);}100%{-webkit-transform: translateX(-' + value + 'px);}}' +
-                        '@-ms-keyframes slideshow {0%{ -ms-transform: translateX(0);}100%{-ms-transform: translateX(-' + value + 'px);}}' +
-                        '@-o-keyframes slideshow {0%{ -o-transform: translateX(0);}100%{-o-transform: translateX(-' + value + 'px);}}' +
-                        '@-moz-keyframes slideshow {0%{ -moz-transform: translateX(0);}100%{-moz-transform: translateX(-' + value + 'px);}}' +
-                        '@keyframes slideshow {0%{ transform: translateX(0);}100%{transform: translateX(-' + value + 'px);}}';
-            return ret;
-        }
-    };
-    
-    t.css_marginleft = function ( obj, value ) {
+	// css {
 
-        if ( typeof(value) === 'undefined' ) {
+	// disable CSS3 styles: https://github.com/chriscoyier/CSS3-StripTease/blob/master/striptease.js
 
-            value = 0;
-        }
+	t.css_transform = function ( obj, value ) {
 
-        obj.css({
-            'margin-left': value
-        });
-    };
+		var transform = 'none';
 
-    // }
+		if ( typeof(value) !== 'undefined' ) {
 
-    // helper {
+			transform = 'translate3d(' + value.toString() + 'px,0px,0px)';
+		}
 
-    t.translate_easing = function ( name, type ) {
+		if ( t.stat.cssanimation ) {
 
-        var ret = 'linear';
+			obj.css({
+				'-webkit-transform': transform,
+				'-ms-transform': transform,
+				'-o-transform': transform,
+				'-moz-transform': transform,
+				'transform': transform
+			});
+		}
+	};
 
-        if ( type === 'jquery' ) {
+	t.css_animation = function ( obj, value ) {
 
-            if ( name === 'linear' ) { ret = 'linear'; }
-            if ( name === 'ease' ) { ret = 'swing'; }
-        }
+		var animation = 'none';
 
-        if ( type === 'css' ) {
+		if ( typeof(value) !== 'undefined' ) {
 
-            ret = name;
-        }
+			animation = value;
+		}
 
-        return ret;
-    };
+		if ( t.stat.cssanimation ) {
 
-    t.helper = {
+			obj.css({
+				'-webkit-animation': animation,
+				'-ms-animation': animation,
+				'-o-animation': animation,
+				'-moz-animation': animation,
+				'animation': animation
+			});
+		}
+	};
 
-        getLength: function( o ) {
+	t.css_animation_play_state = function ( obj, value ) {
 
-            var len = o.length ? --o.length : -1;
+		var state = 'none';
 
-            for (var k in o) {
-                len++;
-            }
+		if ( typeof(value) !== 'undefined' ) {
 
-            return len;
-        },
+			state = value;
+		}
 
-        setDefaultParam: function ( p ) {
+		if ( t.stat.cssanimation ) {
 
-            if ( typeof p === 'undefined' ) {
-                p = {};
-            }
+			obj.css({
+				'-webkit-animation-play-state': state,
+				'-ms-animation-play-state': state,
+				'-o-animation-play-state': state,
+				'-moz-animation-play-state': state,
+				'animation-play-state': state
+			});
+		}
+	};
 
-            if ( typeof p.p === 'undefined' ) {
-                p.p = {};
-            }
+	t.css_transitiontiming = function ( obj, value ) {
 
-            if ( typeof p.d === 'undefined' ) {
-                p.d = {};
-            }
+		if ( typeof(value) === 'undefined' ) {
 
-            var r = p.p;
+			value = 'none';
+		}
 
-            for( var i in p.d ) {
+		if ( t.stat.cssanimation ) {
 
-                if ( typeof p.d[ i ] !== 'undefined' && typeof r[ i ] !== typeof p.d[ i ] ) {
-                    r[ i ] = p.d[ i ];
-                }
-                else {
+			obj.css({
+				'-webkit-transition-timing-function': value,
+				'-ms-transition-timing-function': value,
+				'-o-transition-timing-function': value,
+				'-moz-transition-timing-function': value,
+				'transition-timing-function': value
+			});
+		}
+	};
 
-                    if ( typeof p.d[ i ] !== 'undefined' && t.helper.getLength( r[ i ] ) !== t.helper.getLength( p.d[ i ] ) ) {
-                        r[ i ] = t.helper.setDefaultParam({ p: r[ i ], d: p.d[ i ] });
-                    }
-                }
-            }
+	t.css_transitionduration = function ( obj, value ) {
 
-            return r;
-        }
-    };
+		if ( typeof(value) === 'undefined' ) {
 
-    // }
+			value = 0;
+		}
 
-    // public {
+		var duration = ( ( value / 1000 ).toFixed(1) + 's' );
 
-        t.goto_slide = function ( p ) {
+		if ( t.stat.cssanimation ) {
 
-            window.setTimeout(function(){
+			obj.css({
+				'-webkit-transition-duration': duration,
+				'-ms-transition-duration': duration,
+				'-o-transition-duration': duration,
+				'-moz-transition-duration': duration,
+				'transition-duration': duration
+			});
+		}
+	};
 
-                var d = {
-                        id: false,
-                        align: false // false, center
-                    },
-                    i = 0,
-                    curr_index = false;
+	t.css_keyframes = function ( value ) {
 
-                p = jQuery.extend ( true, d, p );
+		if ( typeof(value) !== 'undefined' && t.stat.cssanimation ) {
 
-                t.obj.slide.each( function () {
+			var ret = '@-webkit-keyframes slideshow {0%{ -webkit-transform: translateX(0);}100%{-webkit-transform: translateX(-' + value + 'px);}}' +
+						'@-webkit-keyframes slideshow {0%{ -webkit-transform: translateX(0);}100%{-webkit-transform: translateX(-' + value + 'px);}}' +
+						'@-ms-keyframes slideshow {0%{ -ms-transform: translateX(0);}100%{-ms-transform: translateX(-' + value + 'px);}}' +
+						'@-o-keyframes slideshow {0%{ -o-transform: translateX(0);}100%{-o-transform: translateX(-' + value + 'px);}}' +
+						'@-moz-keyframes slideshow {0%{ -moz-transform: translateX(0);}100%{-moz-transform: translateX(-' + value + 'px);}}' +
+						'@keyframes slideshow {0%{ transform: translateX(0);}100%{transform: translateX(-' + value + 'px);}}';
+			return ret;
+		}
+	};
 
-                    var yersliderid = jQuery( this ).data('yersliderid').toString();
+	t.css_marginleft = function ( obj, value ) {
 
-                    if ( p.id.toString() === yersliderid ) {
+		if ( typeof(value) === 'undefined' ) {
 
-                        curr_index = i;
+			value = 0;
+		}
 
-                        if ( p.align === 'center' ) {
+		obj.css({
+			'margin-left': value
+		});
+	};
 
-                            curr_index = i - ( Math.ceil( t.stat.slidegroup / 2 ) - 1 );
-                        }
-                    }
+	// }
 
-                    i++;
-                });
+	// helper {
 
-                if ( curr_index ) {
+	t.translate_easing = function ( name, type ) {
 
-                    t.stat.currentslideindex = curr_index;
+		var ret = 'linear';
 
-                    t.check_slider_current_index();
-                    t.set_slide_current_class();
-                    t.set_slidesinviewport();
-                    t.refresh_prevnext();
+		if ( type === 'jquery' ) {
 
-                    t.move_slider_to_current_index();
+			if ( name === 'linear' ) { ret = 'linear'; }
+			if ( name === 'ease' ) { ret = 'swing'; }
+		}
 
-                    if ( t.param.bullets ) {
+		if ( type === 'css' ) {
 
-                        t.set_bullet_current();
-                        t.set_bullet_current_class();
-                    }
-                }
+			ret = name;
+		}
 
-            }, 250);
-        };
+		return ret;
+	};
 
-    // }
+	t.helper = {
+
+		getLength: function( o ) {
+
+			var len = o.length ? --o.length : -1;
+
+			for (var k in o) {
+				len++;
+			}
+
+			return len;
+		},
+
+		setDefaultParam: function ( p ) {
+
+			if ( typeof p === 'undefined' ) {
+				p = {};
+			}
+
+			if ( typeof p.p === 'undefined' ) {
+				p.p = {};
+			}
+
+			if ( typeof p.d === 'undefined' ) {
+				p.d = {};
+			}
+
+			var r = p.p;
+
+			for( var i in p.d ) {
+
+				if ( typeof p.d[ i ] !== 'undefined' && typeof r[ i ] !== typeof p.d[ i ] ) {
+					r[ i ] = p.d[ i ];
+				}
+				else {
+
+					if ( typeof p.d[ i ] !== 'undefined' && t.helper.getLength( r[ i ] ) !== t.helper.getLength( p.d[ i ] ) ) {
+						r[ i ] = t.helper.setDefaultParam({ p: r[ i ], d: p.d[ i ] });
+					}
+				}
+			}
+
+			return r;
+		}
+	};
+
+	// }
+
+	// public {
+
+		t.goto_slide = function ( p ) {
+
+			window.setTimeout(function(){
+
+				var d = {
+						id: false,
+						align: false // false, center
+					},
+					i = 0,
+					curr_index = false;
+
+				p = jQuery.extend ( true, d, p );
+
+				t.obj.slide.each( function () {
+
+					var yersliderid = jQuery( this ).data('yersliderid').toString();
+
+					if ( p.id.toString() === yersliderid ) {
+
+						curr_index = i;
+
+						if ( p.align === 'center' ) {
+
+							curr_index = i - ( Math.ceil( t.stat.slidegroup / 2 ) - 1 );
+						}
+					}
+
+					i++;
+				});
+
+				if ( curr_index ) {
+
+					t.stat.currentslideindex = curr_index;
+
+					t.check_slider_current_index();
+					t.set_slide_current_class();
+					t.set_slidesinviewport();
+					t.refresh_prevnext();
+
+					t.move_slider_to_current_index();
+
+					if ( t.param.bullets ) {
+
+						t.set_bullet_current();
+						t.set_bullet_current_class();
+					}
+				}
+
+			}, 250);
+		};
+
+	// }
 }

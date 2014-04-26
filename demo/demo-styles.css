@@ -76,7 +76,6 @@ body {
 	color: DodgerBlue;
 }
 
-
 code {
 	position: relative;
 	font-size: 15px;
@@ -95,7 +94,7 @@ code {
 }
 .code-html {
 	padding-top: 24px;
-	
+
 }
 .code-html:before {
 	content: "HTML";
@@ -123,7 +122,6 @@ code {
 .alert {
 	color: red;
 }
-
 
 .demo-typo p {
 	font-size: 60px;

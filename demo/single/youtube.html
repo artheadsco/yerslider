@@ -4,53 +4,52 @@
 		<title>yerSlider Demo</title>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		
+
 		<script src="../../dependencies/modernizr.js" type="text/javascript"></script>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script src="../../dependencies/jquery.touchSwipe.js" type="text/javascript"></script>
 		<script src="../../core/yerslider.js" type="text/javascript"></script>
-		
+
 		<link href="http://fonts.googleapis.com/css?family=Raleway:200,700" rel="stylesheet" type="text/css"/>
 		<link href="../../themes/default/yerslider-styles.css" rel="stylesheet" type="text/css"/>
 		<link href="../demo-styles.css" rel="stylesheet" type="text/css"/>
-		
+
 		<style rel="stylesheet" type="text/css">
-			
+
 			.yerslider-slider {
-				
+
 			}
-			
+
 			.yerslider-slide {
 
 			}
-			
+
 			.center {
 				position: relative;
 				margin: auto;
 			}
-			
+
 			.small {
 				position: relative;
 				max-width: 400px;
 				margin-top: 0;
 				margin-bottom: 20px;
 			}
-			
-			
+
 			.center-text {
 				text-align: center;
 				margin: 0;
 				line-height: 30px;
 			}
-			
+
 		</style>
-		
+
 		<!--
-			
+
 			YouTube Thumbnails:
-			
+
 				http://img.youtube.com/vi/[ID]/…
-			
+
 					0.jpg ( 4:3 large )
 					1.jpg ( 4:3 small )
 					2.jpg ( 4:3 small )
@@ -59,47 +58,47 @@
 		-->
 	</head>
 	<body>
-		
+
 		<!-- header begin -->
-		
+
 		<div class="page-typo">
-			
+
 			<h1>yerSlider</h1>
-		
+
 		</div>
-		
+
 		<!-- end -->
-		
+
 		<!-- YouTube begin -->
-		
+
 		<div class="page-typo">
 			<h2 id="youtube">YouTube</h2>
 		</div>
-		
+
 		<!-- Standalone Player Test
-		
+
 		<div class="fitvids">
 			<a id="player1" href="">YouTube Watch</a>
 		</div>
-	
+
 		<script>
-		    
+
 			jQuery.noConflict();
 			jQuery(document).ready(function(){
-		
+
 				var player;
 					player = {};
 					player['1'] = false;
-					
+
 				/* youtubeready begin */
-					
+
 				var count = 0,
 					timer = setInterval( function() {
-					
+
 						if ( yerslider.youtubeready ) {
-							
+
 							/* youtubeready body begin */
-							
+
 							player['1'] = new YT.Player('player1', {
 								videoId: 'lMtXfwk7PXg',
 								playerVars: {
@@ -111,62 +110,62 @@
 									wmode: 'opaque'
 								}
 							});
-							
+
 							/* youtubeready body end */
-							
+
 							clearInterval( timer );
 						}
-					
+
 						if ( ++count > 600 ) {
-						
+
 							clearInterval( timer );
 						}
 					}, 100 );
-				
+
 				/* youtubeready end */
-				
+
 			});
-			
+
 		</script>
 		 -->
-		
+
 		<div class="yerslider-wrap mysliderclass-youtube">
-		    <div class="yerslider-mask">
-		        <ul class="yerslider-slider">
-		            <li class="yerslider-slide">
-		                <div class="yerslider-slide-inner">
-							
+			<div class="yerslider-mask">
+				<ul class="yerslider-slider">
+					<li class="yerslider-slide">
+						<div class="yerslider-slide-inner">
+
 							<p class="center-text">fix width</p>
 							<div class="yerslider-video small center" data-videotype="youtube" data-videoid="Lxn1-pKY-9I" data-previewimg="auto">
 								<a class="yerslider-video-play" href="http://www.youtube.com/watch?v=Lxn1-pKY-9I">Play</a>
 							</div>
-			
-		            	</div>
+
+						</div>
 					</li>
 					<li class="yerslider-slide">
-		                <div class="yerslider-slide-inner">
-							
+						<div class="yerslider-slide-inner">
+
 							<p class="center-text">fluid width</p>
 							<div class="yerslider-video" data-videotype="youtube" data-videoid="W3OQgh_h4U4" data-previewimg="auto">
 								<a class="yerslider-video-play" href="http://www.youtube.com/watch?v=W3OQgh_h4U4">Play</a>
-			            	</div>
-							
-		            	</div>
+							</div>
+
+						</div>
 					</li>
 					<li class="yerslider-slide">
-		                <div class="yerslider-slide-inner">
-		            		
+						<div class="yerslider-slide-inner">
+
 							<p class="center-text">fix video</p>
 							<div class="yerslider-video small center" data-videotype="youtube" data-videoid="k3VevYjjwQk" data-previewimg="auto">
 								<a class="yerslider-video-play" href="http://www.youtube.com/watch?v=k3VevYjjwQkE">Play</a>
-			            	</div>
-			
+							</div>
+
 						</div>
 					</li>
-		        </ul>
-		    </div>
+				</ul>
+			</div>
 		</div>
-			
+
 		<code>
 <pre>var myslider = new yerSlider();
 myslider.init({
@@ -186,9 +185,9 @@ myslider.init({
 	videoplayercloseafterend: true</div>
 });</pre>
 		</code>
-		
+
 		<script type="text/javascript">
-	
+
 			jQuery.noConflict();
 			jQuery(document).ready(function(){
 
@@ -209,12 +208,12 @@ myslider.init({
 					autoloadyoutubeiframeapi: true,
 					videoplayercloseafterend: true
 				});
-			
+
 			});
-			
+
 		</script>
-		
+
 		<!-- end -->
-			
+
 	</body>
 </html>
