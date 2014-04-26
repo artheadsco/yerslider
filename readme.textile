@@ -1,6 +1,6 @@
-h1. yerSlider
+h1. YerSlider
 
-yerSlider is designed for developpers, high responsive and potentially can slide anything.
+YerSlider is designed for developpers, high responsive and potentially can slide anything.
 "Demos and Documentation":http://demo.johannheyne.de/yerslider/demo/
 
 The script was started to personel understand all the limitations and problems I had with other slider-scripts.
