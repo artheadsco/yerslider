@@ -94,7 +94,7 @@ module.exports = function(grunt) {
 		watch: {
 			yerslider_production: {
 				files: ['themes/**/*.scss','core/yerslider.js'],
-				tasks: ['bump:patch','uglify:yerslider_js','sass'],
+				tasks: ['uglify:yerslider_js','sass'],
 			},
 		},
 
