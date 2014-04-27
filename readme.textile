@@ -157,7 +157,7 @@ h3. Loop
 
 <pre><code>loop: 'none',</code></pre>
 
-Options: none, appending, rollback, from-first
+Options: none, appending, rollback
 
 
 

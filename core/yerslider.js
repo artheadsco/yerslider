@@ -51,7 +51,7 @@ function YerSlider() {
 		animationspeed: 1000,
 		animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
 		bullets: false,
-		loop: 'none', /* appending, rollback, from-first */
+		loop: 'none', /* appending, rollback */
 		loopswipe: 'none',
 		autoplay: false, /* true */
 		autoplayinterval: 3000, /* integer sec, 0 */
@@ -1615,12 +1615,12 @@ function YerSlider() {
 
 	t.clon_slides = function () {
 
-		if ( !t.stat.touch || ( t.stat.touch && t.stat.loop !== 'none' ) ) {
+		if ( ! t.stat.touch || ( t.stat.touch && t.stat.loop === 'appending' ) ) {
 
 			var index = 0,
 				i = 0;
 
-			if ( t.stat.slidegroup > 0 && t.stat.loop !== 'none' ) {
+			if ( t.stat.slidegroup > 0 && t.stat.loop === 'appending' ) {
 
 				for ( i = 0; i < t.stat.slidegroupmax * 2; i++ ) {
 
@@ -1715,47 +1715,69 @@ function YerSlider() {
 
 			/* loop-none */
 
-			if ( !t.param.autoplay ) {
+			if ( t.stat.loop === 'none' ) {
 
-				if ( t.stat.loop === 'none' && t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+		  		if ( ! t.param.autoplay ) {
 
-					t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
-				}
+		  	        if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+
+		  	        	t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+		  	        }
+		  		}
+
+		  		if ( t.param.autoplay && t.stat.lasteventtype === 'autoplay' ) {
+
+		  	        if ( t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
+
+		  	        	t.stat.currentslideindex = 0;
+		  	        }
+		  		}
+
+		  		if ( t.param.autoplay && t.stat.lasteventtype === 'swipe-left' ) {
+
+		  	        if ( t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
+
+		  	        	t.stat.currentslideindex =	t.stat.currentslideindex - t.stat.slidegroup;
+		  	        }
+		  		}
 			}
 
-			if ( t.param.autoplay && t.stat.lasteventtype === 'autoplay' ) {
+			/* loop rollback */
 
-				if ( t.stat.loop === 'none' && t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
+			if ( t.stat.loop === 'rollback' ) {
 
-					t.stat.currentslideindex = 0;
-				}
-			}
+				//if ( ! t.param.autoplay ) {
 
-			if ( t.param.autoplay && t.stat.lasteventtype === 'swipe-left' ) {
+					if ( t.stat.currentslideindex == t.stat.slidecount ) {
 
-				if ( t.stat.loop === 'none' && t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
+						t.stat.currentslideindex = 0;
+					}
 
-					t.stat.currentslideindex =	t.stat.currentslideindex - t.stat.slidegroup;
-				}
+					if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+
+						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+					}
+				//}
 			}
 
 			/* appending */
 
-			if ( t.stat.loop === 'appending' && t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
+			if ( t.stat.loop === 'appending' ) {
 
-			   temp = t.stat.currentslideindex - t.stat.slidecount;
+				if ( t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
 
-				t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup;
+			 	  temp = t.stat.currentslideindex - t.stat.slidecount;
 
-				//t.animate_slider_to_current_position( 0 );
-				t.move_slider_to_current_index();
+					t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup;
 
-				t.stat.currentslideindex = temp;
+					//t.animate_slider_to_current_position( 0 );
+					t.move_slider_to_current_index();
+
+					t.stat.currentslideindex = temp;
+				}
 			}
 
 			/* loop-rollback */
-
-			/* loop-from-first */
 
 		// }
 
@@ -1763,9 +1785,27 @@ function YerSlider() {
 
 			/* loop-none */
 
-			if ( t.stat.loop === 'none' && t.stat.currentslideindex <= 0 ) {
+			if ( t.stat.loop === 'none' ) {
 
-				t.stat.currentslideindex = 0;
+				if ( t.stat.currentslideindex <= 0 ) {
+
+					t.stat.currentslideindex = 0;
+				}
+			}
+
+			/* loop-rollback */
+
+			if ( t.stat.loop === 'rollback' ) {
+
+			 	if ( t.stat.slidingleft && t.stat.currentslideindex == ( 0 - t.stat.slidegroup ) ) {
+
+					t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+				}
+
+				if ( t.stat.currentslideindex < 0 ) {
+
+					t.stat.currentslideindex = 0;
+				}
 			}
 
 			/* loop-appending */
@@ -1781,10 +1821,6 @@ function YerSlider() {
 
 				t.stat.currentslideindex = temp;
 			}
-
-			/* loop-rollback */
-
-			/* loop-from-first */
 
 		// }
 
