@@ -55,6 +55,7 @@ function YerSlider() {
 		loopswipe: 'none',
 		autoplay: false, /* true */
 		autoplayinterval: 3000, /* integer sec, 0 */
+		autoplaydelaystart: 0, /* integer sec, 0 */
 		autoplaystoponhover: true,
 		autoplaycontinuously: false, /* true */
 		autoplaycontinuouslyspeed: 10000,
@@ -167,8 +168,6 @@ function YerSlider() {
 
 			t.check_slider_current_index_at_start();
 
-			t.autoplayinit();
-
 			t.init_video();
 
 			window.setTimeout(function(){
@@ -183,8 +182,12 @@ function YerSlider() {
 
 				window.setTimeout(function(){
 
-					t.obj.sliderwrap.css('opacity','1').hide().fadeIn('fast');
-				}, 250);
+					t.obj.sliderwrap.css( 'opacity','1' ).hide().fadeIn( 'fast', function() {
+					
+						t.autoplayinit();
+					});
+					
+				}, 250 );
 
 			// }
 		}
@@ -1251,33 +1254,40 @@ function YerSlider() {
 			if ( !t.param.autoplaycontinuously || !t.stat.cssanimation ) {
 
 				t.stat.autoplayison = true;
+				
+				window.setTimeout( function() {
+					
+					if ( t.stat.autoplayison ) { // could be set to false while timeout by t.autoplayclear()
+					    
+						t.stat.autoplayinterval = window.setInterval( function () {
 
-				t.stat.autoplayinterval = window.setInterval( function () {
+							if ( !t.stat.isanimating ) {
 
-					if ( !t.stat.isanimating ) {
+								t.stat.isanimating = true;
+								t.stat.slidingright = true;
+								t.stat.lasteventtype = 'autoplay';
 
-						t.stat.isanimating = true;
-						t.stat.slidingright = true;
-						t.stat.lasteventtype = 'autoplay';
+								t.player_remove();
 
-						t.player_remove();
+								t.next_slide();
 
-						t.next_slide();
+								t.animate_slider_to_current_position( t.get_animationspeed() );
 
-						t.animate_slider_to_current_position( t.get_animationspeed() );
+								t.refresh_prevnext();
 
-						t.refresh_prevnext();
+								if ( t.param.bullets ) {
 
-						if ( t.param.bullets ) {
+									t.set_bullet_current();
+									t.set_bullet_current_class();
+								}
 
-							t.set_bullet_current();
-							t.set_bullet_current_class();
-						}
+								t.stat.slidingright = false;
 
-						t.stat.slidingright = false;
-
-					}  
-				}, t.param.autoplayinterval );
+							}  
+						}, t.param.autoplayinterval );
+					}
+				
+				}, t.param.autoplaydelaystart );
 			}
 		}
 	};
@@ -1317,12 +1327,6 @@ function YerSlider() {
 				t.autoplayclear();
 			}
 
-		}).mouseleave(function() {
-
-			if ( !t.stat.videoisplaying ) {
-
-				t.autoplayset();
-			}
 		});
 
 		// bulletclass
@@ -1334,12 +1338,6 @@ function YerSlider() {
 				t.autoplayclear();
 			}
 
-		}).mouseleave(function() {
-
-			if ( !t.stat.videoisplaying ) {
-
-				t.autoplayset();
-			}
 		});
 
 	};
@@ -1725,20 +1723,13 @@ function YerSlider() {
 		  	        }
 		  		}
 
-		  		if ( t.param.autoplay && t.stat.lasteventtype === 'autoplay' ) {
+		  		if ( t.param.autoplay ) {
 
-		  	        if ( t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
-
-		  	        	t.stat.currentslideindex = 0;
-		  	        }
-		  		}
-
-		  		if ( t.param.autoplay && t.stat.lasteventtype === 'swipe-left' ) {
-
-		  	        if ( t.stat.currentslideindex > t.stat.slidecount - t.stat.slidegroup ) {
-
-		  	        	t.stat.currentslideindex =	t.stat.currentslideindex - t.stat.slidegroup;
-		  	        }
+		  	        if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+		  	        	
+						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+		  	        	t.autoplayclear();
+					}
 		  		}
 			}
 

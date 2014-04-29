@@ -7,6 +7,10 @@ The script was started to personel understand all the limitations and problems I
 
 This documentation is incomplete and corrupting changes still may ahead!
 
+h2. Current Version
+
+1.1.3
+
 
 
 h2. Properties
@@ -21,11 +25,7 @@ h2. Properties
 
 h2. Roadmap
 
-* fix video (YouTube/Vimeo)
-- previewimage witch playicon
-- open video options (size of previewimage or slide or custom)
 * thumbs
-* themes
 
 Just ask me for your needs at mail@johannheyne.de or create a new issue.
 
