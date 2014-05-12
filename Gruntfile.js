@@ -95,6 +95,9 @@ module.exports = function(grunt) {
 			yerslider_production: {
 				files: ['themes/**/*.scss','core/yerslider.js'],
 				tasks: ['uglify:yerslider_js','sass'],
+				options: {
+					livereload: true,
+			    },
 			},
 		},
 
