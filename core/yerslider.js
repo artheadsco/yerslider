@@ -66,7 +66,16 @@ function YerSlider() {
 		swipeanimationspeed: 300,
 		sublimevideo: false,
 		autoloadyoutubeiframeapi: true,
-		videoplayercloseafterend: true
+		videoplayercloseafterend: true,
+		// thumbs
+		thumbs: false,
+		thumbtemplates: {},
+		thumbsclickable: true,
+		sliderwrapclasshasthumbs: '.yerslider-has-thumbs',
+		thumbswrapclass: '.yerslider-thumbs-wrap',
+		thumbsmaskclass: '.yerslider-thumbs-mask',
+		thumbsitemsclass: '.yerslider-thumbs-items',
+		thumbsitemclass: '.yerslider-thumbs-item',
 	};
 
 	t.stat = {
@@ -117,7 +126,9 @@ function YerSlider() {
 		prevbtn: undefined,
 		nextbtn: undefined,
 		videoplayers: {},
-		slides_videoplayers: {}
+		slides_videoplayers: {},
+		thumbswrap: undefined,
+		thumbitems: undefined,
 	};
 
 	// init {
@@ -160,6 +171,8 @@ function YerSlider() {
 
 			t.bullets();
 
+			t.thumbs();
+
 			t.init_touchswipe();
 
 			t.init_iosresizeclickbug();
@@ -183,10 +196,10 @@ function YerSlider() {
 				window.setTimeout(function(){
 
 					t.obj.sliderwrap.css( 'opacity','1' ).hide().fadeIn( 'fast', function() {
-					
+
 						t.autoplayinit();
 					});
-					
+
 				}, 250 );
 
 			// }
@@ -1254,11 +1267,11 @@ function YerSlider() {
 			if ( !t.param.autoplaycontinuously || !t.stat.cssanimation ) {
 
 				t.stat.autoplayison = true;
-				
+
 				window.setTimeout( function() {
-					
+
 					if ( t.stat.autoplayison ) { // could be set to false while timeout by t.autoplayclear()
-					    
+
 						t.stat.autoplayinterval = window.setInterval( function () {
 
 							if ( !t.stat.isanimating ) {
@@ -1286,7 +1299,7 @@ function YerSlider() {
 							}  
 						}, t.param.autoplayinterval );
 					}
-				
+
 				}, t.param.autoplaydelaystart );
 			}
 		}
@@ -1503,6 +1516,122 @@ function YerSlider() {
 
 			t.refresh_prevnext();
 		});
+	};
+
+	// }
+
+	// thumbs {
+
+	t.thumbs = function () {
+
+		if ( t.param.thumbs ) {
+
+			//window.setTimeout(function(){
+
+				/* add thumbs class to wrap */
+
+				t.obj.sliderwrap.addClass( t.param.sliderwrapclasshasthumbs.replace( '.', '' ) );
+
+				/* do thumbs-wrap html and object */
+
+				if ( typeof t.obj.thumbswrap !== 'object' ) {
+
+					t.obj.sliderwrap.append('<div class="' + t.param.thumbswrapclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsmaskclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsitemsclass.replace( '.', '' ) + '"></div></div></div>');
+					t.obj.thumbswrap = t.obj.sliderwrap.find( t.param.thumbswrapclass );
+					t.obj.thumbitems = t.obj.sliderwrap.find( t.param.thumbsitemsclass );
+				}
+
+				t.set_thumbs_current();
+
+				/* thumbs items */
+
+				t.thumbs_items();
+
+				/* thumbs current class */
+
+				t.set_thumbs_current_class();
+
+				/* thumbs click */
+
+				t.thumbs_click();
+
+			//}, 200);
+
+		}
+	};
+
+	t.thumbs_items = function () {
+
+		t.obj.slide.each( function() {
+
+			var obj_slide = jQuery( this ),
+				template_key = obj_slide.data( 'thumb-template-key' ),
+				template_html = '',
+				thumb_html = '',
+				thumb_class = '';
+
+			// be sure, there is a themplate_key and an belonging object of thumbtemplatedw
+			if (
+				template_key
+				&& typeof t.param.thumbtemplates[ template_key ] === 'object'
+				&& t.helper.getLength( t.param.thumbtemplates[ template_key ] ) > 0 
+			) {
+
+				thumb_html = '';
+				thumb_class = '';
+				thumb_ = '';
+				placeholder_arr = false;
+
+				if ( t.param.thumbtemplates[ template_key ].html ) {
+
+					template_html = t.param.thumbtemplates[ template_key ].html;
+
+					// if class
+					if ( t.param.thumbtemplates[ template_key ].class ) {
+
+						thumb_class = ' ' + t.param.thumbtemplates[ template_key ].class;
+					}
+
+					// get the placeholders from the template in an array
+					placeholder_arr = t.get_placeholder_of_string( template_html );
+
+					// replace placeholders with data
+					if ( placeholder_arr.length > 0 ) {
+
+						placeholder_arr.map( function( placeholder ) {
+
+							var value = obj_slide.data( placeholder );
+
+							if ( ! value ) {
+
+								value = '';
+							}
+
+							template_html = template_html.replace( '{{' + placeholder + '}}', value );
+						});
+					}
+
+					// build thumb html
+					thumb_html += '<div class="' + t.param.thumbsitemclass.replace( '.', '' ) + thumb_class + '">';
+					thumb_html += template_html;
+					thumb_html += '</div>';
+
+					t.obj.thumbitems.append( thumb_html );
+				}
+			}
+		});
+	};
+
+	t.set_thumbs_current = function () {
+
+	};
+
+	t.set_thumbs_current_class = function () {
+
+	};
+
+	t.thumbs_click = function () {
+
 	};
 
 	// }
@@ -1726,7 +1855,7 @@ function YerSlider() {
 		  		if ( t.param.autoplay ) {
 
 		  	        if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
-		  	        	
+
 						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
 		  	        	t.autoplayclear();
 					}
@@ -2167,6 +2296,21 @@ function YerSlider() {
 			return r;
 		}
 	};
+
+	t.get_placeholder_of_string = function ( string ) {
+
+		// placeholder pattern {{placeholder}}, you can use alphanumeric characters, underscore and hyphen
+
+		var regex = /\{\{([\w-]+)\}\}/g,
+		    arr = [];
+
+	    while ( match = regex.exec( string ) ) {
+
+			arr.push( match[1] );    
+	    }
+
+	    return arr;
+	},
 
 	// }
 

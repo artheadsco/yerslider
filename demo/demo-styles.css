@@ -9,6 +9,11 @@ body {
 	}
 }
 
+/* 4 spaces per tab */
+pre {
+	tab-size: 4;
+}
+
 .page-typo {
 	margin: 0 10px 0 10px;
 	text-align: center;
