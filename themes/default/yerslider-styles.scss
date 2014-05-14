@@ -272,23 +272,25 @@
 	.yerslider-thumbs-mask {
 
 		// DEFAULT {
-
-			overflow: auto;
-
+			position: relative;
+			overflow: hidden;
+			font-size: 0;
+			line-height: 0;
 		// }
 	}
 	.yerslider-thumbs-items {
 
 		// DEFAULT {
-
-			text-align: center;
+			position: relative;
+			//text-align: center;
 			white-space: nowrap;
-
+			font-size: 0;
+			line-height: 0;
 		// }
 
 		// CUSTOM {
 
-			margin-left: -10px;
+			margin-left: -5px;
 
 		// }
 	}
@@ -297,20 +299,24 @@
 		// DEFAULT {
 
 			display: inline-block;
-
+			min-width: 0;
 		// }
 
 		// CUSTOM {
 
 			margin-top: 10px;
-			margin-left: 10px;
+			margin-left: 5px;
 			padding: 20px 40px;
 			background-color: $background-color;
+			//border: 1px solid red;
 
 			p {
 				margin: 0;
 				padding: 0;
 				color: $text-color;
+				font-size: 16px;
+				line-height: 1.2;
+
 			}
 
 		// }

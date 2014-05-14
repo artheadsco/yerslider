@@ -69,13 +69,14 @@ function YerSlider() {
 		videoplayercloseafterend: true,
 		// thumbs
 		thumbs: false,
-		thumbtemplates: {},
+		thumbstemplates: {},
 		thumbsclickable: true,
 		sliderwrapclasshasthumbs: '.yerslider-has-thumbs',
 		thumbswrapclass: '.yerslider-thumbs-wrap',
 		thumbsmaskclass: '.yerslider-thumbs-mask',
 		thumbsitemsclass: '.yerslider-thumbs-items',
 		thumbsitemclass: '.yerslider-thumbs-item',
+		thumbsscript: undefined,
 	};
 
 	t.stat = {
@@ -128,8 +129,8 @@ function YerSlider() {
 		videoplayers: {},
 		slides_videoplayers: {},
 		thumbswrap: undefined,
-		thumbitems: undefined,
-		thumbitem: undefined,
+		thumbsitems: undefined,
+		thumbsitem: undefined,
 	};
 
 	// init {
@@ -1543,7 +1544,8 @@ function YerSlider() {
 
 					t.obj.sliderwrap.append('<div class="' + t.param.thumbswrapclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsmaskclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsitemsclass.replace( '.', '' ) + '"></div></div></div>');
 					t.obj.thumbswrap = t.obj.sliderwrap.find( t.param.thumbswrapclass );
-					t.obj.thumbitems = t.obj.sliderwrap.find( t.param.thumbsitemsclass );
+					t.obj.thumbsitems = t.obj.sliderwrap.find( t.param.thumbsitemsclass );
+					t.obj.thumbsmask = t.obj.sliderwrap.find( t.param.thumbsmaskclass );
 				}
 
 				t.set_thumbs_current();
@@ -1560,6 +1562,9 @@ function YerSlider() {
 
 				t.thumbs_click();
 
+				/* thumbs script */
+
+				t.thumbs_script();
 			//}, 200);
 
 		}
@@ -1578,8 +1583,8 @@ function YerSlider() {
 			// be sure, there is a themplate_key and an belonging object of thumbtemplatedw
 			if (
 				template_key
-				&& typeof t.param.thumbtemplates[ template_key ] === 'object'
-				&& t.helper.getLength( t.param.thumbtemplates[ template_key ] ) > 0 
+				&& typeof t.param.thumbstemplates[ template_key ] === 'object'
+				&& t.helper.getLength( t.param.thumbstemplates[ template_key ] ) > 0 
 			) {
 
 				thumb_html = '';
@@ -1587,14 +1592,14 @@ function YerSlider() {
 				thumb_ = '';
 				placeholder_arr = false;
 
-				if ( t.param.thumbtemplates[ template_key ].html ) {
+				if ( t.param.thumbstemplates[ template_key ].html ) {
 
-					template_html = t.param.thumbtemplates[ template_key ].html;
+					template_html = t.param.thumbstemplates[ template_key ].html;
 
 					// if class
-					if ( t.param.thumbtemplates[ template_key ].class ) {
+					if ( t.param.thumbstemplates[ template_key ].class ) {
 
-						thumb_class = ' ' + t.param.thumbtemplates[ template_key ].class;
+						thumb_class = ' ' + t.param.thumbstemplates[ template_key ].class;
 					}
 
 					// get the placeholders from the template in an array
@@ -1621,9 +1626,9 @@ function YerSlider() {
 					thumb_html += template_html;
 					thumb_html += '</div>';
 
-					t.obj.thumbitems.append( thumb_html );
+					t.obj.thumbsitems.append( thumb_html );
 
-					t.obj.thumbitem = t.obj.sliderwrap.find( t.param.thumbsitemclass );
+					t.obj.thumbsitem = t.obj.sliderwrap.find( t.param.thumbsitemclass );
 				}
 			}
 		});
@@ -1635,19 +1640,30 @@ function YerSlider() {
 
 	t.set_thumbs_current_class = function () {
 
-		t.obj.thumbitem.removeClass( 'thumb-slidegroup-current' );
-		t.obj.thumbitem.removeClass( 'thumb-current' );
+		t.obj.thumbsitem.removeClass( 'thumb-slidegroup-current' );
+		t.obj.thumbsitem.removeClass( 'thumb-current' );
 
 		for ( var i in t.stat.slidesinviewportindexes ) {
 
-			jQuery( t.obj.thumbitem[ ( t.stat.slidesinviewportindexes[ i ] - 1 ) ] ).addClass( 'thumb-slidegroup-current' );
+			jQuery( t.obj.thumbsitem[ ( t.stat.slidesinviewportindexes[ i ] - 1 ) ] ).addClass( 'thumb-slidegroup-current' );
 		}
 
-		jQuery( t.obj.thumbitem[ t.stat.currentslideindex ] ).addClass( 'thumb-current' );
+		jQuery( t.obj.thumbsitem[ t.stat.currentslideindex ] ).addClass( 'thumb-current' );
 	};
 
 	t.thumbs_click = function () {
 
+	};
+
+	t.thumbs_script = function () {
+
+		if ( t.param.thumbsscript ) {
+
+			var p = {};
+				p.obj = t.obj;
+
+			t.param.thumbsscript( p );
+		}
 	};
 
 	// }
