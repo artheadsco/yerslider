@@ -250,7 +250,9 @@ function YerSlider() {
 
 		/* css animation */
 
-		if ( jQuery('html').is( '.csstransitions, .csstransforms3d, .cssanimations' ) && t.param.slidegroup > 0 ) {
+		var obj_html = jQuery('html');
+
+		if ( obj_html.hasClass( 'csstransitions' ) && obj_html.hasClass( 'csstransforms3d' ) && obj_html.hasClass( 'cssanimations' ) && t.param.slidegroup > 0 ) {
 
 			t.stat.cssanimation = true;
 		}
