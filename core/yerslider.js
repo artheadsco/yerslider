@@ -2386,4 +2386,4 @@ function YerSlider() {
 		};
 
 	// }
-}
+};
