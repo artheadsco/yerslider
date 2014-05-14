@@ -10,7 +10,7 @@
 			thumbsitemsclass: '.yerslider-thumbs-items',
 			thumbsitemclass: '.yerslider-thumbs-item',
 			hasthumbsclass: 'yerslider-has-thumbs',
-			moveoffset: 100,
+			moveoffset: 60,
 		};
 
 		t.stat = {
@@ -21,6 +21,7 @@
 			diff: 0,
 			mousepos_x: false,
 			is_animating: false,
+			isresizing: false,
 		};
 
 		t.obj = {
@@ -43,59 +44,79 @@
 				}
 
 			// }
-
-			t.process();
+			
+			jQuery( window ).load( function ( ) {
+				
+				t.process();
+			} );
+			
+			
+			jQuery(window).resize( function() {
+				
+				window.setTimeout(function(){
+					
+					//if ( ! t.stat.isresizing ) {
+					
+						t.stat.isresizing = true;
+						
+						t.obj.thumbsmask.unbind( 'mouseenter' );
+						t.obj.thumbsmask.unbind( 'mousemove' );
+						
+						t.obj.thumbsitems.css( 'left', '0px' );
+						t.process();
+						t.stat.isresizing = false;
+					//}
+					
+				 }, 100 );
+			 });
 		};
 
 		t.process = function () {
 
-			jQuery( window ).load( function ( ) {
+			// DEFINE VARS {
 
-				// DEFINE VARS {
+				t.stat.itemspos_x = 0;
+				t.stat.maskwidth = t.obj.thumbsmask.innerWidth();
+				t.stat.itemswidth = t.obj.thumbsitem.last().position().left + t.obj.thumbsitem.last().outerWidth();
+				t.stat.diff = t.stat.itemswidth - t.stat.maskwidth;
+				t.stat.maskleft = t.obj.thumbsmask.offset().left
 
-					t.stat.itemspos_x = 0;
-					t.stat.maskwidth = t.obj.thumbsmask.innerWidth();
-					t.stat.itemswidth = t.obj.thumbsitem.last().position().left + t.obj.thumbsitem.last().outerWidth();
-					t.stat.diff = t.stat.itemswidth - t.stat.maskwidth;
-					t.stat.maskleft = t.obj.thumbsmask.offset().left
+			// }
 
-				// }
+			// ON MOUSE OVER ANIMATION {
 
-				// ON MOUSE OVER ANIMATION {
+				t.obj.thumbsmask.on( 'mouseenter', function ( e ) {
 
-					t.obj.thumbsmask.on( 'mouseenter', function ( e ) {
+						t.set_itemspos( e );
 
-							t.set_itemspos( e );
+						t.stat.is_animating = true;
 
-							t.stat.is_animating = true;
+						t.obj.thumbsitems.animate( {
+							'left': '-' + t.stat.itemspos_x + 'px'
+						}, 200, function () {
 
-							t.obj.thumbsitems.animate( {
-								'left': '-' + t.stat.itemspos_x + 'px'
-							}, 200, function () {
+							t.stat.is_animating = false;
 
-								t.stat.is_animating = false;
+						} );
+				} );
 
-							} );
-					} );
+			// }
 
-				// }
+			// THUMBS FOLLOW MOUSE {
 
-				// THUMBS FOLLOW MOUSE {
+				jQuery( t.obj.thumbsmask ).mousemove( function( e ) {
 
-					jQuery( t.obj.thumbsmask ).mousemove( function( e ) {
+					if ( ! t.stat.is_animating ) {
 
-						if ( ! t.stat.is_animating ) {
+						t.set_itemspos( e );
 
-							t.set_itemspos( e );
+						t.obj.thumbsitems.css( 'left', '-' + t.stat.itemspos_x + 'px' );
+					}
 
-							t.obj.thumbsitems.css( 'left', '-' + t.stat.itemspos_x + 'px' );
-						}
+				} ).mouseover();
 
-					} ).mouseover();
+			// }
 
-				// }
-
-			} );
 		};
 
 		t.set_itemspos = function ( e ) {

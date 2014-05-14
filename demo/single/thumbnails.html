@@ -147,9 +147,9 @@ myslider.init({
 		}
 	},
 	thumbsclickable: true,
-	thumbsscript: function( p ) {
-		var thumbsscript = new YerSliderThumbs();
-		thumbsscript.init({
+	thumbsready: function( p ) {
+		var thumbsready = new YerSliderThumbs();
+		thumbsready.init({
 			obj: p.obj
 		});
 	}</div>
@@ -175,7 +175,7 @@ myslider.init({
 					animationspeed: 1000,
 					bullets: true,
 					autoplay: true,
-					autoplayinterval: 1000,
+					autoplayinterval: 2000,
 					autoplaydelaystart: 0,
 					autoplaystoponhover: true,
 
@@ -187,7 +187,7 @@ myslider.init({
 						}
 					},
 					thumbsclickable: true,
-					thumbsscript: function( p ) {
+					thumbsready: function( p ) {
 
         				var yersliderthumbs = new YerSliderThumbs();
         				yersliderthumbs.init({

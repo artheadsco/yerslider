@@ -55,6 +55,8 @@ function YerSlider() {
 		loopswipe: 'none',
 		autoplay: false, /* true */
 		autoplayinterval: 3000, /* integer sec, 0 */
+		autoplaybreakmin: 10, /* integer millisec, 0 */
+		autoplaybreak: false, /* integer millisec, 0 */
 		autoplaydelaystart: 0, /* integer sec, 0 */
 		autoplaystoponhover: true,
 		autoplaycontinuously: false, /* true */
@@ -76,7 +78,7 @@ function YerSlider() {
 		thumbsmaskclass: '.yerslider-thumbs-mask',
 		thumbsitemsclass: '.yerslider-thumbs-items',
 		thumbsitemclass: '.yerslider-thumbs-item',
-		thumbsscript: undefined,
+		thumbsready: undefined,
 	};
 
 	t.stat = {
@@ -227,6 +229,20 @@ function YerSlider() {
 			p: p,
 			d: t.param
 		});
+
+		// VALIDATE AUTOPLAYINTERVAL {
+
+			if ( t.param.autoplaybreak ) {
+
+				t.param.autoplayinterval = t.param.animationspeed + t.param.autoplaybreak;
+			}
+
+			if ( t.param.autoplayinterval <= t.param.animationspeed ) {
+
+				t.param.autoplayinterval = t.param.animationspeed + t.param.autoplaybreakmin;
+			}
+
+		// }
 
 	};
 
@@ -1657,12 +1673,12 @@ function YerSlider() {
 
 	t.thumbs_script = function () {
 
-		if ( t.param.thumbsscript ) {
+		if ( t.param.thumbsready ) {
 
 			var p = {};
 				p.obj = t.obj;
 
-			t.param.thumbsscript( p );
+			t.param.thumbsready( p );
 		}
 	};
 
