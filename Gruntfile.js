@@ -1,18 +1,41 @@
+// SETUP {
+
+	var setup = {};
+
+	setup.banner = '/*\r\n' +
+	' * @package		<%= pkg.name %>\r\n' +
+	' * @version		<%= pkg.version %>\r\n' +
+	' * @date		<%= grunt.template.today("yyyy-mm-dd") %>\r\n' +
+	' * @time		<%= grunt.template.today("H:MM:ss") %>\r\n' +
+	' * @license		<%= pkg.license %>\r\n' + 
+	' * @repository	<%= pkg.repository.url %>\r\n' + 
+	' * @homepage	<%= pkg.homepage %>\r\n' + 
+	' */\r\n';
+
+	setup.uglify_options = {
+		compress: true,
+		mangle: true,
+		report: 'gzip',
+		banner: setup.banner,
+	};
+
+// }
+
 module.exports = function(grunt) {
 
 	grunt.initConfig({
 
 		pkg: grunt.file.readJSON('package.json'),
-		
+
 		/*
 			versioning via bump: https://github.com/vojtajina/grunt-bump
-			
+
 			grunt bump:patch	1.0.0 -> 1.0.1
 			grunt bump:minor	1.0.1 -> 1.1.0
 			grunt bump:major	1.1.0 -> 2.0.0
 			grunt bump --setversion=1.0.0
 		*/
-		
+
 		bump: {
 		  options: {
 			files: ['package.json'],
@@ -21,26 +44,19 @@ module.exports = function(grunt) {
 			push: false,
 		  }
 		},
-		
+
 		uglify: {
-			yerslider_js: {
+			core_yerslider: {
 				files: {
 					'core/yerslider.min.js': 'core/yerslider.js',
 				},
-				options: {
-					compress: true,
-					mangle: true,
-					report: 'gzip',
-					banner: '/*\r\n' +
-					' * @package		<%= pkg.name %>\r\n' +
-					' * @version		<%= pkg.version %>\r\n' +
-					' * @date		<%= grunt.template.today("yyyy-mm-dd") %>\r\n' +
-					' * @time		<%= grunt.template.today("H:MM:ss") %>\r\n' +
-					' * @license		<%= pkg.license %>\r\n' + 
-					' * @repository	<%= pkg.repository.url %>\r\n' + 
-					' * @homepage	<%= pkg.homepage %>\r\n' + 
-					' */\r\n',
-				}
+				options: setup.uglify_options
+			},
+			theme_default: {
+				files: {
+					'themes/default/yerslider.min.js': 'themes/default/yerslider.js',
+				},
+				options: setup.uglify_options
 			}
 		},
 
@@ -48,15 +64,7 @@ module.exports = function(grunt) {
 			expanded: {
 				options: {
 					style: 'expanded',
-					banner: '/*\r\n' +
-					' * @package		<%= pkg.name %>\r\n' +
-					' * @version		<%= pkg.version %>\r\n' +
-					' * @date		<%= grunt.template.today("yyyy-mm-dd") %>\r\n' +
-					' * @time		<%= grunt.template.today("H:MM:ss") %>\r\n' +
-					' * @license		<%= pkg.license %>\r\n' + 
-					' * @repository	<%= pkg.repository.url %>\r\n' + 
-					' * @homepage	<%= pkg.homepage %>\r\n' + 
-					' */\r\n',
+					banner: setup.banner,
 				},
 				files: [{
 					expand: true,
@@ -70,15 +78,7 @@ module.exports = function(grunt) {
 			min: {
 				options: {
 					style: 'compressed',
-					banner: '/*\r\n' +
-					' * @package		<%= pkg.name %>\r\n' +
-					' * @version		<%= pkg.version %>\r\n' +
-					' * @date		<%= grunt.template.today("yyyy-mm-dd") %>\r\n' +
-					' * @time		<%= grunt.template.today("H:MM:ss") %>\r\n' +
-					' * @license		<%= pkg.license %>\r\n' + 
-					' * @repository	<%= pkg.repository.url %>\r\n' + 
-					' * @homepage	<%= pkg.homepage %>\r\n' + 
-					' */\r\n',
+					banner: setup.banner,
 				},
 				files: [{
 					expand: true,
@@ -92,9 +92,23 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
-			yerslider_production: {
-				files: ['themes/**/*.scss','core/yerslider.js'],
-				tasks: ['uglify:yerslider_js','sass'],
+			watch_core_yerslider: {
+				files: ['core/yerslider.js'],
+				tasks: ['uglify:core_yerslider'],
+				options: {
+					livereload: true,
+			    },
+			},
+			watch_theme_default_js: {
+				files: ['themes/default/yerslider.js'],
+				tasks: ['uglify:theme_default'],
+				options: {
+					livereload: true,
+			    },
+			},
+			watch_theme_default_styles: {
+				files: ['themes/default/yerslider-styles.scss'],
+				tasks: ['sass'],
 				options: {
 					livereload: true,
 			    },
