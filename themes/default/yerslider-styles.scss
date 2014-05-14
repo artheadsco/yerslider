@@ -1,3 +1,10 @@
+// SETUP {
+
+	$background-color: dodgerblue;
+	$text-color: white;
+
+// }
+
 .yerslider-wrap {
     /* no-js begin */
     position: relative;
@@ -251,3 +258,69 @@
 .yerslider-video-play:hover {
     background: rgba(0,0,0,0.8);
 }
+
+// THUMBS {
+
+    .yerslider-thumbs-wrap {
+
+		// CUSTOM {
+
+			margin-top: 10px;
+
+		// }
+	}
+	.yerslider-thumbs-mask {
+
+		// DEFAULT {
+
+			overflow: auto;
+
+		// }
+	}
+	.yerslider-thumbs-items {
+
+		// DEFAULT {
+
+			text-align: center;
+			white-space: nowrap;
+
+		// }
+
+		// CUSTOM {
+
+			margin-left: -10px;
+
+		// }
+	}
+	.yerslider-thumbs-item {
+
+		// DEFAULT {
+
+			display: inline-block;
+
+		// }
+
+		// CUSTOM {
+
+			margin-top: 10px;
+			margin-left: 10px;
+			padding: 20px 40px;
+			background-color: $background-color;
+
+			p {
+				margin: 0;
+				padding: 0;
+				color: $text-color;
+			}
+
+		// }
+	}
+	.thumb-slidegroup-current {
+
+		background-color: darken( $background-color, 30% );
+	}
+	.thumb-current {
+
+	}
+
+// }

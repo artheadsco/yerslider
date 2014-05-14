@@ -2,7 +2,7 @@
  * @package		YerSlider
  * @version		1.1.4
  * @date		2014-05-14
- * @time		8:36:53
+ * @time		9:23:42
  * @license		MIT or GPL
  * @repository	https://github.com/johannheyne/yerslider.git
  * @homepage	http://demo.johannheyne.de/yerslider/demo/
@@ -273,4 +273,35 @@
 
 .yerslider-video-play:hover {
   background: rgba(0, 0, 0, 0.8);
+}
+
+.yerslider-thumbs-wrap {
+  margin-top: 10px;
+}
+
+.yerslider-thumbs-mask {
+  overflow: auto;
+}
+
+.yerslider-thumbs-items {
+  text-align: center;
+  white-space: nowrap;
+  margin-left: -10px;
+}
+
+.yerslider-thumbs-item {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 10px;
+  padding: 20px 40px;
+  background-color: dodgerblue;
+}
+.yerslider-thumbs-item p {
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+.thumb-slidegroup-current {
+  background-color: #004384;
 }
