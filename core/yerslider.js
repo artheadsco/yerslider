@@ -1387,92 +1387,106 @@ function YerSlider() {
 	};
 
 	t.bullet_items = function () {
+		
+		if ( t.param.bullets ) {
+		
+			/* do bullets html and object */
 
-		/* do bullets html and object */
+			if ( t.stat.bulletscountcache !== t.stat.bulletscount ) {
 
-		if ( t.stat.bulletscountcache !== t.stat.bulletscount ) {
+				var bullets = '';
 
-			var bullets = '';
+				for ( var i = 1; i <= t.stat.bulletscount; i++ ) {
 
-			for ( var i = 1; i <= t.stat.bulletscount; i++ ) {
+					bullets += '<div class="' + t.param.bulletclass.replace( '.', '' ) + '" data-index="' + i + '"></div>';
+				}
 
-				bullets += '<div class="' + t.param.bulletclass.replace( '.', '' ) + '" data-index="' + i + '"></div>';
+				t.obj.bulletswrap.empty();
+
+				if ( t.stat.bulletscount > 1 ) {
+
+					t.obj.bulletswrap.append( bullets );
+				}
+
+				t.stat.bulletscountcache = t.stat.bulletscount;
 			}
 
-			t.obj.bulletswrap.empty();
+			t.obj.bullets = t.obj.bulletswrap.find( t.param.bulletclass );
 
-			if ( t.stat.bulletscount > 1 ) {
-
-				t.obj.bulletswrap.append( bullets );
-			}
-
-			t.stat.bulletscountcache = t.stat.bulletscount;
+			t.set_bullet_current_class();
+		
 		}
-
-		t.obj.bullets = t.obj.bulletswrap.find( t.param.bulletclass );
-
-		t.set_bullet_current_class();
 	};
 
 	t.set_bullet_current = function () {
+		
+		if ( t.param.bullets ) {
+		
+			var currentslideindex = t.stat.currentslideindex;
 
-		var currentslideindex = t.stat.currentslideindex;
+			/* translate clone current slide index into original index */
 
-		/* translate clone current slide index into original index */
+			if ( currentslideindex + 1 > t.stat.slidecount ) {
 
-		if ( currentslideindex + 1 > t.stat.slidecount ) {
+				currentslideindex = currentslideindex - t.stat.slidecount;
+			}
 
-			currentslideindex = currentslideindex - t.stat.slidecount;
-		}
+			/* current bullet index */
 
-		/* current bullet index */
+			if ( t.stat.loop === 'none' ) {
 
-		if ( t.stat.loop === 'none' ) {
+				t.stat.bulletcurrent = Math.ceil( currentslideindex / t.stat.slidegroup ) + 1;
+			}
+			else {
 
-			t.stat.bulletcurrent = Math.ceil( currentslideindex / t.stat.slidegroup ) + 1;
-		}
-		else {
+				t.stat.bulletcurrent = Math.round( currentslideindex / t.stat.slidegroup ) + 1;
 
-			t.stat.bulletcurrent = Math.round( currentslideindex / t.stat.slidegroup ) + 1;
+				if ( t.stat.bulletcurrent > t.stat.bulletscount ) {
 
-			if ( t.stat.bulletcurrent > t.stat.bulletscount ) {
-
-				t.stat.bulletcurrent = t.stat.bulletscount;
+					t.stat.bulletcurrent = t.stat.bulletscount;
+				}
 			}
 		}
 	};
 
 	t.set_bullet_current_class = function () {
+		
+		if ( t.param.bullets ) {
+		
+			/* current bullet class */
 
-		/* current bullet class */
+			t.obj.bullets.removeClass( t.param.bulletcurrentclass.replace( '.', '' ) );
 
-		t.obj.bullets.removeClass( t.param.bulletcurrentclass.replace( '.', '' ) );
-
-		t.obj.bulletswrap.find('[data-index="' + t.stat.bulletcurrent + '"]').addClass( t.param.bulletcurrentclass.replace( '.', '' ) );
+			t.obj.bulletswrap.find('[data-index="' + t.stat.bulletcurrent + '"]').addClass( t.param.bulletcurrentclass.replace( '.', '' ) );
+		}
+	
 	};
 
 	t.bullet_click = function () {
-
-		t.obj.bullets.on( 'click', function () {
-
-			if ( ! t.stat.isanimating ) {
-
-				t.stat.isanimating = true;
-				t.stat.slidingright = true;
-
-				var currentbullet = jQuery(this).data('index');
-
-				t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
-
-				// JOB {
-
-					t.task_slide();
-
-				// }
-
-			}
-
-		});
+		
+		if ( t.param.bullets ) {
+		
+			t.obj.bullets.on( 'click', function () {
+    
+				if ( ! t.stat.isanimating ) {
+    
+					t.stat.isanimating = true;
+					t.stat.slidingright = true;
+    
+					var currentbullet = jQuery(this).data('index');
+    
+					t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
+    
+					// JOB {
+    
+						t.task_slide();
+    
+					// }
+    
+				}
+    
+			});
+		}
 	};
 
 	// }
@@ -1521,144 +1535,159 @@ function YerSlider() {
 	};
 
 	t.thumbs_items = function () {
+		
+		if ( t.param.thumbs ) {
+		
+			t.obj.slide.each( function() {
 
-		t.obj.slide.each( function() {
+				var obj_slide = jQuery( this ),
+					template_key = obj_slide.data( 'thumb-template-key' ),
+					template_html = '',
+					thumb_html = '',
+					thumb_class = '';
 
-			var obj_slide = jQuery( this ),
-				template_key = obj_slide.data( 'thumb-template-key' ),
-				template_html = '',
-				thumb_html = '',
-				thumb_class = '';
+				// be sure, there is a themplate_key and an belonging object of thumbtemplatedw
+				if (
+					template_key
+					&& typeof t.param.thumbstemplates[ template_key ] === 'object'
+					&& t.helper.getLength( t.param.thumbstemplates[ template_key ] ) > 0 
+				) {
 
-			// be sure, there is a themplate_key and an belonging object of thumbtemplatedw
-			if (
-				template_key
-				&& typeof t.param.thumbstemplates[ template_key ] === 'object'
-				&& t.helper.getLength( t.param.thumbstemplates[ template_key ] ) > 0 
-			) {
+					thumb_html = '';
+					thumb_class = '';
+					thumb_ = '';
+					placeholder_arr = false;
 
-				thumb_html = '';
-				thumb_class = '';
-				thumb_ = '';
-				placeholder_arr = false;
+					if ( t.param.thumbstemplates[ template_key ].html ) {
 
-				if ( t.param.thumbstemplates[ template_key ].html ) {
+						template_html = t.param.thumbstemplates[ template_key ].html;
 
-					template_html = t.param.thumbstemplates[ template_key ].html;
+						// if class
+						if ( t.param.thumbstemplates[ template_key ].class ) {
 
-					// if class
-					if ( t.param.thumbstemplates[ template_key ].class ) {
+							thumb_class = ' ' + t.param.thumbstemplates[ template_key ].class;
+						}
 
-						thumb_class = ' ' + t.param.thumbstemplates[ template_key ].class;
+						// get the placeholders from the template in an array
+						placeholder_arr = t.get_placeholder_of_string( template_html );
+
+						// replace placeholders with data
+						if ( placeholder_arr.length > 0 ) {
+
+							placeholder_arr.map( function( placeholder ) {
+
+								var value = obj_slide.data( placeholder );
+
+								if ( ! value ) {
+
+									value = '';
+								}
+
+								template_html = template_html.replace( '{{' + placeholder + '}}', value );
+							});
+						}
+
+						// build thumb html
+						thumb_html += '<div class="' + t.param.thumbsitemclass.replace( '.', '' ) + thumb_class + '">';
+						thumb_html += template_html;
+						thumb_html += '</div>';
+
+						t.obj.thumbsitems.append( thumb_html );
+
+						t.obj.thumbsitem = t.obj.sliderwrap.find( t.param.thumbsitemclass );
 					}
-
-					// get the placeholders from the template in an array
-					placeholder_arr = t.get_placeholder_of_string( template_html );
-
-					// replace placeholders with data
-					if ( placeholder_arr.length > 0 ) {
-
-						placeholder_arr.map( function( placeholder ) {
-
-							var value = obj_slide.data( placeholder );
-
-							if ( ! value ) {
-
-								value = '';
-							}
-
-							template_html = template_html.replace( '{{' + placeholder + '}}', value );
-						});
-					}
-
-					// build thumb html
-					thumb_html += '<div class="' + t.param.thumbsitemclass.replace( '.', '' ) + thumb_class + '">';
-					thumb_html += template_html;
-					thumb_html += '</div>';
-
-					t.obj.thumbsitems.append( thumb_html );
-
-					t.obj.thumbsitem = t.obj.sliderwrap.find( t.param.thumbsitemclass );
 				}
-			}
-		});
+			});
+		
+		}
 	};
 
 	t.set_thumbs_current_class = function () {
 
-		t.obj.thumbsitem.removeClass( 'thumb-slidegroup-current' );
-		t.obj.thumbsitem.removeClass( 'thumb-current' );
+		if ( t.param.thumbs ) {
+		
+			t.obj.thumbsitem.removeClass( 'thumb-slidegroup-current' );
+			t.obj.thumbsitem.removeClass( 'thumb-current' );
 
-		for ( var i in t.stat.slidesinviewportindexes ) {
+			for ( var i in t.stat.slidesinviewportindexes ) {
 
-			jQuery( t.obj.thumbsitem[ ( t.stat.slidesinviewportindexes[ i ] - 1 ) ] ).addClass( 'thumb-slidegroup-current' );
+				jQuery( t.obj.thumbsitem[ ( t.stat.slidesinviewportindexes[ i ] - 1 ) ] ).addClass( 'thumb-slidegroup-current' );
+			}
+
+			jQuery( t.obj.thumbsitem[ t.stat.currentslideindex ] ).addClass( 'thumb-current' );
 		}
-
-		jQuery( t.obj.thumbsitem[ t.stat.currentslideindex ] ).addClass( 'thumb-current' );
 	};
 
 	t.thumbs_click = function () {
+		
+		if ( t.param.thumbs ) {
+		
+			// clickevent {
 
-		// clickevent {
+				t.obj.thumbswrap.on( 'click', t.param.thumbsitemclass, function ( e ) {
 
-			t.obj.thumbswrap.on( 'click', t.param.thumbsitemclass, function ( e ) {
+					// setup {
 
-				// setup {
+						var thumb_obj = jQuery( this );
 
-					var thumb_obj = jQuery( this );
+					// }
 
-				// }
+					// get index of thumb {
 
-				// get index of thumb {
+						var thumb_index = thumb_obj.index();
 
-					var thumb_index = thumb_obj.index();
+					// }
 
-				// }
+					// get slide object {
 
-				// get slide object {
+						var slide_obj = t.obj.sliderwrap.find( t.param.slideclass + ':nth-child( ' + ( thumb_index + 1 ) + ')' );
 
-					var slide_obj = t.obj.sliderwrap.find( t.param.slideclass + ':nth-child( ' + ( thumb_index + 1 ) + ')' );
+					// }
 
-				// }
+					// get slide position {
 
-				// get slide position {
+						var slide_offset_left = slide_obj[ 0 ].offsetLeft;
 
-					var slide_offset_left = slide_obj[ 0 ].offsetLeft;
+					// }
 
-				// }
+					// move slide in slider viewort {
 
-				// move slide in slider viewort {
+						if ( ! t.stat.isanimating ) {
 
-					if ( ! t.stat.isanimating ) {
+							t.stat.isanimating = true;
+							t.stat.slidingright = true;
 
-						t.stat.isanimating = true;
-						t.stat.slidingright = true;
+							t.stat.currentslideindex = thumb_index;
 
-						t.stat.currentslideindex = thumb_index;
+							// JOB {
 
-						// JOB {
+								t.task_slide();
 
-							t.task_slide();
+							// }
 
-						// }
+						}
 
-					}
+					// }
 
-				// }
+				} );
 
-			} );
-
-		// }
+			// }
+		
+		}
+	
 	};
 
 	t.thumbs_script = function () {
 
-		if ( t.param.thumbsready ) {
+		if ( t.param.thumbs ) {
+		
+			if ( t.param.thumbsready ) {
 
-			var p = {};
-				p.obj = t.obj;
+				var p = {};
+					p.obj = t.obj;
 
-			t.param.thumbsready( p );
+				t.param.thumbsready( p );
+			}
 		}
 	};
 
@@ -1841,7 +1870,7 @@ function YerSlider() {
 		// }
 
 		// THUMBS {
-
+			
 			t.set_thumbs_current_class();
 
 		// }
