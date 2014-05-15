@@ -306,6 +306,11 @@
 
 			display: inline-block;
 			min-width: 0;
+			cursor: pointer;
+			
+			* {
+				cursor: pointer;
+			}
 		// }
 
 		// CUSTOM {
