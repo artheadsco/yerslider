@@ -925,15 +925,22 @@ function YerSlider() {
 
 		t.stat.slidesinviewportindexes = [];
 
-		for ( i = 0; i < t.stat.slidecount; i++ ) {
+		for ( i = 0; i < ( t.stat.slidecount + ( t.stat.slidegroup * 2 ) ); i++ ) {
 
 			if ( i >= t.stat.slidesinviewportindexbegin && i <= t.stat.slidesinviewportindexend ) {
 
-				t.stat.slidesinviewportindexes.push(i + 1);
+				var ii = i;
+
+				if ( ii >= t.stat.slidecount ) {
+
+					ii = ii - t.stat.slidecount;
+				}
+
+				t.stat.slidesinviewportindexes.push( ii + 1 );
 			}
 		}
-	};
 
+	};
 	// }
 
 	// prev next {
@@ -1536,65 +1543,71 @@ function YerSlider() {
 
 		if ( t.param.thumbs ) {
 
+			var i = 0;
+
 			t.obj.slide.each( function() {
 
-				var obj_slide = jQuery( this ),
-					template_key = obj_slide.data( 'thumb-template-key' ),
-					template_html = '',
-					thumb_html = '',
-					thumb_class = '';
+				if ( i++ < t.stat.slidecount ) {
 
-				// be sure, there is a themplate_key and an belonging object of thumbtemplatedw
-				if (
-					template_key
-					&& typeof t.param.thumbstemplates[ template_key ] === 'object'
-					&& t.helper.getLength( t.param.thumbstemplates[ template_key ] ) > 0 
-				) {
+					var obj_slide = jQuery( this ),
+						template_key = obj_slide.data( 'thumb-template-key' ),
+						template_html = '',
+						thumb_html = '',
+						thumb_class = '';
 
-					thumb_html = '';
-					thumb_class = '';
-					thumb_ = '';
-					placeholder_arr = false;
+					// be sure, there is a themplate_key and an belonging object of thumbtemplate
+					if (
+						template_key
+						&& typeof t.param.thumbstemplates[ template_key ] === 'object'
+						&& t.helper.getLength( t.param.thumbstemplates[ template_key ] ) > 0 
+					) {
 
-					if ( t.param.thumbstemplates[ template_key ].html ) {
+						thumb_html = '';
+						thumb_class = '';
+						thumb_ = '';
+						placeholder_arr = false;
 
-						template_html = t.param.thumbstemplates[ template_key ].html;
+						if ( t.param.thumbstemplates[ template_key ].html ) {
 
-						// if class
-						if ( t.param.thumbstemplates[ template_key ].class ) {
+							template_html = t.param.thumbstemplates[ template_key ].html;
 
-							thumb_class = ' ' + t.param.thumbstemplates[ template_key ].class;
+							// if class
+							if ( t.param.thumbstemplates[ template_key ].class ) {
+
+								thumb_class = ' ' + t.param.thumbstemplates[ template_key ].class;
+							}
+
+							// get the placeholders from the template in an array
+							placeholder_arr = t.get_placeholder_of_string( template_html );
+
+							// replace placeholders with data
+							if ( placeholder_arr.length > 0 ) {
+
+								placeholder_arr.map( function( placeholder ) {
+
+									var value = obj_slide.data( placeholder );
+
+									if ( ! value ) {
+
+										value = '';
+									}
+
+									template_html = template_html.replace( '{{' + placeholder + '}}', value );
+								});
+							}
+
+							// build thumb html
+							thumb_html += '<div class="' + t.param.thumbsitemclass.replace( '.', '' ) + thumb_class + '">';
+							thumb_html += template_html;
+							thumb_html += '</div>';
+
+							t.obj.thumbsitems.append( thumb_html );
+
+							t.obj.thumbsitem = t.obj.sliderwrap.find( t.param.thumbsitemclass );
 						}
-
-						// get the placeholders from the template in an array
-						placeholder_arr = t.get_placeholder_of_string( template_html );
-
-						// replace placeholders with data
-						if ( placeholder_arr.length > 0 ) {
-
-							placeholder_arr.map( function( placeholder ) {
-
-								var value = obj_slide.data( placeholder );
-
-								if ( ! value ) {
-
-									value = '';
-								}
-
-								template_html = template_html.replace( '{{' + placeholder + '}}', value );
-							});
-						}
-
-						// build thumb html
-						thumb_html += '<div class="' + t.param.thumbsitemclass.replace( '.', '' ) + thumb_class + '">';
-						thumb_html += template_html;
-						thumb_html += '</div>';
-
-						t.obj.thumbsitems.append( thumb_html );
-
-						t.obj.thumbsitem = t.obj.sliderwrap.find( t.param.thumbsitemclass );
 					}
 				}
+
 			});
 
 		}
