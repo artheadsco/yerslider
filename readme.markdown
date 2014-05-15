@@ -1,51 +1,56 @@
-h1. YerSlider
+# YerSlider
 
 YerSlider is designed for developpers, high responsive and potentially can slide anything.
 There are "Demos and Documentation":http://demo.johannheyne.de/yerslider/demo/ and you can play around with a demo on "codepen.io":http://codepen.io/johannheyne/pen/sekGb
 
 The script was started to personel understand all the limitations and problems I had with other slider-scripts.
 
-This documentation is incomplete and corrupting changes still may ahead!
+This documentation is still incomplete!
 
-h2. Current Version
+## Current Version
 
-1.1.3
+1.1.4
+
+### New
+* thumbs
 
 
-h2. Properties
+## Properties
 
 * fluid slider
-* bullets
-* touch gestures
-* css-transition for smooth sliding with javascript fallback
 * grouping slides depending on breackpoints
-
-
-
-h2. Roadmap
-
+* bullets
 * thumbs
+* touch ready
+* css-transition for smooth sliding and javascript fallback
+
+
+
+## Roadmap
+
+You can look at the "enhancement issues":https://github.com/johannheyne/yerslider/issues?labels=enhancement&milestone=&page=1&state=open for uppcomming features.
 
 Just ask me for your needs at mail@johannheyne.de or create a new issue.
 
 
 
-h2. Dependencies
+## Dependencies
 
 * "jQuery":http://jquery.com/
 * "modernizr.js":http://modernizr.com/
-feature detection of javascript, touch, csstransforms3d and csstransitions
+feature detection of js, touch, csstransforms3d, csstransitions and cssanimations
 * "jquery.touchSwipe.js":https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
 for touch and swipe functionality
 * "YouTube iframe API":https://www.youtube.com/iframe_api
 
 
 
-h2. Setup
+## Setup
 
-h3. Basic HTML
+### Basic HTML
 
-<pre><code><div class="yerslider-wrap mysliderclass">
+```html
+<div class="yerslider-wrap mysliderclass">
     <div class="yerslider-mask">
         <ul class="yerslider-slider">
             <li class="yerslider-slide">
@@ -57,15 +62,16 @@ h3. Basic HTML
         </ul>
     </div>
 </div>
-</code></pre>
+```
 
 
 
-h3. Loading The Script
+### Loading The Script
 
 Load the yerslider.js from the core folder. The best way is to load the script on dependecy of a slider on the page. The following script does this.
 
-<pre><code>if ( jQuery('.mysliderclass').length > 0 ) {
+```javascript
+if ( jQuery('.mysliderclass').length > 0 ) {
 
     jQuery.ajax({
         url: '/assets/yerslider/core/yerslider.js',
@@ -78,124 +84,178 @@ Load the yerslider.js from the core folder. The best way is to load the script o
         }
     });
 }
-</code></pre>
+
+```
 
 
 
-h3. Define A Slider
+### Define A Slider
 
-<pre><code>var myslider = new YerSlider();
+```javascript
+var myslider = new YerSlider();
 myslider.init({
     sliderid: '.mysliderclass'
 });
-</code></pre>
+
+```
 
 
 
-h3. Load the Slider Stylesheet
+### Load the Slider Stylesheet
 
 There is a themefolder with an default theme. Inside there is the stylesheet with basic styles. Just copy the theme and make your additions to the styles. Then load the styles in the head of your html or use a preprozessor to add this to your existing basic stylesheet.
 
 
 
-h2. Options
+## Options
 
 
 
-h3. Group Slides
+### Group Slides
 
-<pre><code>slidegroup: 1,
+```javascript
+slidegroup: 1,
 slidegroupresp: {
     0: 1,
     400: 2,
     800: 3
 },
-</code></pre>
+
+```
 
 
 
-h3. Slidegap
+### Slidegap
 
-<pre><code>slidegap: 0,</code></pre>
-
-
-
-h3. Previous & Next Button
-
-<pre><code>nextbtn: true,
-prevbtn: true,</code></pre>
+```javascript
+slidegap: 0,
+```
 
 
 
-h3. Previous & Next Add Class
+### Previous & Next Button
 
-<pre><code>nextclassadd: '',
-prevclassadd: '',</code></pre>
-
-
-
-h3. Bullets
-
-<pre><code>bullets: false,</code></pre>
-
-h3. Animation Speed
-
-<pre><code>animationspeed: 1000,</code></pre>
+```javascript
+nextbtn: true,
+prevbtn: true,
+```
 
 
 
-h3. Animation Type
+### Previous & Next Add Class
 
-<pre><code>animationtype: 'ease',</code></pre>
+```javascript
+nextclassadd: '',
+prevclassadd: '',
+```
+
+
+
+### Bullets
+
+```javascript
+bullets: false,
+```
+
+
+
+
+### Thumbs
+
+```javascript
+thumbs: false,
+thumbstemplates: {
+	'1': {
+		'html': '<p>{{thumb-text}}</p>',
+		'class': 'thumb-template-1'
+	}
+},
+thumbsclickable: true,
+thumbsready: function( p ) {
+
+	var yersliderthumbs = new YerSliderThumbs();
+	yersliderthumbs.init({
+		obj: p.obj
+	});
+}
+```
+
+
+
+### Animation Speed
+
+```javascript
+animationspeed: 1000,
+```
+
+
+
+### Animation Type
+
+```javascript
+animationtype: 'ease',
+```
 
 Options: ease, ease-in-out, ease-in, ease-out, linear
 
 
 
-h3. Loop
+### Loop
 
-<pre><code>loop: 'none',</code></pre>
+```javascript
+loop: 'none',
+```
 
 Options: none, appending, rollback
 
 
 
-h3. Autoplay
+### Autoplay
 
-<pre><code>autoplay: false,</code></pre>
-
-
-h3. Autoplay Interval
-
-<pre><code>autoplayinterval: 3000,</code></pre>
+```javascript
+autoplay: false,
+```
 
 
+### Autoplay Interval
 
-h3. Autoplay Stop On Hover
+```javascript
+autoplayinterval: 3000,
+```
 
-<pre><code>autoplaystoponhover: true,</code></pre>
+
+
+### Autoplay Stop On Hover
+
+```javascript
+autoplaystoponhover: true,
+```
 
 The autoplay stops while the mouse is over the slider or over an slider-navigation-element.
 
 
 
-h3. -Time for fading slides in on sliderload-
+### -Time for fading slides in on sliderload-
 
-<pre><code>showslidestime: 1000,</code></pre>
-
-
-
-h3. YouTube
+```javascript
+showslidestime: 1000,
+```
 
 
-h3. Vimeo
+### YouTube
 
 
 
-h3. Scroll Top
+### Vimeo
+
+
+
+### Scroll Top
 
 Scrolls the page to the given distance from top <code>scrolltopval:</code> with the speed of <code>scrolltopspeed:</code>
 
-<pre><code>scrolltop: false,
+```javascript
+scrolltop: false,
 scrolltopval: 0,
-scrolltopspeed: 500,</code></pre>
+scrolltopspeed: 500,
+```
