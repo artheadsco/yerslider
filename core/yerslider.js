@@ -173,9 +173,9 @@ function YerSlider() {
 			t.clon_slides();
 			t.set_prevnext();
 
-			t.bullets();
-
 			t.thumbs();
+
+			t.bullets();
 
 			t.init_touchswipe();
 
