@@ -27,14 +27,21 @@ module.exports = function(grunt) {
 
 		pkg: grunt.file.readJSON('package.json'),
 
-		/*
-			versioning via bump: https://github.com/vojtajina/grunt-bump
+/*
+versioning via bump: https://github.com/vojtajina/grunt-bump
 
-			grunt bump:patch	1.0.0 -> 1.0.1
-			grunt bump:minor	1.0.1 -> 1.1.0
-			grunt bump:major	1.1.0 -> 2.0.0
-			grunt bump --setversion=1.0.0
-		*/
+grunt bump:patch	1.0.0 -> 1.0.1
+grunt bump:minor	1.0.1 -> 1.1.0
+grunt bump:major	1.1.0 -> 2.0.0
+grunt bump --setversion=1.0.0
+
+After bumping run following grunt tasks 
+to update the version to all files:
+
+grunt uglify
+grunt sass
+
+*/
 
 		bump: {
 		  options: {

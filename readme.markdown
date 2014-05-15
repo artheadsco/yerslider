@@ -9,7 +9,7 @@ This documentation is still incomplete!
 
 ## Current Version
 
-1.1.4
+1.2.0
 
 ### New
 * thumbs
