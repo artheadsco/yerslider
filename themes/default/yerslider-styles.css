@@ -2,7 +2,7 @@
  * @package		YerSlider
  * @version		1.2.0
  * @date		2014-05-15
- * @time		17:45:31
+ * @time		17:48:36
  * @license		MIT or GPL
  * @repository	https://github.com/johannheyne/yerslider.git
  * @homepage	http://demo.johannheyne.de/yerslider/demo/
@@ -105,7 +105,7 @@
 }
 
 .yerslider-has-bullets .yerslider-prevnext {
-  margin-top: -54px;
+  margin-top: -94px;
 }
 
 .yerslider-next {
