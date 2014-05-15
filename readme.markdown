@@ -217,7 +217,7 @@ Options: none, appending, rollback
 
 
 
-### Autoplay ############################## 
+### Autoplay ##############################
 
 ```javascript
 autoplay: false,
