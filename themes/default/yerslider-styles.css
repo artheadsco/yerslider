@@ -1,8 +1,8 @@
 /*
  * @package		YerSlider
  * @version		1.1.4
- * @date		2014-05-14
- * @time		22:08:41
+ * @date		2014-05-15
+ * @time		9:56:56
  * @license		MIT or GPL
  * @repository	https://github.com/johannheyne/yerslider.git
  * @homepage	http://demo.johannheyne.de/yerslider/demo/
@@ -317,4 +317,9 @@
 
 .thumb-slidegroup-current {
   background-color: #004384;
+}
+
+.touch .yerslider-thumbs-mask {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }

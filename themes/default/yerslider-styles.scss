@@ -314,7 +314,6 @@
 			margin-left: 5px;
 			padding: 20px 40px;
 			background-color: $background-color;
-			//border: 1px solid red;
 
 			p {
 				margin: 0;
@@ -334,5 +333,14 @@
 	.thumb-current {
 
 	}
+	.touch {
+		
+		.yerslider-thumbs-mask {
 
+			// DEFAULT {
+				overflow: auto;
+				-webkit-overflow-scrolling: touch;
+			// }
+		}
+	}
 // }
