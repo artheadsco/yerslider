@@ -1385,9 +1385,9 @@ function YerSlider() {
 	};
 
 	t.bullet_items = function () {
-		
+
 		if ( t.param.bullets ) {
-		
+
 			/* do bullets html and object */
 
 			if ( t.stat.bulletscountcache !== t.stat.bulletscount ) {
@@ -1412,14 +1412,14 @@ function YerSlider() {
 			t.obj.bullets = t.obj.bulletswrap.find( t.param.bulletclass );
 
 			t.set_bullet_current_class();
-		
+
 		}
 	};
 
 	t.set_bullet_current = function () {
-		
+
 		if ( t.param.bullets ) {
-		
+
 			var currentslideindex = t.stat.currentslideindex;
 
 			/* translate clone current slide index into original index */
@@ -1448,41 +1448,41 @@ function YerSlider() {
 	};
 
 	t.set_bullet_current_class = function () {
-		
+
 		if ( t.param.bullets ) {
-		
+
 			/* current bullet class */
 
 			t.obj.bullets.removeClass( t.param.bulletcurrentclass.replace( '.', '' ) );
 
 			t.obj.bulletswrap.find('[data-index="' + t.stat.bulletcurrent + '"]').addClass( t.param.bulletcurrentclass.replace( '.', '' ) );
 		}
-	
+
 	};
 
 	t.bullet_click = function () {
-		
+
 		if ( t.param.bullets ) {
-		
+
 			t.obj.bullets.on( 'click', function () {
-    
+
 				if ( ! t.stat.isanimating ) {
-    
+
 					t.stat.isanimating = true;
 					t.stat.slidingright = true;
-    
+
 					var currentbullet = jQuery(this).data('index');
-    
+
 					t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
-    
+
 					// JOB {
-    
+
 						t.task_slide();
-    
+
 					// }
-    
+
 				}
-    
+
 			});
 		}
 	};
@@ -1533,9 +1533,9 @@ function YerSlider() {
 	};
 
 	t.thumbs_items = function () {
-		
+
 		if ( t.param.thumbs ) {
-		
+
 			t.obj.slide.each( function() {
 
 				var obj_slide = jQuery( this ),
@@ -1596,14 +1596,14 @@ function YerSlider() {
 					}
 				}
 			});
-		
+
 		}
 	};
 
 	t.set_thumbs_current_class = function () {
 
 		if ( t.param.thumbs ) {
-		
+
 			t.obj.thumbsitem.removeClass( 'thumb-slidegroup-current' );
 			t.obj.thumbsitem.removeClass( 'thumb-current' );
 
@@ -1617,9 +1617,9 @@ function YerSlider() {
 	};
 
 	t.thumbs_click = function () {
-		
+
 		if ( t.param.thumbs ) {
-		
+
 			// clickevent {
 
 				t.obj.thumbswrap.on( 'click', t.param.thumbsitemclass, function ( e ) {
@@ -1670,15 +1670,15 @@ function YerSlider() {
 				} );
 
 			// }
-		
+
 		}
-	
+
 	};
 
 	t.thumbs_script = function () {
 
 		if ( t.param.thumbs ) {
-		
+
 			if ( t.param.thumbsready ) {
 
 				var p = {};
@@ -1868,7 +1868,7 @@ function YerSlider() {
 		// }
 
 		// THUMBS {
-			
+
 			t.set_thumbs_current_class();
 
 		// }
