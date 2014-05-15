@@ -1566,8 +1566,6 @@ function YerSlider() {
 					t.obj.thumbsmask = t.obj.sliderwrap.find( t.param.thumbsmaskclass );
 				}
 
-				t.set_thumbs_current();
-
 				/* thumbs items */
 
 				t.thumbs_items();
@@ -1583,6 +1581,7 @@ function YerSlider() {
 				/* thumbs script */
 
 				t.thumbs_script();
+
 			//}, 200);
 
 		}
@@ -1652,10 +1651,6 @@ function YerSlider() {
 		});
 	};
 
-	t.set_thumbs_current = function () {
-
-	};
-
 	t.set_thumbs_current_class = function () {
 
 		t.obj.thumbsitem.removeClass( 'thumb-slidegroup-current' );
@@ -1671,6 +1666,87 @@ function YerSlider() {
 
 	t.thumbs_click = function () {
 
+		// clickevent {
+
+			t.obj.thumbswrap.on( 'click', t.param.thumbsitemclass, function ( e ) {
+
+				// setup {
+
+					var thumb_obj = jQuery( this );
+
+				// }
+
+				// get index of thumb {
+
+					var thumb_index = thumb_obj.index();
+
+				// }
+
+				// get slide object {
+
+					var slide_obj = t.obj.sliderwrap.find( t.param.slideclass + ':nth-child( ' + ( thumb_index + 1 ) + ')' );
+
+				// }
+
+				// get slide position {
+
+					var slide_offset_left = slide_obj[ 0 ].offsetLeft;
+
+				// }
+				
+				// move slide in slider viewort {
+					
+					if ( ! t.stat.isanimating ) {
+
+						t.stat.currentslideindex = thumb_index;
+						
+						t.stat.isanimating = true;
+						t.stat.slidingright = true;
+
+						t.player_remove();
+
+						// t.pausevideosofcurrentslide();
+
+
+						/* check currentslideindex */
+
+						t.check_slider_current_index();
+
+						t.set_slidesinviewport();
+
+						// t.playlastplayedvideoofcurrentslide();
+
+						//t.proof_slider_current_index();
+
+						t.animate_slider_to_current_position( t.get_animationspeed() );
+
+						if ( ! t.stat.prevbtnclickable ) {
+
+							t.prevbtn_click();
+						}
+
+						t.stat.slidingright = false;
+					}
+
+					/* bullets */
+
+					if ( t.param.bullets ) {
+
+						t.set_bullet_current();
+						t.set_bullet_current_class();
+					}
+
+					/* prev next buttons */
+
+					t.refresh_prevnext();
+
+					t.set_thumbs_current_class();
+					
+				// }
+
+			} );
+
+		// }
 	};
 
 	t.thumbs_script = function () {
