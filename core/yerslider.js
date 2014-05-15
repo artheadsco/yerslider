@@ -183,8 +183,6 @@ function YerSlider() {
 
 			t.init_showslides();
 
-			t.check_slider_current_index_at_start();
-
 			t.init_video();
 
 			window.setTimeout(function(){
@@ -1952,19 +1950,6 @@ function YerSlider() {
 			if ( t.param.nextbtnclickable ) {
 
 				t.nextbtn_click_unbind();
-			}
-		}
-	};
-
-	t.check_slider_current_index_at_start = function () {
-
-		if ( t.stat.loop === 'appending' ) {
-
-			if ( t.stat.currentslideindex === 0 ) {
-
-				t.stat.currentslideindex = t.stat.slidecount;
-
-				t.move_slider_to_current_index();
 			}
 		}
 	};
