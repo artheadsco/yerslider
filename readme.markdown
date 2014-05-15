@@ -1,21 +1,28 @@
-# YerSlider
+YerSlider
+==========================================
 
 YerSlider is designed for developpers, high responsive and potentially can slide anything.
-There are "Demos and Documentation":http://demo.johannheyne.de/yerslider/demo/ and you can play around with a demo on "codepen.io":http://codepen.io/johannheyne/pen/sekGb
+There are [Demos and Documentation](http://demo.johannheyne.de/yerslider/demo/) and you can play around with a demo on [codepen.io](http://codepen.io/johannheyne/pen/sekGb)
 
 The script was started to personel understand all the limitations and problems I had with other slider-scripts.
 
 This documentation is still incomplete!
 
-## Current Version
+
+
+Current Version
+------------------------------------------
 
 1.2.0
 
-### New
+### New ##################################
+
 * thumbs
 
 
-## Properties
+
+Properties
+------------------------------------------
 
 * fluid slider
 * grouping slides depending on breackpoints
@@ -26,28 +33,32 @@ This documentation is still incomplete!
 
 
 
-## Roadmap
+Roadmap
+------------------------------------------
 
-You can look at the "enhancement issues":https://github.com/johannheyne/yerslider/issues?labels=enhancement&milestone=&page=1&state=open for uppcomming features.
+You can look at the [enhancement issues](https://github.com/johannheyne/yerslider/issues?labels=enhancement&milestone=&page=1&state=open) for uppcomming features.
 
 Just ask me for your needs at mail@johannheyne.de or create a new issue.
 
 
 
-## Dependencies
+Dependencies
+------------------------------------------
 
-* "jQuery":http://jquery.com/
-* "modernizr.js":http://modernizr.com/
+
+* [jQuery](http://jquery.com/)
+* [modernizr.js](http://modernizr.com/)
 feature detection of js, touch, csstransforms3d, csstransitions and cssanimations
-* "jquery.touchSwipe.js":https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
+* [jquery.touchSwipe.js](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin)
 for touch and swipe functionality
-* "YouTube iframe API":https://www.youtube.com/iframe_api
+* [YouTube iframe API](https://www.youtube.com/iframe_api)
 
 
 
-## Setup
+Setup
+------------------------------------------
 
-### Basic HTML
+### Basic HTML ##########################
 
 ```html
 <div class="yerslider-wrap mysliderclass">
@@ -66,7 +77,7 @@ for touch and swipe functionality
 
 
 
-### Loading The Script
+### Loading The Script ###################
 
 Load the yerslider.js from the core folder. The best way is to load the script on dependecy of a slider on the page. The following script does this.
 
@@ -84,34 +95,32 @@ if ( jQuery('.mysliderclass').length > 0 ) {
         }
     });
 }
-
 ```
 
 
 
-### Define A Slider
+### Define A Slider ######################
 
 ```javascript
 var myslider = new YerSlider();
 myslider.init({
     sliderid: '.mysliderclass'
 });
-
 ```
 
 
 
-### Load the Slider Stylesheet
+### Load the Slider Stylesheet ###########
 
 There is a themefolder with an default theme. Inside there is the stylesheet with basic styles. Just copy the theme and make your additions to the styles. Then load the styles in the head of your html or use a preprozessor to add this to your existing basic stylesheet.
 
 
 
-## Options
+Options
+-----------------------------------------
 
 
-
-### Group Slides
+### Group Slides #########################
 
 ```javascript
 slidegroup: 1,
@@ -120,12 +129,11 @@ slidegroupresp: {
     400: 2,
     800: 3
 },
-
 ```
 
 
 
-### Slidegap
+### Slidegap #############################
 
 ```javascript
 slidegap: 0,
@@ -133,7 +141,7 @@ slidegap: 0,
 
 
 
-### Previous & Next Button
+### Previous & Next Button ###############
 
 ```javascript
 nextbtn: true,
@@ -142,7 +150,7 @@ prevbtn: true,
 
 
 
-### Previous & Next Add Class
+### Previous & Next Add Class ############
 
 ```javascript
 nextclassadd: '',
@@ -159,8 +167,7 @@ bullets: false,
 
 
 
-
-### Thumbs
+### Thumbs ###############################
 
 ```javascript
 thumbs: false,
@@ -182,7 +189,7 @@ thumbsready: function( p ) {
 
 
 
-### Animation Speed
+### Animation Speed ######################
 
 ```javascript
 animationspeed: 1000,
@@ -190,7 +197,7 @@ animationspeed: 1000,
 
 
 
-### Animation Type
+### Animation Type #######################
 
 ```javascript
 animationtype: 'ease',
@@ -200,7 +207,7 @@ Options: ease, ease-in-out, ease-in, ease-out, linear
 
 
 
-### Loop
+### Loop #################################
 
 ```javascript
 loop: 'none',
@@ -210,14 +217,15 @@ Options: none, appending, rollback
 
 
 
-### Autoplay
+### Autoplay ############################## 
 
 ```javascript
 autoplay: false,
 ```
 
 
-### Autoplay Interval
+
+### Autoplay Interval #####################
 
 ```javascript
 autoplayinterval: 3000,
@@ -225,7 +233,7 @@ autoplayinterval: 3000,
 
 
 
-### Autoplay Stop On Hover
+### Autoplay Stop On Hover ################
 
 ```javascript
 autoplaystoponhover: true,
@@ -235,18 +243,11 @@ The autoplay stops while the mouse is over the slider or over an slider-navigati
 
 
 
-### -Time for fading slides in on sliderload-
-
-```javascript
-showslidestime: 1000,
-```
-
-
-### YouTube
+### YouTube ###############################
 
 
 
-### Vimeo
+### Vimeo #################################
 
 
 
