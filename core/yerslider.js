@@ -1030,75 +1030,37 @@ function YerSlider() {
 
 	t.next_job = function () {
 
-		if ( !t.stat.isanimating ) {
+		if ( ! t.stat.isanimating ) {
 
 			t.stat.isanimating = true;
 			t.stat.slidingright = true;
 
-			t.player_remove();
-
-			// t.pausevideosofcurrentslide();
-
 			t.next_slide();
 
-			// t.playlastplayedvideoofcurrentslide();
+			// TASK {
 
-			if ( t.param.scrolltop ) {
+				t.task_slide();
 
-				jQuery('body').animate({
+			// }
 
-					scrollTop: t.param.scrolltopval
-				}, t.param.scrolltopspeed );
-			}
-
-			t.animate_slider_to_current_position( t.get_animationspeed() );
-
-			t.refresh_prevnext();
-
-			if ( t.param.bullets ) {
-
-				t.set_bullet_current();
-				t.set_bullet_current_class();
-			}
-
-			t.stat.slidingright = false;
 		}
 	};
 
 	t.prev_job = function () {
 
-		if ( !t.stat.isanimating ) {
+		if ( ! t.stat.isanimating ) {
 
 			t.stat.isanimating = true;
 			t.stat.slidingleft = true;
 
-			t.player_remove();
-
-			// t.pausevideosofcurrentslide();
-
 			t.prev_slide();
 
-			// t.playlastplayedvideoofcurrentslide();
+			// JOB {
 
-			if ( t.param.scrolltop ) {
+				t.task_slide();
 
-				jQuery('body').animate({
+			// }
 
-					scrollTop: t.param.scrolltopval
-				}, t.param.scrolltopspeed );
-			}
-
-			t.animate_slider_to_current_position( t.get_animationspeed() );
-
-			t.refresh_prevnext();
-
-			if ( t.param.bullets ) {
-
-				t.set_bullet_current();
-				t.set_bullet_current_class();
-			}
-
-			t.stat.slidingleft = false;
 		}
 	};
 
@@ -1493,52 +1455,23 @@ function YerSlider() {
 
 		t.obj.bullets.on( 'click', function () {
 
-			if ( !t.stat.isanimating ) {
+			if ( ! t.stat.isanimating ) {
 
 				t.stat.isanimating = true;
 				t.stat.slidingright = true;
 
 				var currentbullet = jQuery(this).data('index');
 
-				t.player_remove();
-
-				// t.pausevideosofcurrentslide();
-
 				t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
 
-				/* check currentslideindex */
+				// JOB {
 
-				t.check_slider_current_index();
+					t.task_slide();
 
-				t.set_slidesinviewport();
+				// }
 
-				// t.playlastplayedvideoofcurrentslide();
-
-				//t.proof_slider_current_index();
-
-				t.animate_slider_to_current_position( t.get_animationspeed() );
-
-				if ( !t.stat.prevbtnclickable ) {
-
-					t.prevbtn_click();
-				}
-
-				t.stat.slidingright = false;
 			}
 
-			/* bullets */
-
-			if ( t.param.bullets ) {
-
-				t.set_bullet_current();
-				t.set_bullet_current_class();
-			}
-
-			/* prev next buttons */
-
-			t.refresh_prevnext();
-
-			t.set_thumbs_current_class();
 		});
 	};
 
@@ -1693,55 +1626,24 @@ function YerSlider() {
 					var slide_offset_left = slide_obj[ 0 ].offsetLeft;
 
 				// }
-				
+
 				// move slide in slider viewort {
-					
+
 					if ( ! t.stat.isanimating ) {
 
-						t.stat.currentslideindex = thumb_index;
-						
 						t.stat.isanimating = true;
 						t.stat.slidingright = true;
 
-						t.player_remove();
+						t.stat.currentslideindex = thumb_index;
 
-						// t.pausevideosofcurrentslide();
+						// JOB {
 
+							t.task_slide();
 
-						/* check currentslideindex */
+						// }
 
-						t.check_slider_current_index();
-
-						t.set_slidesinviewport();
-
-						// t.playlastplayedvideoofcurrentslide();
-
-						//t.proof_slider_current_index();
-
-						t.animate_slider_to_current_position( t.get_animationspeed() );
-
-						if ( ! t.stat.prevbtnclickable ) {
-
-							t.prevbtn_click();
-						}
-
-						t.stat.slidingright = false;
 					}
 
-					/* bullets */
-
-					if ( t.param.bullets ) {
-
-						t.set_bullet_current();
-						t.set_bullet_current_class();
-					}
-
-					/* prev next buttons */
-
-					t.refresh_prevnext();
-
-					t.set_thumbs_current_class();
-					
 				// }
 
 			} );
@@ -1860,6 +1762,89 @@ function YerSlider() {
 
 		t.css_transitiontiming( t.obj.slider, t.param.animationtype );
 
+	};
+
+	t.task_slide = function () {
+
+		// VIDEO {
+
+			t.player_remove();
+
+			// t.pausevideosofcurrentslide();
+
+			// t.playlastplayedvideoofcurrentslide();
+
+			// t.playlastplayedvideoofcurrentslide();
+
+		// }
+
+		// SCROLLTOP {
+
+			if ( t.param.scrolltop ) {
+
+				jQuery('body').animate({
+
+					scrollTop: t.param.scrolltopval
+				}, t.param.scrolltopspeed );
+			}
+
+		// }
+
+		// CHECK CURRENT SLIDE INDEX {
+
+			t.check_slider_current_index();
+
+		// }
+
+		// SET SLIDES IN VIWPORT {
+
+			t.set_slidesinviewport();
+
+		// }
+
+		// ANIMATION {
+
+			t.animate_slider_to_current_position( t.get_animationspeed() ); // OK
+
+		// }
+
+		// PREV NEXT CLICKABLE {
+
+			if ( ! t.stat.prevbtnclickable ) {
+
+				t.prevbtn_click();
+			}
+
+		// }
+
+		// RESET STATS {
+
+			t.stat.slidingright = false;
+			t.stat.slidingleft = false;
+
+		// }
+
+		// PREV NEXT REFRESH {
+
+			t.refresh_prevnext();
+
+		// }
+
+		// BULLETS {
+
+			if ( t.param.bullets ) {
+
+				t.set_bullet_current();
+				t.set_bullet_current_class();
+			}
+
+		// }
+
+		// THUMBS {
+
+			t.set_thumbs_current_class();
+
+		// }
 	};
 
 	// }
