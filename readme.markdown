@@ -14,7 +14,8 @@ Last Versions
 ### 1.3.0 ##################################
 
 * Viewport
-  There is a new html element, that wraps the slidermask element. The navigation elements were previously located physicaly below the slider. Now it is possible to position navigation elements inside and outside the slider viewport.
+  
+There is a new html element, that wraps the slidermask element. The navigation elements were previously located physicaly below the slider. Now it is possible to position navigation elements inside and outside the slider viewport.
 
 ### 1.2.0 ##################################
 
