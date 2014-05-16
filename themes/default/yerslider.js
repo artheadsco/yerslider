@@ -11,6 +11,7 @@
 			thumbsitemclass: '.yerslider-thumbs-item',
 			hasthumbsclass: 'yerslider-has-thumbs',
 			moveoffset: 60,
+			touch: false
 		};
 
 		t.stat = {
@@ -40,35 +41,43 @@
 						p: p.obj,
 						d: t.obj,
 					} );
+					
+					t.param = t.helper.setDefaultParam( {
+						p: p.param,
+						d: t.param,
+					} );
 
 				}
 
 			// }
-			
-			jQuery( window ).load( function ( ) {
-				
-				t.process();
-			} );
-			
-			
-			jQuery(window).resize( function() {
-				
-				window.setTimeout(function(){
-					
-					//if ( ! t.stat.isresizing ) {
-					
-						t.stat.isresizing = true;
-						
-						t.obj.thumbsmask.unbind( 'mouseenter' );
-						t.obj.thumbsmask.unbind( 'mousemove' );
-						
-						t.obj.thumbsitems.css( 'left', '0px' );
-						t.process();
-						t.stat.isresizing = false;
-					//}
-					
-				 }, 100 );
-			 });
+
+			if ( ! t.param.touch ) {
+
+				jQuery( window ).load( function ( ) {
+
+					t.process();
+				} );
+
+				jQuery(window).resize( function() {
+
+					window.setTimeout(function(){
+
+						//if ( ! t.stat.isresizing ) {
+
+							t.stat.isresizing = true;
+
+							t.obj.thumbsmask.unbind( 'mouseenter' );
+							t.obj.thumbsmask.unbind( 'mousemove' );
+
+							t.obj.thumbsitems.css( 'left', '0px' );
+							t.process();
+							t.stat.isresizing = false;
+						//}
+
+					 }, 100 );
+				});
+			}
+
 		};
 
 		t.process = function () {

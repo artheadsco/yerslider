@@ -1389,9 +1389,9 @@ function YerSlider() {
 				/* do bullets-wrap html and object */
 
 				if ( typeof t.obj.bulletswrap !== 'object' ) {
-					
+
 					var html = '<div class="' + t.param.bulletswrapclass.replace( '.', '' ) + '"></div>';
-					
+
 					if ( t.param.bulletslocation === 'inside' ) {
 
 						t.obj.sliderviewport.append( html );
@@ -1401,7 +1401,7 @@ function YerSlider() {
 
 						t.obj.sliderwrap.append( html );
 					}
-					
+
 					t.obj.bulletswrap = t.obj.sliderwrap.find( t.param.bulletswrapclass );
 				}
 
@@ -1550,9 +1550,9 @@ function YerSlider() {
 				/* do thumbs-wrap html and object */
 
 				if ( typeof t.obj.thumbswrap !== 'object' ) {
-					
+
 					var html = '<div class="' + t.param.thumbswrapclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsmaskclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsitemsclass.replace( '.', '' ) + '"></div></div></div>';
-					
+
 					if ( t.param.thumbslocation === 'inside' ) {
 
 						t.obj.sliderviewport.append( html );
@@ -1562,7 +1562,7 @@ function YerSlider() {
 
 						t.obj.sliderwrap.append( html );
 					}
-					
+
 					t.obj.thumbswrap = t.obj.sliderwrap.find( t.param.thumbswrapclass );
 					t.obj.thumbsitems = t.obj.sliderwrap.find( t.param.thumbsitemsclass );
 					t.obj.thumbsmask = t.obj.sliderwrap.find( t.param.thumbsmaskclass );
@@ -1746,6 +1746,9 @@ function YerSlider() {
 
 				var p = {};
 					p.obj = t.obj;
+					p.param = {
+						touch: t.stat.touch
+					};
 
 				t.param.thumbsready( p );
 			}
