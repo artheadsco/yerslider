@@ -8,18 +8,17 @@ The script was started to personel understand all the limitations and problems I
 
 This documentation is still incomplete!
 
-
-
-Current Version
+Last Versions
 ------------------------------------------
 
-1.2.0
+### 1.3.0 ##################################
 
-### New ##################################
+* Viewport
+  There is a new html element, that wraps the slidermask element. The navigation elements were previously located physicaly below the slider. Now it is possible to position navigation elements inside and outside the slider viewport.
 
-* thumbs
+### 1.2.0 ##################################
 
-
+* Thumbs
 
 Properties
 ------------------------------------------
@@ -31,8 +30,6 @@ Properties
 * touch ready
 * css-transition for smooth sliding and javascript fallback
 
-
-
 Roadmap
 ------------------------------------------
 
@@ -40,11 +37,8 @@ You can look at the [enhancement issues](https://github.com/johannheyne/yerslide
 
 Just ask me for your needs at mail@johannheyne.de or create a new issue.
 
-
-
 Dependencies
 ------------------------------------------
-
 
 * [jQuery](http://jquery.com/)
 * [modernizr.js](http://modernizr.com/)
@@ -53,8 +47,6 @@ feature detection of js, touch, csstransforms3d, csstransitions and cssanimation
 for touch and swipe functionality
 * [YouTube iframe API](https://www.youtube.com/iframe_api)
 
-
-
 Setup
 ------------------------------------------
 
@@ -62,20 +54,22 @@ Setup
 
 ```html
 <div class="yerslider-wrap mysliderclass">
-    <div class="yerslider-mask">
-        <ul class="yerslider-slider">
-            <li class="yerslider-slide">
-                /* Slide Content */
-            </li>
-            <li class="yerslider-slide">
-                /* Slide Content */
-            </li>
-        </ul>
-    </div>
+	<div class="yerslider-viewport">
+		<div class="yerslider-mask">
+			<ul class="yerslider-slider">
+				<li class="yerslider-slide">
+					/* Slide Content */
+				</li>
+				<li class="yerslider-slide">
+					/* Slide Content */
+				</li>
+			</ul>
+		<div>
+		<!-- prev/next buttons, bullets, thumbs with …location: 'inside' -->
+	</div>
+	<!-- prev/next buttons, bullets, thumbs …location: 'outside' -->
 </div>
 ```
-
-
 
 ### Loading The Script ###################
 
@@ -84,54 +78,45 @@ Load the yerslider.js from the core folder. The best way is to load the script o
 ```javascript
 if ( jQuery('.mysliderclass').length > 0 ) {
 
-    jQuery.ajax({
-        url: '/assets/yerslider/core/yerslider.js',
-        dataType: 'script',
-        cache: true,
-        async: true,
-        success: function () {
-            
-            /* define a slider here */
-        }
-    });
+	jQuery.ajax({
+		url: '/assets/yerslider/core/yerslider.js',
+		dataType: 'script',
+		cache: true,
+		async: true,
+		success: function () {
+
+			/* define a slider here */
+		}
+	});
 }
 ```
-
-
 
 ### Define A Slider ######################
 
 ```javascript
 var myslider = new YerSlider();
 myslider.init({
-    sliderid: '.mysliderclass'
+	sliderid: '.mysliderclass'
 });
 ```
-
-
 
 ### Load the Slider Stylesheet ###########
 
 There is a themefolder with an default theme. Inside there is the stylesheet with basic styles. Just copy the theme and make your additions to the styles. Then load the styles in the head of your html or use a preprozessor to add this to your existing basic stylesheet.
 
-
-
 Options
 -----------------------------------------
-
 
 ### Group Slides #########################
 
 ```javascript
 slidegroup: 1,
 slidegroupresp: {
-    0: 1,
-    400: 2,
-    800: 3
+	0: 1,
+	400: 2,
+	800: 3
 },
 ```
-
-
 
 ### Slidegap #############################
 
@@ -139,38 +124,30 @@ slidegroupresp: {
 slidegap: 0,
 ```
 
-
-
 ### Previous & Next Button ###############
 
 ```javascript
 nextbtn: true,
 prevbtn: true,
-```
-
-
-
-### Previous & Next Add Class ############
-
-```javascript
+prevnextlocation: 'inside', // inside, outside
 nextclassadd: '',
 prevclassadd: '',
 ```
 
-
-
 ### Bullets
 
 ```javascript
-bullets: false,
+bullets: true,
+bulletclickable: true,
+bulletslocation: 'inside', // inside, outside
+
 ```
-
-
 
 ### Thumbs ###############################
 
 ```javascript
-thumbs: false,
+thumbs: true,
+thumbslocation: 'inside', // inside, outside
 thumbstemplates: {
 	'1': {
 		'html': '<p>{{thumb-text}}</p>',
@@ -187,25 +164,12 @@ thumbsready: function( p ) {
 }
 ```
 
-
-
-### Animation Speed ######################
-
-```javascript
-animationspeed: 1000,
-```
-
-
-
-### Animation Type #######################
+### Animation ######################
 
 ```javascript
 animationtype: 'ease',
+animationspeed: 1000,
 ```
-
-Options: ease, ease-in-out, ease-in, ease-out, linear
-
-
 
 ### Loop #################################
 
@@ -215,41 +179,19 @@ loop: 'none',
 
 Options: none, appending, rollback
 
-
-
 ### Autoplay ##############################
 
 ```javascript
 autoplay: false,
-```
-
-
-
-### Autoplay Interval #####################
-
-```javascript
 autoplayinterval: 3000,
-```
-
-
-
-### Autoplay Stop On Hover ################
-
-```javascript
 autoplaystoponhover: true,
 ```
 
 The autoplay stops while the mouse is over the slider or over an slider-navigation-element.
 
-
-
 ### YouTube ###############################
 
-
-
 ### Vimeo #################################
-
-
 
 ### Scroll Top
 

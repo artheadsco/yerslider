@@ -29,6 +29,7 @@ function YerSlider() {
 		sliderid: '.yerslider',
 		sliderwrapclass: '.yerslider-wrap',
 		sliderwrapclasshasbullets: '.yerslider-has-bullets',
+		sliderviewportclass: '.yerslider-viewport',
 		slidermaskclass: '.yerslider-mask',
 		sliderclass: '.yerslider-slider',
 		slideclass: '.yerslider-slide',
@@ -41,6 +42,7 @@ function YerSlider() {
 		scrolltop: false,
 		scrolltopval: 0,
 		scrolltopspeed: 500,
+		prevnextlocation: 'inside', // inside, outside,
 		prevnextclass: '.yerslider-prevnext',
 		nextclass: '.yerslider-next',
 		prevclass: '.yerslider-prev',
@@ -51,6 +53,7 @@ function YerSlider() {
 		animationspeed: 1000,
 		animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
 		bullets: false,
+		bulletslocation: 'outside', // inside, outside,
 		loop: 'none', /* appending, rollback */
 		loopswipe: 'none',
 		autoplay: false, /* true */
@@ -71,6 +74,7 @@ function YerSlider() {
 		videoplayercloseafterend: true,
 		// thumbs
 		thumbs: false,
+		thumbslocation: 'outside', // inside, outside,
 		thumbstemplates: {},
 		thumbsclickable: true,
 		sliderwrapclasshasthumbs: '.yerslider-has-thumbs',
@@ -122,6 +126,7 @@ function YerSlider() {
 	t.obj = {
 		sliderid: undefined,
 		sliderwrap: undefined,
+		sliderviewport: undefined,
 		slider: undefined,
 		slide: undefined,
 		bulletswrap: undefined,
@@ -304,6 +309,7 @@ function YerSlider() {
 
 		t.obj.sliderid = jQuery( t.param.sliderid );
 		t.obj.sliderwrap = jQuery( t.param.sliderid );
+		t.obj.sliderviewport = jQuery( t.param.sliderid + ' ' + t.param.sliderviewportclass );
 		t.obj.slidermask = jQuery( t.param.sliderid + ' ' + t.param.slidermaskclass );
 		t.obj.slider = jQuery( t.param.sliderid + ' ' + t.param.sliderclass );
 		t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
@@ -960,7 +966,18 @@ function YerSlider() {
 					nextclassadd = ' ' + t.param.nextclassadd.replace( '.', '' );
 				}
 
-				t.obj.sliderwrap.append('<div class="js-yerslider-next ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.nextclass.replace( '.', '' ) + nextclassadd + '">');
+				var html = '<div class="js-yerslider-next ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.nextclass.replace( '.', '' ) + nextclassadd + '">';
+
+				if ( t.param.prevnextlocation === 'inside' ) {
+
+					t.obj.sliderviewport.append( html );
+				}
+
+				if ( t.param.prevnextlocation === 'outside' ) {
+
+					t.obj.sliderwrap.append( html );
+				}
+
 				t.obj.nextbtn = jQuery( t.param.sliderid + ' ' + t.param.nextclass );
 			}
 
@@ -971,7 +988,18 @@ function YerSlider() {
 					prevclassadd = ' ' + t.param.prevclassadd.replace( '.', '' );
 				}
 
-				t.obj.sliderwrap.append('<div class="js-yerslider-prev ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.prevclass.replace( '.', '' ) + prevclassadd + '">');
+				var html = '<div class="js-yerslider-prev ' + t.param.prevnextclass.replace( '.', '' ) + ' ' + t.param.prevclass.replace( '.', '' ) + prevclassadd + '">';
+
+				if ( t.param.prevnextlocation === 'inside' ) {
+
+					t.obj.sliderviewport.append( html );
+				}
+
+				if ( t.param.prevnextlocation === 'outside' ) {
+
+					t.obj.sliderwrap.append( html );
+				}
+
 				t.obj.prevbtn = jQuery( t.param.sliderid + ' ' + t.param.prevclass );
 			}
 
@@ -1361,8 +1389,19 @@ function YerSlider() {
 				/* do bullets-wrap html and object */
 
 				if ( typeof t.obj.bulletswrap !== 'object' ) {
+					
+					var html = '<div class="' + t.param.bulletswrapclass.replace( '.', '' ) + '"></div>';
+					
+					if ( t.param.bulletslocation === 'inside' ) {
 
-					t.obj.sliderwrap.append('<div class="' + t.param.bulletswrapclass.replace( '.', '' ) + '"></div>');
+						t.obj.sliderviewport.append( html );
+					}
+
+					if ( t.param.bulletslocation === 'outside' ) {
+
+						t.obj.sliderwrap.append( html );
+					}
+					
 					t.obj.bulletswrap = t.obj.sliderwrap.find( t.param.bulletswrapclass );
 				}
 
@@ -1511,8 +1550,19 @@ function YerSlider() {
 				/* do thumbs-wrap html and object */
 
 				if ( typeof t.obj.thumbswrap !== 'object' ) {
+					
+					var html = '<div class="' + t.param.thumbswrapclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsmaskclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsitemsclass.replace( '.', '' ) + '"></div></div></div>';
+					
+					if ( t.param.thumbslocation === 'inside' ) {
 
-					t.obj.sliderwrap.append('<div class="' + t.param.thumbswrapclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsmaskclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsitemsclass.replace( '.', '' ) + '"></div></div></div>');
+						t.obj.sliderviewport.append( html );
+					}
+
+					if ( t.param.thumbslocation === 'outside' ) {
+
+						t.obj.sliderwrap.append( html );
+					}
+					
 					t.obj.thumbswrap = t.obj.sliderwrap.find( t.param.thumbswrapclass );
 					t.obj.thumbsitems = t.obj.sliderwrap.find( t.param.thumbsitemsclass );
 					t.obj.thumbsmask = t.obj.sliderwrap.find( t.param.thumbsmaskclass );

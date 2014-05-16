@@ -1,8 +1,8 @@
 /*
  * @package		YerSlider
- * @version		1.2.0
- * @date		2014-05-15
- * @time		17:48:36
+ * @version		1.3.0
+ * @date		2014-05-16
+ * @time		9:51:33
  * @license		MIT or GPL
  * @repository	https://github.com/johannheyne/yerslider.git
  * @homepage	http://demo.johannheyne.de/yerslider/demo/
@@ -37,6 +37,12 @@
   z-index: 9999;
 }
 
+.yerslider-viewport {
+  /* default begin */
+  position: relative;
+  /* default end */
+}
+
 .yerslider-mask {
   /* no-js begin */
   position: relative;
@@ -63,14 +69,17 @@
   display: inline-block;
   vertical-align: top;
   white-space: normal;
+  width: 100%;
+  /* no-js end */
+  /* custom begin */
+  background-color: DodgerBlue;
   font-size: 16px;
   line-height: 1.2;
-  width: 100%;
+  /* custom end */
+}
+
+.js .yerslider-slide {
   display: none;
-  /* no-js end */
-  /* default begin */
-  background-color: DodgerBlue;
-  /* default end */
 }
 
 .yerslider-slide.media {
@@ -102,10 +111,6 @@
   -o-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
   transition: all 0.3s ease;
-}
-
-.yerslider-has-bullets .yerslider-prevnext {
-  margin-top: -94px;
 }
 
 .yerslider-next {

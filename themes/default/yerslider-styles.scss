@@ -33,7 +33,11 @@
 	position: relative;
 	z-index: 9999;
 }
-
+.yerslider-viewport {
+	/* default begin */
+	position: relative;
+	/* default end */
+}
 .yerslider-mask {
 	/* no-js begin */
 	position: relative;
@@ -41,6 +45,7 @@
 	overflow: auto;
 	/* no-js end */
 }
+
 .yerslider-slider {
 	/* no-js begin */
 	white-space: nowrap;
@@ -58,15 +63,17 @@
 	display: inline-block;
 	vertical-align: top;
 	white-space: normal;
-	font-size: 16px;
-	line-height: 1.2;
 	width: 100%;
-	display: none;
 	/* no-js end */
 
-	/* default begin */
+	/* custom begin */
 	background-color: DodgerBlue;
-	/* default end */
+	font-size: 16px;
+	line-height: 1.2;
+	/* custom end */
+}
+.js .yerslider-slide {
+	display: none;
 }
 .yerslider-slide.media {
 	/* default begin */
@@ -80,7 +87,7 @@
 	cursor: pointer;
 	z-index: 99999;
 	/* default end */
-	
+
 	/* theme begin */
 	width: 40px;
 	height: 80px;
@@ -97,9 +104,6 @@
 	-o-transition: all 0.3s ease;
 	-ms-transition: all 0.3s ease;
 	transition: all 0.3s ease;
-}
-.yerslider-has-bullets .yerslider-prevnext {
-	margin-top: -94px;
 }
 
 .yerslider-next {
@@ -273,7 +277,7 @@
 			overflow: hidden;
 			font-size: 0;
 			line-height: 0;
-			
+
 			-webkit-transform: translateZ(0);
 			-moz-transform: translateZ(0);
 			-ms-transform: translateZ(0);
@@ -305,7 +309,7 @@
 			display: inline-block;
 			min-width: 0;
 			cursor: pointer;
-			
+
 			* {
 				cursor: pointer;
 			}
@@ -337,7 +341,7 @@
 
 	}
 	.touch {
-		
+
 		.yerslider-thumbs-mask {
 
 			// DEFAULT {
