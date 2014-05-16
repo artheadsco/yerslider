@@ -8,14 +8,14 @@ The script was started to personel understand all the limitations and problems I
 
 This documentation is still incomplete!
 
-Last Versions
+Latest Versions
 ------------------------------------------
 
-### 1.3.0 ##################################
+### v1.3.0 - 2014-05-16 ##################
 
 * Viewport – there is a new html element, that wraps the slidermask element. The navigation elements were previously located physicaly below the slider. Now it is possible to position navigation elements inside and outside the slider viewport.
 
-### 1.2.0 ##################################
+### v1.2.0 - 2014-05-15 ##################
 
 * Thumbs
 
