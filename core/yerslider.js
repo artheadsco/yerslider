@@ -188,24 +188,13 @@ function YerSlider() {
 
 			t.init_video();
 
-			window.setTimeout(function(){
+			t.slides_equal_height();
 
-				t.slides_equal_height();
+			//t.obj.sliderwrap.css('opacity','0');
+			t.obj.sliderwrap.css( 'opacity','1' ).hide().fadeIn( 'fast', function() {
 
-			}, 150);
-
-			// slider opening delay plus effect {
-
-				t.obj.sliderwrap.css('opacity','0');
-
-				window.setTimeout(function(){
-
-					t.obj.sliderwrap.css( 'opacity','1' ).hide().fadeIn( 'fast', function() {
-
-						t.autoplayinit();
-					});
-
-				}, 250 );
+				t.autoplayinit();
+			});
 
 			// }
 		}
@@ -2277,11 +2266,13 @@ function YerSlider() {
 
 	t.slides_equal_height = function () {
 
-		window.setTimeout( function () {
-
-			t.obj.slide.css( 'height', 'auto' );
-			t.obj.slide.height( t.obj.slider.height() );
-		}, 1000);
+		t.obj.slider.imagesLoaded()
+			
+			.progress( function( instance, image ) {
+			
+				t.obj.slide.css( 'height', 'auto' );
+				t.obj.slide.height( t.obj.slider.height() );
+			});
 
 	};
 
