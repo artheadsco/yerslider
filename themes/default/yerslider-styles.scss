@@ -1,6 +1,7 @@
 // SETUP {
 
-	$background-color: dodgerblue;
+	$background-color: #ddd;
+	$content-color: dodgerblue;
 	$text-color: white;
 
 // }
@@ -73,7 +74,7 @@
 	/* no-js end */
 
 	/* custom begin */
-	background-color: DodgerBlue;
+	background-color: $background-color;
 	/* custom end */
 	
 	p {
@@ -339,6 +340,7 @@
 			p {
 				margin: 0;
 				padding: 20px 40px;
+				background-color: $content-color;
 				color: $text-color;
 				font-size: 16px;
 				line-height: 1.2;
