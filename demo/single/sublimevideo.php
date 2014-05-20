@@ -4,13 +4,14 @@
 		<title>YerSlider Demo</title>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<?php
 
-		<script src="../../dependencies/modernizr.js" type="text/javascript"></script>
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<script src="../../dependencies/jquery.touchSwipe.js" type="text/javascript"></script>
+	include( '../includes/styles.php' );
+	include( '../includes/scripts.php' );
+
+?>
 		<script src="//cdn.sublimevideo.net/js/3glvwgyi.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.1.0/jquery.fitvids.js"></script>
-		<script src="../../core/yerslider.js?v=201306122200" type="text/javascript"></script>
 
 		<link href="http://fonts.googleapis.com/css?family=Raleway:200,700" rel="stylesheet" type="text/css"/>
 		<link href="../../themes/default/yerslider-styles.css?v=201306122200" rel="stylesheet" type="text/css"/>

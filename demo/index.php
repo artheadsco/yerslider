@@ -5,16 +5,12 @@
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-		<script src="../dependencies/modernizr.js" type="text/javascript"></script>
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<script src="https://www.youtube.com/iframe_api" type="text/javascript"></script>
-		<script src="../dependencies/jquery.touchSwipe.js" type="text/javascript"></script>
-		<script src="../core/yerslider.js?v=201306122200" type="text/javascript"></script>
+<?php
 
-		<link href="http://fonts.googleapis.com/css?family=Raleway:200,700" rel="stylesheet" type="text/css"/>
-		<link href="../themes/default/yerslider-styles.css?v=201306122200" rel="stylesheet" type="text/css"/>
-		<link href="demo-styles.css?v=201306122200" rel="stylesheet" type="text/css"/>
+	include( 'includes/styles.php' );
+	include( 'includes/scripts.php' );
 
+?>
 	</head>
 	<body>
 
@@ -59,11 +55,12 @@
 			</div>
 
 			<ul>
-				<li><a href="single/thumbnails.html">Thumbnails</a></li>
-				<li><a href="single/autoplay.html">Autoplay</a></li>
-				<li><a href="single/loop-rollback.html">Loop Rollback</a></li>
-				<li><a href="single/youtube.html">YouTube</a></li>
-				<li><a href="single/sublimevideo.html">SublimeVideo</a></li>
+				<li><a href="single/thumbnails.php">Thumbnails</a></li>
+				<li><a href="single/autoplay.php">Autoplay</a></li>
+				<li><a href="single/loop-rollback.php">Loop Rollback</a></li>
+				<li><a href="single/images.php">Images</a></li>
+				<li><a href="single/youtube.php">YouTube</a></li>
+				<li><a href="single/sublimevideo.php">SublimeVideo</a></li>
 			</ul>
 
 		</nav>

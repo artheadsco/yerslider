@@ -4,18 +4,12 @@
 		<title>YerSlider Demo</title>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<?php
 
-		<script src="../../dependencies/modernizr.js" type="text/javascript"></script>
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<script src="https://www.youtube.com/iframe_api" type="text/javascript"></script>
-		<script src="../../dependencies/jquery.touchSwipe.js" type="text/javascript"></script>
-		<script src="../../themes/default/yerslider.js?v=201306122200" type="text/javascript"></script>
-		<script src="../../core/yerslider.js" type="text/javascript"></script>
+	include( '../includes/styles.php' );
+	include( '../includes/scripts.php' );
 
-		<link href="http://fonts.googleapis.com/css?family=Raleway:200,700" rel="stylesheet" type="text/css"/>
-		<link href="../../themes/default/yerslider-styles.css?v=201306122200" rel="stylesheet" type="text/css"/>
-		<link href="../demo-styles.css?v=201306122200" rel="stylesheet" type="text/css"/>
-
+?>
 	</head>
 	<body>
 
@@ -24,15 +18,16 @@
 		<div class="page-typo">
 
 			<h1>YerSlider</h1>
-
+            <p>This is a demopage of the YerSlider-Script hostet on <a href="https://github.com/johannheyne/yerslider" target="_blank">GitHub</a> by Johann Heyne.</p>
+			
 		</div>
 
 		<!-- end -->
 
-		<!-- Autoplay -->
+		<!-- body begin -->
 
 		<div class="page-typo">
-			<h2 id="autoplay">Thumbnails</h2>
+			<h2 id="autoplay">Single Slide with Thumbs</h2>
 		</div>
 
 		<div class="yerslider-wrap mysliderclass1">
@@ -124,41 +119,6 @@
 			</div>
 		</div>
 
-		<code>
-<pre>var myslider = new YerSlider();
-myslider.init({
-	sliderid: '.mysliderclass',
-	slidegap: 10,
-	slidegroupresp: {
-		0: 1,
-		450: 2,
-		900: 3
-	},
-	loop: 'appending',
-	animationspeed: 1000,
-	bullets: true,
-	autoplay: true,
-	autoplayinterval: 1000,
-	autoplaydelaystart: 0,
-	autoplaystoponhover: true</div>
-	<div class="code-focus">thumbs: true,
-	thumbstemplates: {
-		'1': {
-			'html': '&#060;p&#062;{{thumb-text}}&#060;/p&#062;',
-			'class': 'thumb-template-1'
-		}
-	},
-	thumbsclickable: true,
-	thumbsready: function( p ) {
-		var thumbsready = new YerSliderThumbs();
-		thumbsready.init({
-			obj: p.obj
-		});
-	}</div>
-
-});</pre>
-		</code>
-
 		<script type="text/javascript">
 
 		  jQuery.noConflict();
@@ -170,13 +130,11 @@ myslider.init({
 					slidegap: 10,
 					slidegroupresp: {
 						0: 1,
-						450: 2,
-						900: 3
 					},
-					loop: 'appending',
-					animationspeed: 1000,
-					bullets: true,
-                    autoplay: true,
+					loop: 'rollback',
+					animationspeed: 500,
+					bullets: false,
+                    autoplay: false,
 					autoplayinterval: 2000,
 					autoplaydelaystart: 0,
 					autoplaystoponhover: true,
@@ -192,9 +150,12 @@ myslider.init({
 
         				var yersliderthumbs = new YerSliderThumbs();
         				yersliderthumbs.init({
-        					obj: p.obj
+        					obj: p.obj,
+        					param: p.param
         				});
-        			}
+        			},
+        			swipe: true,
+					swipeanimationspeed: 300
 				});
 			});
 

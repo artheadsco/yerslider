@@ -4,16 +4,12 @@
 		<title>YerSlider Demo</title>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<?php
 
-		<script src="../../dependencies/modernizr.js" type="text/javascript"></script>
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<script src="../../dependencies/jquery.touchSwipe.js" type="text/javascript"></script>
-		<script src="../../core/yerslider.js" type="text/javascript"></script>
+	include( '../includes/styles.php' );
+	include( '../includes/scripts.php' );
 
-		<link href="http://fonts.googleapis.com/css?family=Raleway:200,700" rel="stylesheet" type="text/css"/>
-		<link href="../../themes/default/yerslider-styles.css" rel="stylesheet" type="text/css"/>
-		<link href="../demo-styles.css" rel="stylesheet" type="text/css"/>
-
+?>
 		<style rel="stylesheet" type="text/css">
 
 			.yerslider-slider {
