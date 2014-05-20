@@ -53,16 +53,13 @@
 
 			if ( ! t.param.touch ) {
 
-				jQuery( window ).load( function ( ) {
-
-					t.process();
-				} );
+				t.process();
 
 				jQuery(window).resize( function() {
 
 					window.setTimeout(function(){
 
-						//if ( ! t.stat.isresizing ) {
+						if ( ! t.stat.isresizing ) {
 
 							t.stat.isresizing = true;
 
@@ -72,7 +69,7 @@
 							t.obj.thumbsitems.css( 'left', '0px' );
 							t.process();
 							t.stat.isresizing = false;
-						//}
+						}
 
 					 }, 100 );
 				});
@@ -81,50 +78,55 @@
 		};
 
 		t.process = function () {
+			
+			t.obj.slider.imagesLoaded()
 
-			// DEFINE VARS {
+				.always( function( instance ) {
 
-				t.stat.itemspos_x = 0;
-				t.stat.maskwidth = t.obj.thumbsmask.innerWidth();
-				t.stat.itemswidth = t.obj.thumbsitem.last().position().left + t.obj.thumbsitem.last().outerWidth();
-				t.stat.diff = t.stat.itemswidth - t.stat.maskwidth;
-				t.stat.maskleft = t.obj.thumbsmask.offset().left
+					// DEFINE VARS {
 
-			// }
+						t.stat.itemspos_x = 0;
+						t.stat.maskwidth = t.obj.thumbsmask.innerWidth();
+						t.stat.itemswidth = t.obj.thumbsitem.last().position().left + t.obj.thumbsitem.last().outerWidth();
+						t.stat.diff = t.stat.itemswidth - t.stat.maskwidth;
+						t.stat.maskleft = t.obj.thumbsmask.offset().left
 
-			// ON MOUSE OVER ANIMATION {
+					// }
 
-				t.obj.thumbsmask.on( 'mouseenter', function ( e ) {
+					// ON MOUSE OVER ANIMATION {
 
-						t.set_itemspos( e );
+						t.obj.thumbsmask.on( 'mouseenter', function ( e ) {
 
-						t.stat.is_animating = true;
+								t.set_itemspos( e );
 
-						t.obj.thumbsitems.animate( {
-							'left': '-' + t.stat.itemspos_x + 'px'
-						}, 200, function () {
+								t.stat.is_animating = true;
 
-							t.stat.is_animating = false;
+								t.obj.thumbsitems.animate( {
+									'left': '-' + t.stat.itemspos_x + 'px'
+								}, 200, function () {
 
+									t.stat.is_animating = false;
+
+								} );
 						} );
-				} );
 
-			// }
+					// }
 
-			// THUMBS FOLLOW MOUSE {
+					// THUMBS FOLLOW MOUSE {
 
-				jQuery( t.obj.thumbsmask ).mousemove( function( e ) {
+						jQuery( t.obj.thumbsmask ).mousemove( function( e ) {
 
-					if ( ! t.stat.is_animating ) {
+							if ( ! t.stat.is_animating ) {
 
-						t.set_itemspos( e );
+								t.set_itemspos( e );
 
-						t.obj.thumbsitems.css( 'left', '-' + t.stat.itemspos_x + 'px' );
-					}
+								t.obj.thumbsitems.css( 'left', '-' + t.stat.itemspos_x + 'px' );
+							}
 
-				} ).mouseover();
+						} ).mouseover();
 
-			// }
+					// }
+				});
 
 		};
 
