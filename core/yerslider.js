@@ -1596,7 +1596,7 @@ function YerSlider() {
 					if (
 						template_key
 						&& typeof t.param.thumbstemplates[ template_key ] === 'object'
-						&& t.helper.getLength( t.param.thumbstemplates[ template_key ] ) > 0 
+						&& typeof t.param.thumbstemplates[ template_key ].html !== 'undefined'
 					) {
 
 						thumb_html = '';
