@@ -134,8 +134,9 @@ code {
 	line-height: 60px;
 	text-align: center;
 	color: white;
-	margin-top: 30px;
-	margin-bottom: 50px;
+	margin: 0;
+	padding-top: 30px;
+	padding-bottom: 50px;
 }
 
 .download_btn {
