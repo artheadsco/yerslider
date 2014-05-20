@@ -6,8 +6,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 		<script src="../../dependencies/modernizr.js" type="text/javascript"></script>
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<script src="https://www.youtube.com/iframe_api" type="text/javascript"></script>
+		<script src="../../dependencies/jquery.js"></script>
+		<!--<script src="https://www.youtube.com/iframe_api" type="text/javascript"></script>-->
 		<script src="../../dependencies/jquery.touchSwipe.js" type="text/javascript"></script>
 		<script src="../../themes/default/yerslider.js?v=201306122200" type="text/javascript"></script>
 		<script src="../../core/yerslider.js" type="text/javascript"></script>
