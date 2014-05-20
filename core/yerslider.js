@@ -2487,7 +2487,37 @@ function YerSlider() {
 			}
 
 			return r;
-		}
+		},
+	
+		when: function( obj, p ) {
+
+			var i = 0;
+			
+			if ( typeof p.timeout == 'undefined' ) {
+				
+				p.timeout = 10;
+			}
+			
+			var interval = window.setInterval( function() {
+
+				i++;
+
+				if ( obj[ p.key ] ) {
+
+					p.callback_if();
+					window.clearInterval( interval );
+				}
+
+				if ( ( i / 10 ) === p.timeout ) {
+
+					window.clearInterval( interval );
+					p.callback_timeout();
+					
+				}
+
+			}, 100 );
+
+		},
 	};
 
 	t.get_placeholder_of_string = function ( string ) {
