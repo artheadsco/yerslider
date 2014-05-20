@@ -150,10 +150,6 @@ function YerSlider() {
 
 			t.init_loadyoutubeiframeapi();
 
-			if ( t.param.sublimevideo ) {
-
-			}
-
 			t.init_animation();
 
 			t.init_touch();
@@ -175,7 +171,9 @@ function YerSlider() {
 			t.set_slidesinviewport();
 			t.set_slidewidth();
 			t.set_slideheight();
+			
 			t.clon_slides();
+			
 			t.set_prevnext();
 
 			t.thumbs();
@@ -274,9 +272,9 @@ function YerSlider() {
 
 		if ( t.stat.touch && t.param.swipe && !t.param.swipeandprevnextbtn ) {
 
-			 t.param.nextbtn = false;
-			 t.param.prevbtn = false;
-		 }
+			t.param.nextbtn = false;
+			t.param.prevbtn = false;
+		}
 	};
 
 	t.init_param_changin = function () {
@@ -358,29 +356,29 @@ function YerSlider() {
 
 	t.init_touchswipe = function () {
 
-		 /* touch swipe */
+		/* touch swipe */
 
-		 if ( t.stat.touch && t.param.swipe ) {
+		if ( t.stat.touch && t.param.swipe ) {
 
-			 t.touchswipe();
-		 }
+			t.touchswipe();
+		}
 	};
 
 	t.init_iosresizeclickbug = function () {
 
-		 /* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
+		/* Resize Click Bug iOS: http://boagworld.com/dev/ios-safari-resizing-issues/ */
 
-		 /*t.obj.sliderwrap.on( t.stat.clicktype, function () {
+		/*t.obj.sliderwrap.on( t.stat.clicktype, function () {
 
-			 t.stat.isevent	 = true;
+			t.stat.isevent	= true;
 
-			 window.setTimeout(function(){
+			window.setTimeout(function(){
 
-				 t.stat.isevent= false;
-			 }, 200);
-		 });
-		 */
-		 jQuery(window).resize( function() {
+				t.stat.isevent= false;
+			}, 200);
+		});
+		*/
+		jQuery(window).resize( function() {
 
 			window.setTimeout(function(){
 
@@ -388,8 +386,8 @@ function YerSlider() {
 
 					t.resize();
 				}
-			 }, 100);
-		 }); 
+			}, 100);
+		}); 
 	};
 
 	t.init_video = function () {
@@ -769,36 +767,36 @@ function YerSlider() {
 
 	t.player_fix_ratio = function ( id ) {
 
-		 if ( typeof id !== 'undefined' ) {
+		if ( typeof id !== 'undefined' ) {
 
 			var obj = jQuery( '#' + id );
 
 			obj.height( obj.width() / 16 * 9 ); 
-		 }
-		 else {
+		}
+		else {
 
-			 jQuery('.yerslider-video-player').each( function () {
+			jQuery('.yerslider-video-player').each( function () {
 
 					var obj = jQuery( this );
 
-				   jQuery( obj ).height( jQuery( obj ).width() / 16 * 9 ); 
-			 });
-		 }
+				jQuery( obj ).height( jQuery( obj ).width() / 16 * 9 ); 
+			});
+		}
 	};
 
 	t.player_remove = function ( id ) {
 
-		 t.stat.videoisplaying = false;
+		t.stat.videoisplaying = false;
 
-		 if ( typeof id !== 'undefined' ) {
+		if ( typeof id !== 'undefined' ) {
 
 			jQuery( '#' + id ).parents('.yerslider-video').find('.yerslider-video-preview, .yerslider-video-play').show().find('#' + id).remove();
-		 }
-		 else {
+		}
+		else {
 
-			 jQuery('.yerslider-video-player').remove();
-			 jQuery('.yerslider-video-preview, .yerslider-video-play').show();
-		 }
+			jQuery('.yerslider-video-player').remove();
+			jQuery('.yerslider-video-preview, .yerslider-video-play').show();
+		}
 	};
 
 	// }
@@ -872,7 +870,7 @@ function YerSlider() {
 			var slidepadding = {};
 			slidepadding.left = parseInt( t.obj.slide.css('padding-left'), 10 );
 			slidepadding.right = parseInt( t.obj.slide.css('padding-right'), 10 );
-			t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) + ( ( slidepadding.left + slidepadding.left )	 * t.stat.slidegroup ) ) ) / t.stat.slidegroup	);
+			t.stat.slidewidth = Math.floor( ( t.stat.slidermaskwidth - ( ( t.param.slidegap * ( t.stat.slidegroup - 1 ) ) + ( ( slidepadding.left + slidepadding.left ) * t.stat.slidegroup ) ) ) / t.stat.slidegroup );
 		*/
 
 		if ( t.stat.slidegroup > 0 ) {
@@ -891,7 +889,7 @@ function YerSlider() {
 			if ( diff > 0 ) {
 
 				for ( var i = 0; i < diff; i++ ) {
-					jQuery( t.param.sliderid + ' ' + t.param.slideclass + ':nth-child(' + ( 1 + i )	 + 'n-' + (t.stat.slidegroup - 1) + ')' ).css( 'margin-right', ( t.param.slidegap + 1 ) + 'px' );
+					jQuery( t.param.sliderid + ' ' + t.param.slideclass + ':nth-child(' + ( 1 + i )	+ 'n-' + (t.stat.slidegroup - 1) + ')' ).css( 'margin-right', ( t.param.slidegap + 1 ) + 'px' );
 
 				}
 			}
@@ -1794,8 +1792,8 @@ function YerSlider() {
 		t.obj.slider.animate({
 			'margin-left': '-' + t.get_sliderposition() + 'px'
 		}, duration, t.translate_easing( t.param.animationtype, 'jquery'), function () {
-		   t.get_sliderposition();
-		   t.stat.isanimating = false;
+		t.get_sliderposition();
+		t.stat.isanimating = false;
 		});
 
 	};
@@ -2035,22 +2033,22 @@ function YerSlider() {
 
 			if ( t.stat.loop === 'none' ) {
 
-		  		if ( ! t.param.autoplay ) {
+				if ( ! t.param.autoplay ) {
 
-		  	        if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
-
-		  	        	t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
-		  	        }
-		  		}
-
-		  		if ( t.param.autoplay ) {
-
-		  	        if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+					if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
 
 						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
-		  	        	t.autoplayclear();
 					}
-		  		}
+				}
+
+				if ( t.param.autoplay ) {
+
+					if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+
+						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+						t.autoplayclear();
+					}
+				}
 			}
 
 			/* loop rollback */
@@ -2077,7 +2075,7 @@ function YerSlider() {
 
 				if ( t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
 
-			 	  temp = t.stat.currentslideindex - t.stat.slidecount;
+				temp = t.stat.currentslideindex - t.stat.slidecount;
 
 					t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup;
 
@@ -2108,7 +2106,7 @@ function YerSlider() {
 
 			if ( t.stat.loop === 'rollback' ) {
 
-			 	if ( t.stat.slidingleft && t.stat.currentslideindex == ( 0 - t.stat.slidegroup ) ) {
+				if ( t.stat.slidingleft && t.stat.currentslideindex == ( 0 - t.stat.slidegroup ) ) {
 
 					t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
 				}
@@ -2525,14 +2523,14 @@ function YerSlider() {
 		// placeholder pattern {{placeholder}}, you can use alphanumeric characters, underscore and hyphen
 
 		var regex = /\{\{([\w-]+)\}\}/g,
-		    arr = [];
+			arr = [];
 
-	    while ( match = regex.exec( string ) ) {
+		while ( match = regex.exec( string ) ) {
 
-			arr.push( match[1] );    
-	    }
+			arr.push( match[1] );	
+		}
 
-	    return arr;
+		return arr;
 	},
 
 	// }
