@@ -74,9 +74,17 @@
 
 	/* custom begin */
 	background-color: DodgerBlue;
-	font-size: 16px;
-	line-height: 1.2;
 	/* custom end */
+	
+	p {
+		font-size: 16px;
+		line-height: 1.2;
+	}
+	
+	img {
+		width: 100%;
+		max-width: 100%;
+	}
 }
 .js .yerslider-slide {
 	display: none;
@@ -325,16 +333,14 @@
 
 			margin-top: 10px;
 			margin-left: 5px;
-			padding: 20px 40px;
 			background-color: $background-color;
 
 			p {
 				margin: 0;
-				padding: 0;
+				padding: 20px 40px;
 				color: $text-color;
 				font-size: 16px;
 				line-height: 1.2;
-
 			}
 
 		// }
