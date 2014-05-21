@@ -2063,6 +2063,7 @@ function YerSlider() {
 
 						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
 					}
+
 				//}
 			}
 
@@ -2082,8 +2083,6 @@ function YerSlider() {
 					t.stat.currentslideindex = temp;
 				}
 			}
-
-			/* loop-rollback */
 
 		// }
 
