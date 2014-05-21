@@ -4,6 +4,7 @@
 		<title>YerSlider Demo</title>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		
 <?php
 
 	include( '../includes/styles.php' );
@@ -27,7 +28,7 @@
 		<!-- body begin -->
 
 		<div class="page-typo">
-			<h2 id="autoplay">Images</h2>
+			<h2 id="images">Images</h2>
 		</div>
 
 		<div class="yerslider-wrap mysliderclass1">

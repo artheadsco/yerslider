@@ -53,7 +53,11 @@
 
 			if ( ! t.param.touch ) {
 
-				t.process();
+				window.setTimeout( function () {
+
+					t.process();
+
+				}, 500 );
 
 				jQuery(window).resize( function() {
 
@@ -78,9 +82,8 @@
 		};
 
 		t.process = function () {
-			
-			t.obj.slider.imagesLoaded()
 
+			t.obj.thumbsitems.imagesLoaded()
 				.always( function( instance ) {
 
 					// DEFINE VARS {
