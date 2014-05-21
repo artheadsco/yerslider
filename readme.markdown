@@ -11,6 +11,9 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.4.0** *2014-05-21*
+	- Basic support for Images (are images loaded)
+	- Image Demo
 * **1.3.1** *2014-05-16*
 	- Viewport – there is a new html element, that wraps the slidermask element. The navigation elements were previously located physicaly below the slider. Now it is possible to position navigation elements inside and outside the slider viewport.
 * **1.2.0** *2014-05-15*
@@ -156,7 +159,8 @@ thumbsready: function( p ) {
 
 	var yersliderthumbs = new YerSliderThumbs();
 	yersliderthumbs.init({
-		obj: p.obj
+		obj: p.obj,
+		param: p.param
 	});
 }
 ```

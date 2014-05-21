@@ -147,7 +147,8 @@ myslider.init({
 	thumbsready: function( p ) {
 		var thumbsready = new YerSliderThumbs();
 		thumbsready.init({
-			obj: p.obj
+			obj: p.obj,
+			param: p.param
 		});
 	}</div>
 

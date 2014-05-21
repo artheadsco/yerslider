@@ -25,7 +25,7 @@
 				YerSlider is designed <strong>for developpers</strong>, <strong>high responsive</strong> and potentially <strong>can slide anything</strong>.</p>
 			<p class="alert">This page is casually under construction.</p>
             
-            <a class="download_btn" href="https://github.com/johannheyne/yerslider/archive/master.zip" target="_self"  title="">Download <span class="version">Version 1.3.0</span></a>
+            <a class="download_btn" href="https://github.com/johannheyne/yerslider/archive/master.zip" target="_self"  title="">Download <span class="version">Version 1.4.0</span></a>
             
             
 		</div>
@@ -529,8 +529,14 @@ myslider.init({
         <div class="page-typo">
 			<h2 id="changelog">Changelog</h2>
 		</div>
-		
+
 		<ul class="changelog">
+			<li>Version 1.4.0 <span class="date">2014-05-16</span>
+                <ul>
+                <li>Basic support for Images (are images loaded).</li>
+                <li>Image Demo</li>
+                </ul>
+            </li>
 		    <li>Version 1.3.1 <span class="date">2014-05-16</span>
                 <ul>
                     <li>Viewport<br/>There is a new html element, that wraps the slidermask element. The navigation elements were previously located physicaly below the slider. Now it is possible to position navigation elements inside and outside the slider viewport.</li>
