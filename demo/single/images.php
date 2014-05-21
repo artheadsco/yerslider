@@ -7,6 +7,7 @@
 		
 <?php
 
+	$path = '../';
 	include( '../includes/styles.php' );
 	include( '../includes/scripts.php' );
 
