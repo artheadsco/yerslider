@@ -144,6 +144,7 @@ bulletslocation: 'inside', // inside, outside
 ```javascript
 thumbs: true,
 thumbslocation: 'inside', // inside, outside
+thumbshideiflessthan: 2,
 thumbstemplates: {
 	'1': {
 		'html': '<p>{{thumb-text}}</p>',

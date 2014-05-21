@@ -74,6 +74,7 @@ function YerSlider() {
 		videoplayercloseafterend: true,
 		// thumbs
 		thumbs: false,
+		thumbshideiflessthan: 2,
 		thumbslocation: 'outside', // inside, outside,
 		thumbstemplates: {},
 		thumbsclickable: true,
@@ -171,9 +172,9 @@ function YerSlider() {
 			t.set_slidesinviewport();
 			t.set_slidewidth();
 			t.set_slideheight();
-			
+
 			t.clon_slides();
-			
+
 			t.set_prevnext();
 
 			t.thumbs();
@@ -1526,7 +1527,14 @@ function YerSlider() {
 
 	t.thumbs = function () {
 
-		if ( t.param.thumbs ) {
+		var check = true;
+
+		if ( t.obj.slide.length < t.param.thumbshideiflessthan ) {
+
+			check = false;
+		}
+
+		if ( t.param.thumbs && check ) {
 
 			//window.setTimeout(function(){
 
@@ -1652,7 +1660,7 @@ function YerSlider() {
 
 	t.set_thumbs_current_class = function () {
 
-		if ( t.param.thumbs ) {
+		if ( t.param.thumbs && typeof t.obj.thumbsitem == 'object' ) {
 
 			t.obj.thumbsitem.removeClass( 'thumb-slidegroup-current' );
 			t.obj.thumbsitem.removeClass( 'thumb-current' );
@@ -2267,9 +2275,9 @@ function YerSlider() {
 	t.slides_equal_height = function () {
 
 		t.obj.slider.imagesLoaded()
-			
+
 			.progress( function( instance, image ) {
-			
+
 				t.obj.slide.css( 'height', 'auto' );
 				t.obj.slide.height( t.obj.slider.height() );
 			});
@@ -2477,16 +2485,16 @@ function YerSlider() {
 
 			return r;
 		},
-	
+
 		when: function( obj, p ) {
 
 			var i = 0;
-			
+
 			if ( typeof p.timeout == 'undefined' ) {
-				
+
 				p.timeout = 10;
 			}
-			
+
 			var interval = window.setInterval( function() {
 
 				i++;
@@ -2501,7 +2509,7 @@ function YerSlider() {
 
 					window.clearInterval( interval );
 					p.callback_timeout();
-					
+
 				}
 
 			}, 100 );

@@ -136,6 +136,7 @@ myslider.init({
 	autoplaydelaystart: 0,
 	autoplaystoponhover: true</div>
 	<div class="code-focus">thumbs: true,
+	thumbshideiflessthan: 2,
 	thumbstemplates: {
 		'1': {
 			'html': '&#060;p&#062;{{thumb-text}}&#060;/p&#062;',

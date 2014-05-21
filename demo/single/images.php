@@ -86,6 +86,7 @@
 					autoplaydelaystart: 0,
 					autoplaystoponhover: true,
                     thumbs: true,
+					thumbshideiflessthan: 2,
 					thumbstemplates: {
 						'1': {
 							'html': '<img src="{{thumb-img-src}}">',
