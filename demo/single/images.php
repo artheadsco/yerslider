@@ -76,8 +76,10 @@
 					slidegap: 10,
 					slidegroupresp: {
 						0: 1,
-						400: 2,
+						420: 2,
 						800: 3,
+						1000: 4,
+						1200: 5,
 					},
 					loop: 'rollback',
 					animationspeed: 500,
