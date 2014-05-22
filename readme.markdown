@@ -1,7 +1,7 @@
 YerSlider
 ==========================================
 
-YerSlider is designed for developpers, high responsive and potentially can slide anything.
+YerSlider is designed for frontend-developpers, suitable for responsive design and potentially can slide anything.
 There are [Demos and Documentation](http://demo.johannheyne.de/yerslider/demo/) and you can play around with a demo on [codepen.io](http://codepen.io/johannheyne/pen/sekGb)
 
 The script was started to personel understand all the limitations and problems I had with other slider-scripts.
