@@ -53,7 +53,7 @@ Setup
 ### Basic HTML ##########################
 
 ```html
-<div class="yerslider-wrap mysliderclass">
+<div class="yerslider yerslider-wrap mysliderclass">
 	<div class="yerslider-viewport">
 		<div class="yerslider-mask">
 			<ul class="yerslider-slider">
@@ -76,7 +76,7 @@ Setup
 Load the yerslider.js from the core folder. The best way is to load the script on dependecy of a slider on the page. The following script does this.
 
 ```javascript
-if ( jQuery('.mysliderclass').length > 0 ) {
+if ( jQuery('.yerslider').length > 0 ) {
 
 	jQuery.ajax({
 		url: '/assets/yerslider/core/yerslider.min.js',
@@ -107,10 +107,45 @@ There is a themefolder with an default theme. Inside there is the stylesheet wit
 Options
 -----------------------------------------
 
-### Slider ID #########################
+### Slider ID ###########################
 
 ```javascript
 sliderid: '.mysliderclass',
+```
+
+### CSS Classes #########################
+
+YerSlider uses some css classes you may could change.
+
+```javascript
+// basic slider
+sliderclass: '.yerslider',
+sliderwrapclass: '.yerslider-wrap',
+sliderwrapclasshasbullets: '.yerslider-has-bullets',
+sliderviewportclass: '.yerslider-viewport',
+slidermaskclass: '.yerslider-mask',
+sliderclass: '.yerslider-slider',
+slideclass: '.yerslider-slide',
+
+// previous and next buttons
+prevnextclass: '.yerslider-prevnext',
+nextclass: '.yerslider-next',
+prevclass: '.yerslider-prev',
+nextinactiveclass: '.yerslider-next-inactive',
+previnactiveclass: '.yerslider-prev-inactive',
+
+// bullets
+sliderwrapclasshasbullets: '.yerslider-has-bullets',
+bulletswrapclass: '.yerslider-bullets-wrap',
+bulletclass: '.yerslider-bullet',
+bulletcurrentclass: '.yerslider-bullet-current',
+
+// thumbs
+sliderwrapclasshasthumbs: '.yerslider-has-thumbs',
+thumbswrapclass: '.yerslider-thumbs-wrap',
+thumbsmaskclass: '.yerslider-thumbs-mask',
+thumbsitemsclass: '.yerslider-thumbs-items',
+thumbsitemclass: '.yerslider-thumbs-item',
 ```
 
 ### Group Slides #########################
@@ -229,7 +264,7 @@ autoplayinterval: 3000,
 autoplaystoponhover: true,
 ```
 
-Continuosly scrolling like a ticker
+Continuosly scrolling like a ticker:
 
 ```javascript
 autoplaycontinuously: false,

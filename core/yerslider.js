@@ -29,8 +29,8 @@ function YerSlider() {
 		slidegroup: 1,
 		slidegroupresp: {},
 		
+		sliderclass: '.yerslider',
 		sliderwrapclass: '.yerslider-wrap',
-		sliderwrapclasshasbullets: '.yerslider-has-bullets',
 		sliderviewportclass: '.yerslider-viewport',
 		slidermaskclass: '.yerslider-mask',
 		sliderclass: '.yerslider-slider',
@@ -57,6 +57,7 @@ function YerSlider() {
 		bullets: false,
 		bulletslocation: 'outside', // inside, outside,
 		bulletclickable: true,
+		sliderwrapclasshasbullets: '.yerslider-has-bullets',
 		bulletswrapclass: '.yerslider-bullets-wrap',
 		bulletclass: '.yerslider-bullet',
 		bulletcurrentclass: '.yerslider-bullet-current',
