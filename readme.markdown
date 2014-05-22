@@ -12,7 +12,7 @@ Latest Version History
 ------------------------------------------
 
 * **1.4.0** *2014-05-21*
-	- Basic support for Images (are images loaded)
+	- Basic support for images (images loaded?)
 	- Image Demo
 * **1.3.1** *2014-05-16*
 	- Viewport – there is a new html element, that wraps the slidermask element. The navigation elements were previously located physicaly below the slider. Now it is possible to position navigation elements inside and outside the slider viewport.
@@ -45,6 +45,7 @@ feature detection of js, touch, csstransforms3d, csstransitions and cssanimation
 * [jquery.touchSwipe.js](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin)
 for touch and swipe functionality
 * [YouTube iframe API](https://www.youtube.com/iframe_api)
+* [imagesLoaded.js](http://imagesloaded.desandro.com/)
 
 Setup
 ------------------------------------------
@@ -78,7 +79,7 @@ Load the yerslider.js from the core folder. The best way is to load the script o
 if ( jQuery('.mysliderclass').length > 0 ) {
 
 	jQuery.ajax({
-		url: '/assets/yerslider/core/yerslider.js',
+		url: '/assets/yerslider/core/yerslider.min.js',
 		dataType: 'script',
 		cache: true,
 		async: true,
@@ -105,6 +106,12 @@ There is a themefolder with an default theme. Inside there is the stylesheet wit
 
 Options
 -----------------------------------------
+
+### Slider ID #########################
+
+```javascript
+sliderid: '.mysliderclass',
+```
 
 ### Group Slides #########################
 
@@ -146,7 +153,7 @@ bulletslocation: 'inside', // inside, outside
 
 ```javascript
 thumbs: true,
-thumbslocation: 'inside', // inside, outside
+thumbslocation: 'inside', // inside or outside the sliderviewport
 thumbshideiflessthan: 2,
 thumbstemplates: {
 	'1': {
@@ -157,6 +164,8 @@ thumbstemplates: {
 thumbsclickable: true,
 thumbsready: function( p ) {
 
+	// called when thumbs are ready
+
 	var yersliderthumbs = new YerSliderThumbs();
 	yersliderthumbs.init({
 		obj: p.obj,
@@ -165,20 +174,18 @@ thumbsready: function( p ) {
 }
 ```
 
-### Animation ######################
+### Animation ############################
 
 ```javascript
-animationtype: 'ease',
+animationtype: 'ease', // ease, ease-in-out, ease-in, ease-out, linear
 animationspeed: 1000,
 ```
 
 ### Loop #################################
 
 ```javascript
-loop: 'none',
+loop: 'none', // appending, rollback
 ```
-
-Options: none, appending, rollback
 
 ### Autoplay ##############################
 
@@ -188,13 +195,23 @@ autoplayinterval: 3000,
 autoplaystoponhover: true,
 ```
 
-The autoplay stops while the mouse is over the slider or over an slider-navigation-element.
+Continuosly scrolling like a ticker
 
-### YouTube ###############################
+```javascript
+autoplaycontinuously: false,
+autoplaycontinuouslyspeed: 10000,
+autoplaycontinuouslystoponhover: true,
+```
 
-### Vimeo #################################
+### Swipe #################################
 
-### Scroll Top
+```javascript
+swipe: false,
+swipeandprevnextbtn: false,
+swipeanimationspeed: 300,
+```
+
+### Scroll Top ############################
 
 Scrolls the page to the given distance from top <code>scrolltopval:</code> with the speed of <code>scrolltopspeed:</code>
 

@@ -23,55 +23,68 @@ function YerSlider() {
 	var t = this;
 
 	t.param = {
-		slidegap: 0,
-		slidegroupresp: {},
-		slidegroup: 1,
 		sliderid: '.yerslider',
+		slidegap: 0,
+		
+		slidegroup: 1,
+		slidegroupresp: {},
+		
 		sliderwrapclass: '.yerslider-wrap',
 		sliderwrapclasshasbullets: '.yerslider-has-bullets',
 		sliderviewportclass: '.yerslider-viewport',
 		slidermaskclass: '.yerslider-mask',
 		sliderclass: '.yerslider-slider',
 		slideclass: '.yerslider-slide',
-		bulletswrapclass: '.yerslider-bullets-wrap',
-		bulletclass: '.yerslider-bullet',
-		bulletcurrentclass: '.yerslider-bullet-current',
-		bulletclickable: true,
+		
 		nextbtn: true,
 		prevbtn: true,
-		scrolltop: false,
-		scrolltopval: 0,
-		scrolltopspeed: 500,
 		prevnextlocation: 'inside', // inside, outside,
 		prevnextclass: '.yerslider-prevnext',
 		nextclass: '.yerslider-next',
 		prevclass: '.yerslider-prev',
-		nextclassadd: '',
-		prevclassadd: '',
 		nextinactiveclass: '.yerslider-next-inactive',
 		previnactiveclass: '.yerslider-prev-inactive',
-		animationspeed: 1000,
+		nextclassadd: '',
+		prevclassadd: '',
+		
+		scrolltop: false,
+		scrolltopval: 0,
+		scrolltopspeed: 500,
+		
 		animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
+		animationspeed: 1000,
+		
 		bullets: false,
 		bulletslocation: 'outside', // inside, outside,
+		bulletclickable: true,
+		bulletswrapclass: '.yerslider-bullets-wrap',
+		bulletclass: '.yerslider-bullet',
+		bulletcurrentclass: '.yerslider-bullet-current',
+		
 		loop: 'none', /* appending, rollback */
 		loopswipe: 'none',
+		
 		autoplay: false, /* true */
 		autoplayinterval: 3000, /* integer sec, 0 */
 		autoplaybreakmin: 10, /* integer millisec, 0 */
 		autoplaybreak: false, /* integer millisec, 0 */
 		autoplaydelaystart: 0, /* integer sec, 0 */
 		autoplaystoponhover: true,
+		
 		autoplaycontinuously: false, /* true */
 		autoplaycontinuouslyspeed: 10000,
 		autoplaycontinuouslystoponhover: true,
+		
 		// showslidestime: 500,
+		
 		swipe: false,
 		swipeandprevnextbtn: false,
 		swipeanimationspeed: 300,
+		
 		sublimevideo: false,
 		autoloadyoutubeiframeapi: true,
 		videoplayercloseafterend: true,
+		
 		// thumbs
 		thumbs: false,
 		thumbshideiflessthan: 2,
@@ -83,7 +96,7 @@ function YerSlider() {
 		thumbsmaskclass: '.yerslider-thumbs-mask',
 		thumbsitemsclass: '.yerslider-thumbs-items',
 		thumbsitemclass: '.yerslider-thumbs-item',
-		thumbsready: undefined,
+		thumbsready: undefined, // a function that will call after thumbs are ready
 	};
 
 	t.stat = {
