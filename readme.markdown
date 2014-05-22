@@ -52,22 +52,24 @@ Setup
 
 ### Basic HTML ##########################
 
+The basic html of the slider is what you should provide in your code, to make the YerSlider script working.
+
 ```html
 <div class="yerslider yerslider-wrap mysliderclass">
 	<div class="yerslider-viewport">
 		<div class="yerslider-mask">
 			<ul class="yerslider-slider">
 				<li class="yerslider-slide">
-					/* Slide Content */
+					<!-- slide content -->
 				</li>
 				<li class="yerslider-slide">
-					/* Slide Content */
+					<!-- slide content -->
 				</li>
 			</ul>
 		<div>
-		<!-- prev/next buttons, bullets, thumbs with …location: 'inside' -->
+		<!-- buttons, bullets, thumbs appears here by …location: 'inside' -->
 	</div>
-	<!-- prev/next buttons, bullets, thumbs …location: 'outside' -->
+	<!-- buttons, bullets, thumbs  appears here by …location: 'outside' -->
 </div>
 ```
 
