@@ -23,48 +23,31 @@ function YerSlider() {
 	var t = this;
 
 	t.param = {
+		
+		// sliderid
 		sliderid: '.yerslider',
+		
+		// slidegap
 		slidegap: 0,
 		
+		// slidegroups
 		slidegroup: 1,
 		slidegroupresp: {},
 		
-		sliderclass: '.yerslider',
-		sliderwrapclass: '.yerslider-wrap',
-		sliderviewportclass: '.yerslider-viewport',
-		slidermaskclass: '.yerslider-mask',
-		sliderclass: '.yerslider-slider',
-		slideclass: '.yerslider-slide',
+		// swipe		
+		swipe: false,
+		swipeandprevnextbtn: false,
+		swipeanimationspeed: 300,
 		
-		nextbtn: true,
-		prevbtn: true,
-		prevnextlocation: 'inside', // inside, outside,
-		prevnextclass: '.yerslider-prevnext',
-		nextclass: '.yerslider-next',
-		prevclass: '.yerslider-prev',
-		nextinactiveclass: '.yerslider-next-inactive',
-		previnactiveclass: '.yerslider-prev-inactive',
-		nextclassadd: '',
-		prevclassadd: '',
-		
-		scrolltop: false,
-		scrolltopval: 0,
-		scrolltopspeed: 500,
-		
+		// animation
 		animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
 		animationspeed: 1000,
 		
-		bullets: false,
-		bulletslocation: 'outside', // inside, outside,
-		bulletclickable: true,
-		sliderwrapclasshasbullets: '.yerslider-has-bullets',
-		bulletswrapclass: '.yerslider-bullets-wrap',
-		bulletclass: '.yerslider-bullet',
-		bulletcurrentclass: '.yerslider-bullet-current',
-		
+		// loop
 		loop: 'none', /* appending, rollback */
 		loopswipe: 'none',
 		
+		// autoplay
 		autoplay: false, /* true */
 		autoplayinterval: 3000, /* integer sec, 0 */
 		autoplaybreakmin: 10, /* integer millisec, 0 */
@@ -76,15 +59,34 @@ function YerSlider() {
 		autoplaycontinuouslyspeed: 10000,
 		autoplaycontinuouslystoponhover: true,
 		
-		// showslidestime: 500,
+		// slider classes
+		sliderclass: '.yerslider',
+		sliderwrapclass: '.yerslider-wrap',
+		sliderviewportclass: '.yerslider-viewport',
+		slidermaskclass: '.yerslider-mask',
+		sliderclass: '.yerslider-slider',
+		slideclass: '.yerslider-slide',
 		
-		swipe: false,
-		swipeandprevnextbtn: false,
-		swipeanimationspeed: 300,
+		// buttons
+		nextbtn: true,
+		prevbtn: true,
+		prevnextlocation: 'inside', // inside, outside,
+		prevnextclass: '.yerslider-prevnext',
+		nextclass: '.yerslider-next',
+		prevclass: '.yerslider-prev',
+		nextinactiveclass: '.yerslider-next-inactive',
+		previnactiveclass: '.yerslider-prev-inactive',
+		nextclassadd: '',
+		prevclassadd: '',
 		
-		sublimevideo: false,
-		autoloadyoutubeiframeapi: true,
-		videoplayercloseafterend: true,
+		// bullets
+		bullets: false,
+		bulletslocation: 'outside', // inside, outside,
+		bulletclickable: true,
+		sliderwrapclasshasbullets: '.yerslider-has-bullets',
+		bulletswrapclass: '.yerslider-bullets-wrap',
+		bulletclass: '.yerslider-bullet',
+		bulletcurrentclass: '.yerslider-bullet-current',
 		
 		// thumbs
 		thumbs: false,
@@ -98,6 +100,18 @@ function YerSlider() {
 		thumbsitemsclass: '.yerslider-thumbs-items',
 		thumbsitemclass: '.yerslider-thumbs-item',
 		thumbsready: undefined, // a function that will call after thumbs are ready
+		
+		// video
+		sublimevideo: false,
+		autoloadyoutubeiframeapi: true,
+		videoplayercloseafterend: true,
+		
+		// scroll
+		scrolltop: false,
+		scrolltopval: 0,
+		scrolltopspeed: 500,
+		
+		// showslidestime: 500,
 	};
 
 	t.stat = {
