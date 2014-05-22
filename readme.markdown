@@ -145,11 +145,17 @@ prevclassadd: '',
 ```javascript
 bullets: true,
 bulletclickable: true,
-bulletslocation: 'inside', // inside, outside
+bulletslocation: 'inside', // inside or outside the sliderviewport
 
 ```
 
 ### Thumbs ###############################
+
+```html
+<li class="yerslider-slide" data-thumb-template-key="1" data-thumb-text="Hello World!">
+	// slide content
+</li>
+```
 
 ```javascript
 thumbs: true,
@@ -158,14 +164,42 @@ thumbshideiflessthan: 2,
 thumbstemplates: {
 	'1': {
 		'html': '<p>{{thumb-text}}</p>',
-		'class': 'thumb-template-1'
+		'class': 'my-thumb-template-class'
 	}
 },
 thumbsclickable: true,
 thumbsready: function( p ) {
 
-	// called when thumbs are ready
+	/** Fires, after thumbs are ready.
+		The variable p provides all slider objects
+		an some parameters.
 
+		p {
+			obj {
+				sliderwrap: undefined,
+				sliderviewport: undefined,
+				slider: undefined,
+				slide: undefined,
+				bulletswrap: undefined,
+				bullets: undefined,
+				prevbtn: undefined,
+				nextbtn: undefined,
+				videoplayers: {},
+				slides_videoplayers: {},
+				thumbswrap: undefined,
+				thumbsitems: undefined,
+				thumbsitem: undefined,
+			},
+			param {
+				touch: false,
+			}
+		}
+	*/
+	
+	/** An example from the default theme, 
+		that makes the thumbs scrolling 
+		by following the mouse */
+	
 	var yersliderthumbs = new YerSliderThumbs();
 	yersliderthumbs.init({
 		obj: p.obj,
