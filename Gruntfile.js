@@ -99,26 +99,23 @@ grunt sass
 		},
 
 		watch: {
-			watch_core_yerslider: {
-				files: ['core/yerslider.js'],
-				tasks: ['uglify:core_yerslider'],
+			livereload: {
+				files: ['core/*','demo/**/*','themes/**/*'],
 				options: {
 					livereload: true,
 			    },
+			},
+			watch_core_yerslider: {
+				files: ['core/yerslider.js'],
+				tasks: ['uglify:core_yerslider'],
 			},
 			watch_theme_default_js: {
 				files: ['themes/default/yerslider.js'],
 				tasks: ['uglify:theme_default'],
-				options: {
-					livereload: true,
-			    },
 			},
 			watch_theme_default_styles: {
 				files: ['themes/default/yerslider-styles.scss'],
 				tasks: ['sass'],
-				options: {
-					livereload: true,
-			    },
 			},
 		},
 
