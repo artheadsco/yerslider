@@ -153,7 +153,7 @@ bulletslocation: 'inside', // inside or outside the sliderviewport
 
 ```html
 <li class="yerslider-slide" data-thumb-template-key="1" data-thumb-text="Hello World!">
-	// slide content
+	<!-- slide content -->
 </li>
 ```
 
