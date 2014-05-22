@@ -219,7 +219,7 @@ function YerSlider() {
 
 		if ( t.param.autoloadyoutubeiframeapi && !yerslider.youtubeloaded ) {
 
-			jQuery.getScript("http://www.youtube.com/iframe_api", function( data, textStatus, jqxhr ) {
+			jQuery.getScript("http://www.youtube.com/iframe_api", function( /* data, textStatus, jqxhr*/ ) {
 
 				yerslider.youtubeloaded = true;
 			});
@@ -829,7 +829,7 @@ function YerSlider() {
 
 	t.set_slidegroup = function () {
 
-		var slidermaskwidth = t.obj.slidermask.innerWidth();
+		// var slidermaskwidth = t.obj.slidermask.innerWidth();
 
 		var temp = t.param.slidegroup;
 
@@ -1694,7 +1694,7 @@ function YerSlider() {
 
 			// clickevent {
 
-				t.obj.thumbswrap.on( 'click', t.param.thumbsitemclass, function ( e ) {
+				t.obj.thumbswrap.on( 'click', t.param.thumbsitemclass, function ( ) {
 
 					// setup {
 
@@ -1710,13 +1710,13 @@ function YerSlider() {
 
 					// get slide object {
 
-						var slide_obj = t.obj.sliderwrap.find( t.param.slideclass + ':nth-child( ' + ( thumb_index + 1 ) + ')' );
+						// var slide_obj = t.obj.sliderwrap.find( t.param.slideclass + ':nth-child( ' + ( thumb_index + 1 ) + ')' );
 
 					// }
 
 					// get slide position {
 
-						var slide_offset_left = slide_obj[ 0 ].offsetLeft;
+						// var slide_offset_left = slide_obj[ 0 ].offsetLeft;
 
 					// }
 
@@ -2189,28 +2189,19 @@ function YerSlider() {
 
 	t.touchswipe = function () {
 
-		var slide_with_default = ( t.stat.slidewidth + t.param.slidegap ) * t.stat.slidegroup,
-			slide_with = slide_with_default,
-			current_slide = 0,
-			max_slides = Math.ceil( t.stat.slidecount / t.stat.slidegroup ),
-			speed = t.param.swipeanimationspeed,
-			slides = t.obj.slide;
-
 		/**
 		* Catch each phase of the swipe.
 		* move : we drag the div.
 		* cancel : we animate back to where we were
 		* end : we animate to the next image
 		*/
-		function swipeStatus(event, phase, direction, distance, fingers) {
+		function swipeStatus( event, phase, direction, distance/*, fingers*/ ) {
 
 			t.stat.isswiping = true;
 
 			//If we are moving before swipe, and we are going L or R, then manually drag the images
 
 			if ( phase === 'move' && ( direction === 'left' || direction === 'right' ) ) {
-
-				var duration =	0;
 
 				if ( direction === 'left' ) {
 
@@ -2289,7 +2280,7 @@ function YerSlider() {
 
 		t.obj.slider.imagesLoaded()
 
-			.progress( function( instance, image ) {
+			.progress( function( /*instance, image*/ ) {
 
 				t.obj.slide.css( 'height', 'auto' );
 				t.obj.slide.height( t.obj.slider.height() );
