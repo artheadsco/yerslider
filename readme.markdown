@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.4.1** *2014-05-26*
+	- Autoload dependencies
 * **1.4.0** *2014-05-21*
 	- Basic support for images (images loaded?)
 	- Image Demo
@@ -39,18 +41,52 @@ Just ask me for your needs at mail@johannheyne.de or create a new issue.
 Dependencies
 ------------------------------------------
 
-* [jQuery](http://jquery.com/)
+There are some libraries, YerSlider depends on. Some are permanently required, others depends on individual functionalities.
+
+permanetly required:
+
 * [modernizr.js](http://modernizr.com/)
-feature detection of js, touch, csstransforms3d, csstransitions and cssanimations
-* [jquery.touchSwipe.js](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin)
-for touch and swipe functionality
-* [YouTube iframe API](https://www.youtube.com/iframe_api)
+* [jQuery](http://jquery.com/)
 * [imagesLoaded.js](http://imagesloaded.desandro.com/)
+
+depend on individual functionalities:
+
+* [jquery.touchSwipe.js](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin)
+* [YouTube iframe API](https://www.youtube.com/iframe_api)
+
+### Explaination #############################
+
+The "modernizr.js" must be loaded very early in the head section. It detects browser features. YerSlider needs feature detection for js, touch, csstransforms3d, csstransitions and cssanimations.
+
+jQuery can be in latest version of 1.x or 2.x. The YerSlider script was built to use jQuery in the scope of the jQuery variable. 
+```javascript
+jQuery.noConflict();
+jQuery(document).ready(function(){
+
+	// use YerSlider scripts in here
+
+});
+```
+
+jquery.touchSwipe.js is required, when the swipe functionality is enabled in a slider.
+
+The YouTube iframe API is required, when youtube videos are used in a slide.
+
+### Autoload #############################
+
+The YerSlider folder comes with an subfolder /dependencies/ that holds all nessesary libraries. All of these libraries exept jQuery and modernizr.js are registered in YerSlider and will be autoloaded as required. So you can, but do not need to manualy embed them in your html. For information, the autoloded libraries are predefined in the option variable array "dependencies_autoload".
+
+```javascript
+var myslider = new YerSlider();
+myslider.init({
+	dependencies_autoload: [ 'youtube_iframe_api', 'imagesloaded', 'touchswipe' ], // to dissable autoload, provide an empty array []
+});
+```
 
 Setup
 ------------------------------------------
 
-### Basic HTML ##########################
+### Basic HTML ###########################
 
 The basic html of the slider is what you should provide in your code, to make the YerSlider script working.
 

@@ -25,7 +25,7 @@
 				YerSlider is designed <strong>for developpers</strong>, <strong>high responsive</strong> and potentially <strong>can slide anything</strong>.</p>
 			<p class="alert">This page is casually under construction.</p>
             
-            <a class="download_btn" href="https://github.com/johannheyne/yerslider/archive/master.zip" target="_self"  title="">Download <span class="version">Version 1.4.0</span></a>
+            <a class="download_btn" href="https://github.com/johannheyne/yerslider/archive/master.zip" target="_self"  title="">Download <span class="version">Version 1.4.1</span></a>
             
             
 		</div>
@@ -531,7 +531,12 @@ myslider.init({
 		</div>
 
 		<ul class="changelog">
-			<li>Version 1.4.0 <span class="date">2014-05-16</span>
+			<li>Version 1.4.1 <span class="date">2014-05-23</span>
+                <ul>
+                <li>Autoload of dependencies</li>
+                </ul>
+            </li>
+			<li>Version 1.4.0 <span class="date">2014-05-21</span>
                 <ul>
                 <li>Basic support for Images (are images loaded).</li>
                 <li>Image Demo</li>

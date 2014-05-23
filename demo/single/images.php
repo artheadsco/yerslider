@@ -111,7 +111,7 @@
         				});
         			},
         			swipe: true,
-					swipeanimationspeed: 300
+					swipeanimationspeed: 300,
 				});
 			});
 
