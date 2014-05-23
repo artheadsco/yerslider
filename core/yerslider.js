@@ -120,18 +120,31 @@ function YerSlider() {
 
 	t.param.dependencies = {
 		'youtube_iframe_api': {
-			check_target: 'YT',
-			check_type: 'object',
+			check_lib: {
+					var: 'YT',
+					type: 'object',
+			},
 			url: 'https://www.youtube.com/iframe_api',
 		},
 		'imagesloaded': {
-			check_target: 'jQuery.fn.imagesLoaded',
-			check_type: 'function',
+			check_lib: {
+					var: 'jQuery.fn.imagesLoaded',
+					type: 'function',
+			},
 			path: t.param.yersliderfolderabsolutepath + 'dependencies/imagesloaded.js',
 		},
 		'touchswipe': {
-			check_target: 'jQuery.fn.swipe',
-			check_type: 'function',
+			check_lib: {
+					var: 'jQuery.fn.swipe',
+					type: 'function',
+			},
+			check_options: [
+				{
+					name: 'swipe',
+					value: true,
+				},
+			],
+			check_browser_features: [ 'touch' ],
 			path: t.param.yersliderfolderabsolutepath + 'dependencies/jquery.touchSwipe.js',
 		},
 	};
@@ -172,7 +185,8 @@ function YerSlider() {
 		lastplayedvideo: false,
 		videoisplaying: false,
 		loop: false,
-		dependecies_loaded: 0,
+		dependencies_loaded: 0,
+		browser_features: [],
 	};
 
 	t.obj = {
@@ -198,70 +212,110 @@ function YerSlider() {
 
 		t.init_getdefaultparam( p );
 
+		t.init_get_browser_features();
+
+		// is there a slider element
 		if ( jQuery( t.param.sliderid ).length > 0 ) {
 
-			t.init_dependecies();
+			t.init_dependencies();
+
+			// WHEN DEPENDENCIES LOADED, CALL WORKFLOW {
+
+				t.helper.when( t.stat, {
+					key: 'dependencies_loaded',
+					val: t.param.dependencies_autoload.length,
+					callback_if: t.init_workflow,
+				} );
+
+			// }
 		}
 	};
 
-	t.init_dependecies = function () {
+	t.init_get_browser_features = function () {
+
+		t.stat.browser_features = jQuery( 'html' ).attr('class').split(/\s+/);
+	},
+
+	t.init_dependencies = function () {
 
 		// LOAD DEPENDECIES IF NOT EXISTS {
 
 			// if dependencies param exists
 			if ( typeof t.param.dependencies_autoload === 'object' && typeof t.param.dependencies === 'object' ) {
 
-				// loop all dependecies
-				for ( var i in  t.param.dependencies_autoload ) {
-					
-					var key = t.param.dependencies_autoload[ i ];
-					
-					// check, if dependecy allready exists
-					if ( typeof t.param.dependencies[ key ].check_target !== t.param.dependencies[ key ].check_type ) {
+				// loop all dependencies
+				for ( var i in t.param.dependencies_autoload ) {
+
+					var key = t.param.dependencies_autoload[ i ],
+						obj_dependencie = t.param.dependencies[ key ],
+						load_dependecy = false;
+
+					// check libs, if there is no lib say yes to load
+					if ( typeof obj_dependencie.check_lib.var !== obj_dependencie.check_lib.type ) {
+
+						load_dependecy = true;
+					}
+
+					// check options, if one option has not the required say not to load
+					if ( typeof obj_dependencie.check_options === 'object' && obj_dependencie.check_options.length > 0 ) {
+
+						for ( var i2 in obj_dependencie.check_options ) {					    
+
+							if ( t.param[ obj_dependencie.check_options[ i2 ].name ] != obj_dependencie.check_options[ i2 ].value ) {
+
+								load_dependecy = false;
+							}
+						}
+					}
+
+					// check browser features, if there is no required browser feature, say no to load
+					if ( typeof obj_dependencie.check_browser_features === 'object' && obj_dependencie.check_browser_features.length > 0 ) {
+
+						for ( var i2 in obj_dependencie.check_browser_features ) {					    
+
+							if ( t.stat.browser_features.indexOf( obj_dependencie.check_browser_features[ i2 ] ) == -1 ) {
+
+								load_dependecy = false;
+							}
+						}
+					}
+
+					if ( load_dependecy ) {
 
 						// dependecy NOT exists
 
 						// url to load
-						if ( typeof t.param.dependencies[ key ].url === 'string' ) {
+						if ( typeof obj_dependencie.url === 'string' ) {
 
-							jQuery.getScript( t.param.dependencies[ key ].url, function() {
+							jQuery.getScript( obj_dependencie.url, function() {
 
-								t.stat.dependecies_loaded++;
+								t.stat.dependencies_loaded++;
 							} );
 						}
 
 						// path to load
-						if ( typeof t.param.dependencies[ key ].path === 'string' ) {
+						if ( typeof obj_dependencie.path === 'string' ) {
 
-							t.init_dependecies_path( {
+							t.init_dependencies_path( {
 
-								file: t.param.dependencies[ key ].path,
+								file: obj_dependencie.path,
 							} );
 						}
 					}
 					else {
 
-						// dependecy exists
-						t.stat.dependecies_loaded++;
+						// dependency exists
+
+						t.stat.dependencies_loaded++;
 					}
 				}
 			}
 
 		// }
 
-		// WHEN DEPENDENCIES LOADED, CALL WORKFLOW {
-
-			t.helper.when( t.stat, {
-				key: 'dependecies_loaded',
-				val: t.param.dependencies_autoload.length,
-				callback_if: t.init_workflow,
-			} );
-
-		// }
-
 	};
 
-	t.init_dependecies_path = function ( p ) {
+	t.init_dependencies_path = function ( p ) {
 
 		jQuery.ajax( {
 			url: p.file,
@@ -270,7 +324,7 @@ function YerSlider() {
 			async: true,
 			success: function () {
 
-				t.stat.dependecies_loaded++;
+				t.stat.dependencies_loaded++;
 			}
 		});
 	};
