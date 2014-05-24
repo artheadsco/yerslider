@@ -33,6 +33,9 @@ function YerSlider() {
 		// slidegap
 		slidegap: 0,
 
+		// slidestep
+		slidingstep: undefined,
+
 		// slidegroups
 		slidegroup: 1,
 		slidegroupresp: {},
@@ -47,8 +50,8 @@ function YerSlider() {
 		animationspeed: 1000,
 
 		// loop
-		loop: 'none', /* appending, rollback */
-		loopswipe: 'none',
+		loop: 'none', /* infinite, rollback */
+		loopswipe: 'none', /* infinite */
 
 		// autoplay
 		autoplay: false, /* true */
@@ -1019,6 +1022,7 @@ function YerSlider() {
 		}
 
 		t.stat.slidegroup = temp;
+		
 	};
 
 	t.set_slidegroupmax = function () {
@@ -1026,7 +1030,9 @@ function YerSlider() {
 		t.stat.slidegroupmax = t.stat.slidegroup;
 
 		for ( var i in t.param.slidegroupresp ) {
+
 			if ( t.stat.slidegroupmax < t.param.slidegroupresp[ i ] ) {
+
 				t.stat.slidegroupmax = t.param.slidegroupresp[ i ];
 			}
 		}
@@ -1194,40 +1200,27 @@ function YerSlider() {
 
 	t.next_slide = function () {
 
-		t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidegroup;
+		if ( t.param.slidingstep ) {
 
-		/* check currentslideindex */
+			t.stat.currentslideindex = t.stat.currentslideindex + t.param.slidingstep;
+		}
+		else {
 
-		t.check_slider_current_index();
-
-		/* current class */
-
-		t.set_slide_current_class();
-
-		/* group indexes */
-
-		t.set_slidesinviewport();
-
-		t.set_thumbs_current_class();
+			t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidegroup;
+		}
+	
 	};
 
 	t.prev_slide = function () {
 
-		t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidegroup;
+		if ( t.param.slidingstep ) {
 
-		/* check currentslideindex */
+			t.stat.currentslideindex = t.stat.currentslideindex - t.param.slidingstep;
+		}
+		else {
 
-		t.check_slider_current_index();
-
-		/* current class */
-
-		t.set_slide_current_class();
-
-		/* group indexes */
-
-		t.set_slidesinviewport();
-
-		t.set_thumbs_current_class();
+			t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidegroup;
+		}
 	};
 
 	t.next_job = function () {
@@ -1268,7 +1261,7 @@ function YerSlider() {
 
 	t.nextbtn_click = function () {
 
-		if ( t.obj.nextbtn && !t.stat.nextbtnclickable ) {
+		if ( t.obj.nextbtn && ! t.stat.nextbtnclickable ) {
 
 			t.obj.nextbtn.on( t.stat.clicktype, function () {
 
@@ -1383,8 +1376,6 @@ function YerSlider() {
 	t.playlastplayedvideoofcurrentslide = function () {
 
 		for ( var i in t.obj.videoplayers ) {
-
-			//console.log( t.stat.slidesinviewportindexes, t.obj.videoplayers[ i ].slide, t.stat.lastplayedvideo );
 
 			if ( jQuery.inArray( t.obj.videoplayers[ i ].slide, t.stat.slidesinviewportindexes ) !== -1 && i === t.stat.lastplayedvideo ) {
 
@@ -1863,6 +1854,8 @@ function YerSlider() {
 
 				t.obj.thumbswrap.on( 'click', t.param.thumbsitemclass, function ( ) {
 
+					t.stat.lasteventtype = 'thumb-click';
+
 					// setup {
 
 						var thumb_obj = jQuery( this );
@@ -1967,11 +1960,12 @@ function YerSlider() {
 
 	t.animate_slider_to_current_position_js = function ( duration ) {
 
-		t.obj.slider.animate({
+		t.obj.slider.animate( {
 			'margin-left': '-' + t.get_sliderposition() + 'px'
-		}, duration, t.translate_easing( t.param.animationtype, 'jquery'), function () {
-		t.get_sliderposition();
-		t.stat.isanimating = false;
+		}, duration, t.translate_easing( t.param.animationtype, 'jquery' ), function () {
+		
+			t.get_sliderposition();
+			t.stat.isanimating = false;
 		});
 
 	};
@@ -1993,10 +1987,10 @@ function YerSlider() {
 
 			if ( t.stat.isios === false ) {
 
-				//t.css_transitionduration( t.obj.slider );
-				//t.css_transform( t.obj.slider );
-				//t.css_transitiontiming( t.obj.slider );
-				//t.css_marginleft( t.obj.slider, '-' + t.stat.currentslideposition + 'px' );
+				t.css_transitionduration( t.obj.slider );
+				t.css_transform( t.obj.slider );
+				t.css_transitiontiming( t.obj.slider );
+				t.css_marginleft( t.obj.slider, '-' + t.stat.currentslideposition + 'px' );
 			}
 
 		}, duration );
@@ -2065,7 +2059,7 @@ function YerSlider() {
 
 		// }
 
-		// SET SLIDES IN VIWPORT {
+		// SET SLIDES IN VIEWPORT {
 
 			t.set_slidesinviewport();
 
@@ -2122,52 +2116,48 @@ function YerSlider() {
 
 	t.clon_slides = function () {
 
-		if ( ! t.stat.touch || ( t.stat.touch && t.stat.loop === 'appending' ) ) {
+		if ( ! t.stat.touch || ( t.stat.touch && t.stat.loop === 'infinite' ) ) {
 
 			var index = 0,
-				i = 0;
+				i = 0
+				clones = t.stat.slidegroupmax;
+				
+				t.param.slidingstep
 
-			if ( t.stat.slidegroup > 0 && t.stat.loop === 'appending' ) {
+			if ( t.stat.slidegroup > 0 ) {
+				
+				clones = t.stat.slidegroupmax * 2;
+			}
+			
+			if ( t.param.slidingstep > t.stat.slidegroup ) {
+			    
+				clones = t.param.slidingstep + t.stat.slidegroupmax;
+			}
+			
+			for ( i = 0; i < clones; i++ ) {
 
-				for ( i = 0; i < t.stat.slidegroupmax * 2; i++ ) {
+				// start from first slide when last slide passed
+				if ( index > t.stat.slidecount ) {
 
-					if ( index > t.stat.slidecount ) {
-						index = 0;
-					}
-
-					t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
-
-					index++;
+					index = 0;
 				}
 
-				t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+				t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
+
+				index++;
 			}
 
-			if ( t.stat.slidegroup === 0 ) {
-
-				for ( i = 0; i < t.stat.slidecount; i++ ) {
-
-					if ( index > t.stat.slidecount ) {
-						index = 0;
-					}
-
-					t.obj.slider.append( jQuery( t.obj.slide[ index ] ).clone() );
-
-					index++;
-				}
-
-				t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
-			}
+			t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
 		}
 	};
 
 	t.get_sliderposition = function () {
 
-		//var pos = ( parseInt( t.stat.currentslideindex * t.stat.slidewidth, 10 ) + parseInt( t.param.slidegap * t.stat.currentslideindex, 10 ) );
+		//var pos = ( parseInt( t.stat.currentslideindex * t.stat.slidewidth, 10 ) + parseInt( t.param.slidegap * t.stat.currentslideindex, 10 ) );		
 		var pos = jQuery( t.obj.slide[ t.stat.currentslideindex ] ).position().left;
-
+     
 		t.stat.currentslideposition = pos;
-
+        
 		return pos;
 	};
 
@@ -2194,118 +2184,191 @@ function YerSlider() {
 				t.nextbtn_click_unbind();
 			}
 		}
+
 	};
 
 	t.check_slider_current_index = function () {
 
 		var temp = false;
 
-		// next {
+		// THUMB CLICK {
 
-			if ( t.stat.slidegroup === 0 ) {
+			if ( t.stat.lasteventtype === 'thumb-click' ) {
 
-				t.stat.currentslideindex = t.stat.currentslideindex + 1;
-			}
-
-			/* loop-none */
-
-			if ( t.stat.loop === 'none' ) {
-
-				if ( ! t.param.autoplay ) {
-
+				if ( t.stat.loop !== 'infinite' ) {
+				
 					if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
 
 						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
 					}
 				}
+			}
 
-				if ( t.param.autoplay ) {
+		// }
+
+		// NEXT {
+
+			if ( t.stat.lasteventtype === 'click-next'
+			|| t.stat.lasteventtype === 'autoplay'
+			|| t.stat.lasteventtype === 'swipe-right' ) {
+
+				if ( t.stat.loop === 'none' ) {
 
 					if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
 
 						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+					}
+
+					if ( t.param.autoplay ) {
+
 						t.autoplayclear();
 					}
 				}
+
+				if ( t.stat.loop === 'rollback' ) {
+
+					if ( t.param.slidingstep ) {
+
+						if ( t.stat.lasteventtype === 'click-next'
+						|| t.stat.lasteventtype === 'autoplay'
+						|| t.stat.lasteventtype === 'swipe-right' ) {
+
+							if ( t.stat.currentslideindex === t.stat.slidecount
+							|| t.stat.currentslideindex === t.stat.slidecount - t.stat.slidegroup + t.param.slidingstep ) {
+
+								t.stat.currentslideindex = 0;
+							}
+
+							var leftover = 0;
+
+							if ( t.stat.slidegroup > t.param.slidingstep ) {
+
+								leftover = t.stat.slidegroup - t.param.slidingstep + 1;
+							}
+
+							if ( t.stat.currentslideindex >= t.stat.slidecount - leftover ) {
+
+								t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+							}
+
+						}
+
+					}
+					else {
+
+						if ( t.stat.lasteventtype === 'click-next'
+						|| t.stat.lasteventtype === 'autoplay' 
+						|| t.stat.lasteventtype === 'swipe-right' ) {
+
+							if ( t.stat.currentslideindex == t.stat.slidecount ) {
+
+								t.stat.currentslideindex = 0;
+							}
+
+							if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+
+								t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+							}
+						}
+					}
+
+				}
+
+				if ( t.stat.loop === 'infinite' ) {
+
+					if ( t.stat.lasteventtype === 'click-next'
+					|| t.stat.lasteventtype === 'autoplay'
+					|| t.stat.lasteventtype === 'swipe-right' ) {
+
+						var steps = 0;
+
+						if (  t.param.slidingstep ) {
+
+							steps = t.param.slidingstep;
+						}
+						else {
+
+							steps = t.stat.slidegroup;
+						}
+						
+						if ( t.stat.currentslideindex > ( t.stat.slidecount - 1 ) + steps ) {
+console.log( t.stat.currentslideindex );
+							//temp = t.stat.currentslideindex;
+                            //
+							//t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount;
+                            //
+							//t.move_slider_to_current_index();
+                            //
+							//t.stat.currentslideindex = temp;
+
+						}
+					}
+					console.log( t.stat.currentslideindex );
+
+				}
 			}
 
-			/* loop rollback */
+		// }
 
-			if ( t.stat.loop === 'rollback' ) {
+		// PREV {
 
-				//if ( ! t.param.autoplay ) {
+			if ( t.stat.lasteventtype === 'click-prev'
+			|| t.stat.lasteventtype === 'swipe-left' ) {
 
-					if ( t.stat.currentslideindex == t.stat.slidecount ) {
+				if ( t.stat.loop === 'none' ) {
+
+					if ( t.stat.currentslideindex <= 0 ) {
+
+						t.stat.currentslideindex = 0;
+					}
+				}
+
+				if ( t.stat.loop === 'rollback' ) {
+
+					if ( t.param.slidingstep ) {
+
+						if ( t.stat.slidingleft && t.stat.currentslideindex == ( 0 - t.param.slidingstep ) ) {
+
+							t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+						}
+					}
+					else {
+
+						if ( t.stat.slidingleft && t.stat.currentslideindex == ( 0 - t.stat.slidegroup ) ) {
+
+							t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+						}
+					}
+
+					if ( t.stat.currentslideindex < 0 ) {
 
 						t.stat.currentslideindex = 0;
 					}
 
-					if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
+				}
 
-						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
+				if ( t.stat.loop === 'infinite' && t.stat.currentslideindex < 0 ) {
+
+					var steps = 0;
+
+					if (  t.param.slidingstep ) {
+
+						steps = t.param.slidingstep;
+					}
+					else {
+
+						steps = t.stat.slidegroup;
 					}
 
-				//}
-			}
+					temp = t.stat.slidecount + t.stat.currentslideindex;
 
-			/* appending */
-
-			if ( t.stat.loop === 'appending' ) {
-
-				if ( t.stat.currentslideindex > t.stat.slidecount - 1 + t.stat.slidegroup ) {
-
-				temp = t.stat.currentslideindex - t.stat.slidecount;
-
-					t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount - t.stat.slidegroup;
+					t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + steps;
 
 					//t.animate_slider_to_current_position( 0 );
 					t.move_slider_to_current_index();
 
 					t.stat.currentslideindex = temp;
 				}
-			}
-
-		// }
-
-		// prev {
-
-			/* loop-none */
-
-			if ( t.stat.loop === 'none' ) {
-
-				if ( t.stat.currentslideindex <= 0 ) {
-
-					t.stat.currentslideindex = 0;
-				}
-			}
-
-			/* loop-rollback */
-
-			if ( t.stat.loop === 'rollback' ) {
-
-				if ( t.stat.slidingleft && t.stat.currentslideindex == ( 0 - t.stat.slidegroup ) ) {
-
-					t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
-				}
-
-				if ( t.stat.currentslideindex < 0 ) {
-
-					t.stat.currentslideindex = 0;
-				}
-			}
-
-			/* loop-appending */
-
-			if ( t.stat.loop === 'appending' && t.stat.currentslideindex < 0 ) {
-
-				temp = t.stat.slidecount + t.stat.currentslideindex;
-
-				t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + t.stat.slidegroup;
-
-				//t.animate_slider_to_current_position( 0 );
-				t.move_slider_to_current_index();
-
-				t.stat.currentslideindex = temp;
 			}
 
 		// }

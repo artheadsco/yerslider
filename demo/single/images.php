@@ -4,7 +4,7 @@
 		<title>YerSlider Demo</title>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		
+
 <?php
 
 	$path = '../';
@@ -21,7 +21,7 @@
 
 			<h1>YerSlider</h1>
             <p>This is a demopage of the YerSlider-Script hostet on <a href="https://github.com/johannheyne/yerslider" target="_blank">GitHub</a> by Johann Heyne.</p>
-			
+
 		</div>
 
 		<!-- end -->
@@ -36,14 +36,14 @@
 			<div class="yerslider-viewport">
     			<div class="yerslider-mask">
 				    <ul class="yerslider-slider">
-						
+
 <?php
-	
+
 	$path = array( 'landscape', 'portrait' );
-	
+
 	for ( $i = 1; $i <= 18; $i++ ) {
-	    
-		shuffle( $path );
+
+		//shuffle( $path );
 ?>
     					<li class="yerslider-slide" data-thumb-template-key="1" data-thumb-img-src="../images/landscape/<?php echo str_pad( $i, 2, '0', STR_PAD_LEFT ); ?>-thumb.jpg">
 
@@ -82,8 +82,9 @@
 						1000: 4,
 						1200: 5,
 					},
-					loop: 'rollback',
-					animationspeed: 500,
+					loop: 'infinite',
+					loopswipe: 'rollback',
+					animationspeed: 2000,
 					bullets: false,
                     autoplay: false,
 					autoplayinterval: 2000,

@@ -291,7 +291,7 @@ animationspeed: 1000,
 ### Loop #################################
 
 ```javascript
-loop: 'none', // appending, rollback
+loop: 'none', // infinite, rollback
 ```
 
 ### Autoplay ##############################

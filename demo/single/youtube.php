@@ -179,7 +179,7 @@ myslider.init({
 	swipeanimationspeed: 300,
 	autoplay: true,
 	autoplayinterval: 3000,
-	loop: 'appending',
+	loop: 'infinite',
 	<div class="code-focus">autoloadyoutubeiframeapi: true,
 	videoplayercloseafterend: true</div>
 });</pre>
@@ -203,7 +203,7 @@ myslider.init({
 					swipeanimationspeed: 300,
 					autoplay: true,
 					autoplayinterval: 3000,
-					loop: 'appending',
+					loop: 'infinite',
 					autoloadyoutubeiframeapi: true,
 					videoplayercloseafterend: true
 				});

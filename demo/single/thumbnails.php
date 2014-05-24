@@ -129,7 +129,7 @@ myslider.init({
 		450: 2,
 		900: 3
 	},
-	loop: 'appending',
+	loop: 'infinite',
 	animationspeed: 1000,
 	bullets: true,
 	autoplay: true,
@@ -170,7 +170,7 @@ myslider.init({
 						450: 2,
 						900: 3
 					},
-					loop: 'appending',
+					loop: 'infinite',
 					animationspeed: 1000,
 					bullets: true,
                     autoplay: true,

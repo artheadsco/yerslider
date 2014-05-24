@@ -41,7 +41,7 @@
 				<li><a href="#resp-slidegroups">responsive Slidegroups</a></li>
 				<li><a href="#loop">Loop</a>
 					<ul>
-						<li><a href="#loop-appending">appending</a></li>
+						<li><a href="#loop-infinite">infinite</a></li>
 					</ul>
 				</li>
 				<li><a href="#bullets">Bullets</a></li>
@@ -181,7 +181,7 @@ myslider.init({
 
 		<div class="page-typo">
 			<h2 id="loop">Loop</h2>
-			<h3 id="loop-appending">appending</h3>
+			<h3 id="loop-infinite">infinite</h3>
 		</div>
 
 		<div class="yerslider-wrap mysliderclass2">
@@ -223,7 +223,7 @@ myslider.init({
 		450: 2,
 		900: 3
 	},
-	<div class="code-focus">loop: 'appending'</div>
+	<div class="code-focus">loop: 'infinite'</div>
 });</pre>
 		</code>
 
@@ -241,7 +241,7 @@ myslider.init({
 						450: 2,
 						900: 3
 					},
-					loop: 'appending'
+					loop: 'infinite'
 				});
 			});
 
@@ -403,7 +403,7 @@ myslider.init({
 		450: 2,
 		900: 3
 	},
-	loop: 'appending',
+	loop: 'infinite',
 	animationspeed: 1000,
 	bullets: true,
 	<div class="code-focus">autoplay: true,
@@ -425,7 +425,7 @@ myslider.init({
 						450: 2,
 						900: 3
 					},
-					loop: 'appending',
+					loop: 'infinite',
 					animationspeed: 1000,
 					bullets: true,
 					autoplay: true,
