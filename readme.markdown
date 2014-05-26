@@ -11,7 +11,9 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
-* **1.4.1** *2014-05-26*
+* **1.4.2** *2014-05-26*
+	- New option slidingstep
+* **1.4.1** *2014-05-23*
 	- Autoload dependencies
 * **1.4.0** *2014-05-21*
 	- Basic support for images (images loaded?)
@@ -201,6 +203,14 @@ slidegroupresp: {
 
 ```javascript
 slidegap: 0,
+```
+
+### Sliding Step #############################
+
+Per default, the slider slides the amount of slides in the viewport. With the option ```slidingstep``` you can manually set the amount of slides to slide.
+
+```javascript
+slidingstep: 2, // undefined or integer
 ```
 
 ### Previous & Next Button ###############
