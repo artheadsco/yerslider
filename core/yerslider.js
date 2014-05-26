@@ -118,38 +118,7 @@ function YerSlider() {
 		scrolltopspeed: 500,
 
 		// showslidestime: 500,
-		dependencies_autoload: undefined, // [ 'youtube_iframe_api', 'imagesloaded', 'touchswipe' ]
-	};
-
-	t.param.dependencies = {
-		'youtube_iframe_api': {
-			check_lib: {
-					var: 'YT',
-					type: 'object',
-			},
-			url: 'https://www.youtube.com/iframe_api',
-		},
-		'imagesloaded': {
-			check_lib: {
-					var: 'jQuery.fn.imagesLoaded',
-					type: 'function',
-			},
-			path: t.param.yersliderfolderabsolutepath + 'dependencies/imagesloaded.js',
-		},
-		'touchswipe': {
-			check_lib: {
-					var: 'jQuery.fn.swipe',
-					type: 'function',
-			},
-			check_options: [
-				{
-					name: 'swipe',
-					value: true,
-				},
-			],
-			check_browser_features: [ 'touch' ],
-			path: t.param.yersliderfolderabsolutepath + 'dependencies/jquery.touchSwipe.js',
-		},
+		dependencies_autoload: true,
 	};
 
 	t.stat = {
@@ -189,8 +158,8 @@ function YerSlider() {
 		videoisplaying: false,
 		loop: false,
 		dependencies_loaded: 0,
+		dependencies_count: 0,
 		browser_features: [],
-		dependencies_autoload: [ 'youtube_iframe_api', 'imagesloaded', 'touchswipe' ],
 	};
 
 	t.obj = {
@@ -229,7 +198,7 @@ function YerSlider() {
 
 				t.helper.when( t.stat, {
 					key: 'dependencies_loaded',
-					val: t.stat.dependencies_autoload.length,
+					val: t.stat.dependencies_count,
 					callback_if: t.init_workflow,
 				} );
 
@@ -245,79 +214,60 @@ function YerSlider() {
 	t.init_dependencies = function () {
 
 		// LOAD DEPENDECIES IF NOT EXISTS {
-			// if dependencies param exists
-			if ( typeof t.stat.dependencies_autoload === 'object' && t.stat.dependencies_autoload.length > 0 && typeof t.param.dependencies === 'object' ) {
 
-				// loop all dependencies
-				for ( var i in t.stat.dependencies_autoload ) {
+			if ( t.param.dependencies_autoload ) {
 
-					var key = t.stat.dependencies_autoload[ i ],
-						obj_dependencie = t.param.dependencies[ key ],
-						load_dependecy = false;
+				// YouTube iframe API {
 
-					// check libs, if there is no lib say yes to load
-					try {
+					if ( typeof YT == 'undefined' ) {
 
-						eval( obj_dependencie.check_lib.var ); 
-					}
-					catch ( e ) {
+						jQuery.getScript( 'https://www.youtube.com/iframe_api', function() {
 
-						load_dependecy = true;
-					}
-
-					// check options, if one option has not the required say not to load
-					if ( typeof obj_dependencie.check_options === 'object' && obj_dependencie.check_options.length > 0 ) {
-
-						for ( var i2 in obj_dependencie.check_options ) {					    
-
-							if ( t.param[ obj_dependencie.check_options[ i2 ].name ] != obj_dependencie.check_options[ i2 ].value ) {
-
-								load_dependecy = false;
-							}
-						}
-					}
-
-					// check browser features, if there is no required browser feature, say no to load
-					if ( typeof obj_dependencie.check_browser_features === 'object' && obj_dependencie.check_browser_features.length > 0 ) {
-
-						for ( var i2 in obj_dependencie.check_browser_features ) {					    
-
-							if ( t.stat.browser_features.indexOf( obj_dependencie.check_browser_features[ i2 ] ) == -1 ) {
-
-								load_dependecy = false;
-							}
-						}
-					}
-
-					if ( load_dependecy ) {
-
-						// dependecy NOT exists
-
-						// url to load
-						if ( typeof obj_dependencie.url === 'string' ) {
-
-							jQuery.getScript( obj_dependencie.url, function() {
-
-								t.stat.dependencies_loaded++;
-							} );
-						}
-
-						// path to load
-						if ( typeof obj_dependencie.path === 'string' ) {
-
-							t.init_dependencies_path( {
-
-								file: obj_dependencie.path,
-							} );
-						}
+							t.stat.dependencies_loaded++;
+						} );
 					}
 					else {
 
-						// dependency exists
+						t.stat.dependencies_loaded++;
+					}
+
+				// }
+
+				// imagesLoaded {
+
+					if ( typeof jQuery.fn.imagesLoaded == 'undefined' ) {
+
+							t.init_dependencies_path( {
+
+								file: t.param.yersliderfolderabsolutepath + 'dependencies/imagesloaded.js',
+							} );
+					}
+					else {
 
 						t.stat.dependencies_loaded++;
 					}
-				}
+
+				// }
+
+				// TouchSwipe {
+
+					if ( typeof jQuery.fn.swipe == 'undefined' 
+					&& t.stat.browser_features.indexOf( 'touch' ) !== -1
+					&& t.param.swipe === true ) {
+
+						t.init_dependencies_path( {
+
+							file: t.param.yersliderfolderabsolutepath + 'dependencies/jquery.touchSwipe.js',
+						} );
+					}
+					else {
+
+						t.stat.dependencies_loaded++;
+					}
+
+				// }
+
+				t.stat.dependencies_count = 3;
 			}
 
 		// }

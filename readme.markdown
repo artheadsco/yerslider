@@ -78,13 +78,13 @@ The YouTube iframe API is required, when youtube videos are used in a slide.
 
 ### Autoload #############################
 
-The YerSlider folder comes with an subfolder /dependencies/ that holds all nessesary libraries. All of these libraries exept jQuery and modernizr.js are registered in YerSlider and will be autoloaded as required. So you can, but do not need to manualy embed them in your html. YerSlider checks on runtime, if the dependencies exists. If not, YerSlider tries to load them from the dependencies folder. If you want to embed the dependencies asyncron by yourself, please setup ```dependencies_autoload: [],```. To make autoload working, the absolute path of the yersliderfolder is required.
+The YerSlider folder comes with an subfolder /dependencies/ that holds all nessesary libraries. All of these libraries exept jQuery and modernizr.js are registered in YerSlider and will be autoloaded as required. So you can, but do not need to manualy embed them in your html. YerSlider checks on runtime, if the dependencies exists. If not, YerSlider tries to load them from the dependencies folder. If you want to embed the dependencies asyncron by yourself, please setup ```dependencies_autoload: false,```. To make autoload working, the absolute path of the yersliderfolder is required.
 
 ```javascript
 var myslider = new YerSlider();
 myslider.init({
 	yersliderfolderabsolutepath: '/your_assets_folder/yerslider/',
-	dependencies_autoload: [ 'youtube_iframe_api', 'imagesloaded', 'touchswipe' ], // do not need to setup
+	dependencies_autoload: true, // default is true
 });
 ```
 
