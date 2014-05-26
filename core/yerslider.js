@@ -1416,11 +1416,9 @@ function YerSlider() {
 						t.stat.autoplayinterval = window.setInterval( function () {
 
 							if ( ! t.stat.isanimating ) {
-
 								t.stat.isanimating = true;
 								t.stat.slidingright = true;
 								t.stat.lasteventtype = 'autoplay';
-
 								t.next_slide();
 
 								t.task_slide();
@@ -1445,16 +1443,16 @@ function YerSlider() {
 
 		// slidermask
 
-		jQuery( t.obj.slidermask ).mouseenter(function() {
+		jQuery( t.obj.slider ).on( 'mouseenter', function() {
 
-			if ( !t.stat.videoisplaying ) {
+			if ( ! t.stat.videoisplaying ) {
 
 				t.autoplayclear();
 			}
 
-		}).mouseleave(function() {
+		}).on( 'mouseleave', function() {
 
-			if ( !t.stat.videoisplaying ) {
+			if ( ! t.stat.videoisplaying ) {
 
 				t.autoplayset();
 			}
@@ -1464,23 +1462,38 @@ function YerSlider() {
 
 		jQuery( t.obj.sliderwrap.find( t.param.prevnextclass ) ).mouseenter(function() {
 
-			if ( !t.stat.videoisplaying ) {
+			if ( ! t.stat.videoisplaying ) {
 
 				t.autoplayclear();
 			}
 
+		}).on( 'mouseleave', function() {
+
+			if ( ! t.stat.videoisplaying ) {
+
+				t.autoplayset();
+			}
 		});
 
 		// bulletclass
 
-		jQuery( t.obj.sliderwrap.find( t.param.bulletclass ) ).mouseenter(function() {
+		if ( typeof t.obj.bulletswrap === 'object' ) {
 
-			if ( !t.stat.videoisplaying ) {
+			t.obj.bulletswrap.mouseenter(function() {
 
-				t.autoplayclear();
-			}
+				if ( ! t.stat.videoisplaying ) {
 
-		});
+					t.autoplayclear();
+				}
+
+			}).on( 'mouseleave', function() {
+
+				if ( ! t.stat.videoisplaying ) {
+
+					t.autoplayset();
+				}
+			});
+		}
 
 	};
 
@@ -1703,6 +1716,10 @@ function YerSlider() {
 
 				t.thumbs_script();
 
+				/* thumbs autoplay */
+
+				t.thumbs_autoplay();
+
 			//}, 200);
 
 		}
@@ -1872,7 +1889,29 @@ function YerSlider() {
 					};
 
 				t.param.thumbsready( p );
+
 			}
+		}
+	};
+
+	t.thumbs_autoplay = function () {
+
+		if ( typeof t.obj.thumbswrap === 'object' ) {
+
+			t.obj.thumbsitems.on( 'mouseenter', function() {
+
+				if ( ! t.stat.videoisplaying ) {
+
+					t.autoplayclear();
+				}
+
+			}).on( 'mouseleave', function() {
+
+				if ( ! t.stat.videoisplaying ) {
+
+					t.autoplayset();
+				}
+			});
 		}
 	};
 
