@@ -86,7 +86,7 @@
 					loopswipe: 'rollback',
 					animationspeed: 2000,
 					bullets: false,
-                    autoplay: false,
+                    autoplay: true,
 					autoplayinterval: 2000,
 					autoplaydelaystart: 0,
 					autoplaystoponhover: true,

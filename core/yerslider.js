@@ -118,7 +118,7 @@ function YerSlider() {
 		scrolltopspeed: 500,
 
 		// showslidestime: 500,
-		dependencies_autoload: [ 'youtube_iframe_api', 'imagesloaded', 'touchswipe' ], // youtube_iframe_api, imagesloaded, touchswipe
+		dependencies_autoload: undefined, // [ 'youtube_iframe_api', 'imagesloaded', 'touchswipe' ]
 	};
 
 	t.param.dependencies = {
@@ -190,6 +190,7 @@ function YerSlider() {
 		loop: false,
 		dependencies_loaded: 0,
 		browser_features: [],
+		dependencies_autoload: [ 'youtube_iframe_api', 'imagesloaded', 'touchswipe' ],
 	};
 
 	t.obj = {
@@ -226,7 +227,7 @@ function YerSlider() {
 
 				t.helper.when( t.stat, {
 					key: 'dependencies_loaded',
-					val: t.param.dependencies_autoload.length,
+					val: t.stat.dependencies_autoload.length,
 					callback_if: t.init_workflow,
 				} );
 
@@ -244,12 +245,12 @@ function YerSlider() {
 		// LOAD DEPENDECIES IF NOT EXISTS {
 
 			// if dependencies param exists
-			if ( typeof t.param.dependencies_autoload === 'object' && typeof t.param.dependencies === 'object' ) {
+			if ( typeof t.stat.dependencies_autoload === 'object' && t.stat.dependencies_autoload.length > 0 && typeof t.param.dependencies === 'object' ) {
 
 				// loop all dependencies
-				for ( var i in t.param.dependencies_autoload ) {
+				for ( var i in t.stat.dependencies_autoload ) {
 
-					var key = t.param.dependencies_autoload[ i ],
+					var key = t.stat.dependencies_autoload[ i ],
 						obj_dependencie = t.param.dependencies[ key ],
 						load_dependecy = false;
 
@@ -460,6 +461,15 @@ function YerSlider() {
 			if ( t.stat.touch && t.param.swipe ) {
 
 				t.stat.loop = t.param.loopswipe;
+			}
+
+		// }
+
+		// autoload {
+
+			if ( typeof t.param.dependencies_autoload === 'object' ) {
+
+				t.stat.dependencies_autoload = t.param.dependencies_autoload;
 			}
 
 		// }
@@ -1022,7 +1032,7 @@ function YerSlider() {
 		}
 
 		t.stat.slidegroup = temp;
-		
+
 	};
 
 	t.set_slidegroupmax = function () {
@@ -1208,7 +1218,7 @@ function YerSlider() {
 
 			t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidegroup;
 		}
-	
+
 	};
 
 	t.prev_slide = function () {
@@ -1452,28 +1462,17 @@ function YerSlider() {
 
 						t.stat.autoplayinterval = window.setInterval( function () {
 
-							if ( !t.stat.isanimating ) {
+							if ( ! t.stat.isanimating ) {
 
 								t.stat.isanimating = true;
 								t.stat.slidingright = true;
 								t.stat.lasteventtype = 'autoplay';
 
-								t.player_remove();
-
 								t.next_slide();
 
-								t.animate_slider_to_current_position( t.get_animationspeed() );
+								t.task_slide();
+							}
 
-								t.refresh_prevnext();
-
-								if ( t.param.bullets ) {
-
-									t.set_bullet_current();
-									t.set_bullet_current_class();
-								}
-
-								t.stat.slidingright = false;
-							}  
 						}, t.param.autoplayinterval );
 					}
 
@@ -1963,7 +1962,7 @@ function YerSlider() {
 		t.obj.slider.animate( {
 			'margin-left': '-' + t.get_sliderposition() + 'px'
 		}, duration, t.translate_easing( t.param.animationtype, 'jquery' ), function () {
-		
+
 			t.get_sliderposition();
 			t.stat.isanimating = false;
 		});
@@ -2113,19 +2112,19 @@ function YerSlider() {
 			var index = 0,
 				i = 0
 				clones = t.stat.slidegroupmax;
-				
+
 				t.param.slidingstep
 
 			if ( t.stat.slidegroup > 0 ) {
-				
+
 				clones = t.stat.slidegroupmax * 2;
 			}
-			
+
 			if ( t.param.slidingstep > t.stat.slidegroup ) {
-			    
+
 				clones = ( t.param.slidingstep * 2 ) + ( t.stat.slidegroupmax * 2 );
 			}
-			
+
 			for ( i = 0; i < clones; i++ ) {
 
 				// start from first slide when last slide passed
@@ -2147,9 +2146,9 @@ function YerSlider() {
 
 		//var pos = ( parseInt( t.stat.currentslideindex * t.stat.slidewidth, 10 ) + parseInt( t.param.slidegap * t.stat.currentslideindex, 10 ) );		
 		var pos = jQuery( t.obj.slide[ t.stat.currentslideindex ] ).position().left;
-     
+
 		t.stat.currentslideposition = pos;
-        
+
 		return pos;
 	};
 
@@ -2186,7 +2185,7 @@ function YerSlider() {
 			if ( t.stat.lasteventtype === 'thumb-click' ) {
 
 				if ( t.stat.loop !== 'infinite' ) {
-				
+
 					if ( t.stat.currentslideindex >= t.stat.slidecount - t.stat.slidegroup ) {
 
 						t.stat.currentslideindex = t.stat.slidecount - t.stat.slidegroup;
@@ -2284,11 +2283,11 @@ function YerSlider() {
 
 						/* if the last slide index was a clone, you can jump back */
 						if ( t.stat.currentslideindex - steps > t.stat.slidecount - 1 ) {
-						
+
 							t.stat.currentslideindex = t.stat.currentslideindex - ( Math.floor( ( t.stat.currentslideindex - steps ) / t.stat.slidecount ) * t.stat.slidecount ) - steps;
-                            
+
 							t.move_slider_to_current_index();
-                            
+
 							t.stat.currentslideindex = t.stat.currentslideindex + steps;
 						}
 
@@ -2349,11 +2348,11 @@ function YerSlider() {
 						steps = t.stat.slidegroup;
 					}
 					if ( t.stat.currentslideindex < 0 ) {
-					
+
 					t.stat.currentslideindex = t.stat.currentslideindex + ( Math.ceil( steps / t.stat.slidecount ) * t.stat.slidecount ) + steps;
 
 						t.move_slider_to_current_index();
-                        
+
 						t.stat.currentslideindex = t.stat.currentslideindex - steps;
 					}
 				}
