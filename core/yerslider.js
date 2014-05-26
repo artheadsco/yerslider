@@ -1985,14 +1985,6 @@ function YerSlider() {
 			t.stat.isanimating = false;
 			t.animation_finshed();
 
-			if ( t.stat.isios === false ) {
-
-				t.css_transitionduration( t.obj.slider );
-				t.css_transform( t.obj.slider );
-				t.css_transitiontiming( t.obj.slider );
-				t.css_marginleft( t.obj.slider, '-' + t.stat.currentslideposition + 'px' );
-			}
-
 		}, duration );
 	};
 
@@ -2131,7 +2123,7 @@ function YerSlider() {
 			
 			if ( t.param.slidingstep > t.stat.slidegroup ) {
 			    
-				clones = t.param.slidingstep + t.stat.slidegroupmax;
+				clones = ( t.param.slidingstep * 2 ) + ( t.stat.slidegroupmax * 2 );
 			}
 			
 			for ( i = 0; i < clones; i++ ) {
@@ -2188,8 +2180,6 @@ function YerSlider() {
 	};
 
 	t.check_slider_current_index = function () {
-
-		var temp = false;
 
 		// THUMB CLICK {
 
@@ -2280,6 +2270,7 @@ function YerSlider() {
 					|| t.stat.lasteventtype === 'autoplay'
 					|| t.stat.lasteventtype === 'swipe-right' ) {
 
+						/* step is the amount of slides to move */
 						var steps = 0;
 
 						if (  t.param.slidingstep ) {
@@ -2290,20 +2281,18 @@ function YerSlider() {
 
 							steps = t.stat.slidegroup;
 						}
-						
-						if ( t.stat.currentslideindex > ( t.stat.slidecount - 1 ) + steps ) {
-console.log( t.stat.currentslideindex );
-							//temp = t.stat.currentslideindex;
-                            //
-							//t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidecount;
-                            //
-							//t.move_slider_to_current_index();
-                            //
-							//t.stat.currentslideindex = temp;
 
+						/* if the last slide index was a clone, you can jump back */
+						if ( t.stat.currentslideindex - steps > t.stat.slidecount - 1 ) {
+						
+							t.stat.currentslideindex = t.stat.currentslideindex - ( Math.floor( ( t.stat.currentslideindex - steps ) / t.stat.slidecount ) * t.stat.slidecount ) - steps;
+                            
+							t.move_slider_to_current_index();
+                            
+							t.stat.currentslideindex = t.stat.currentslideindex + steps;
 						}
+
 					}
-					console.log( t.stat.currentslideindex );
 
 				}
 			}
@@ -2359,15 +2348,14 @@ console.log( t.stat.currentslideindex );
 
 						steps = t.stat.slidegroup;
 					}
+					if ( t.stat.currentslideindex < 0 ) {
+					
+					t.stat.currentslideindex = t.stat.currentslideindex + ( Math.ceil( steps / t.stat.slidecount ) * t.stat.slidecount ) + steps;
 
-					temp = t.stat.slidecount + t.stat.currentslideindex;
-
-					t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidecount + steps;
-
-					//t.animate_slider_to_current_position( 0 );
-					t.move_slider_to_current_index();
-
-					t.stat.currentslideindex = temp;
+						t.move_slider_to_current_index();
+                        
+						t.stat.currentslideindex = t.stat.currentslideindex - steps;
+					}
 				}
 			}
 
