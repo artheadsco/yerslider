@@ -218,6 +218,8 @@ function YerSlider() {
 
 		t.init_get_browser_features();
 
+		t.init_param_changin();
+
 		// is there a slider element
 		if ( jQuery( t.param.sliderid ).length > 0 ) {
 
@@ -243,7 +245,6 @@ function YerSlider() {
 	t.init_dependencies = function () {
 
 		// LOAD DEPENDECIES IF NOT EXISTS {
-
 			// if dependencies param exists
 			if ( typeof t.stat.dependencies_autoload === 'object' && t.stat.dependencies_autoload.length > 0 && typeof t.param.dependencies === 'object' ) {
 
@@ -255,7 +256,11 @@ function YerSlider() {
 						load_dependecy = false;
 
 					// check libs, if there is no lib say yes to load
-					if ( typeof obj_dependencie.check_lib.var !== obj_dependencie.check_lib.type ) {
+					try {
+
+						eval( obj_dependencie.check_lib.var ); 
+					}
+					catch ( e ) {
 
 						load_dependecy = true;
 					}
@@ -340,8 +345,6 @@ function YerSlider() {
 		t.init_animation();
 
 		t.init_touch();
-
-		t.init_param_changin();
 
 		t.init_isios();
 

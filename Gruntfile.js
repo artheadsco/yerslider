@@ -98,12 +98,33 @@ grunt sass
 			}
 		},
 
+		concat: {
+			options: {
+				separator: "\n\n",
+				banner: '',
+				footer: '',
+			},
+			demojs: {
+				src: [
+					'dependencies/imagesloaded.js',
+					'dependencies/jquery.touchSwipe.js',
+					'themes/default/yerslider.min.js',
+					'core/yerslider.min.js',
+				],
+				dest: 'demo/js/demo.yerslider.js',
+			},
+		},
+
 		watch: {
 			livereload: {
 				files: ['core/*','demo/**/*','themes/**/*'],
 				options: {
 					livereload: true,
 			    },
+			},
+			demojs: {
+				files: ['core/*','dependencies/**/*','themes/**/*'],
+				tasks: ['concat:demojs'],
 			},
 			watch_core_yerslider: {
 				files: ['core/yerslider.js'],
@@ -124,6 +145,7 @@ grunt sass
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-bump');
 
 	grunt.registerTask('default', ['watch']);

@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.4.3** *2014-05-26*
+	- FIX autoload
 * **1.4.2** *2014-05-26*
 	- New option slidingstep
 * **1.4.1** *2014-05-23*
