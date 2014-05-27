@@ -149,7 +149,7 @@ myslider.init({
 
 There is a themefolder with an default theme. Inside there is the stylesheet with basic styles. Just copy the theme and make your additions to the styles. Then load the styles in the head of your html or use a preprozessor to add this to your existing basic stylesheet.
 
-### ADAPTING OPTIONS FOR DIFFERENT ENVIROMENTS #########
+### Adapting Options For Different Enviroments #########
 
 If you use enviroments for developing, staginging etc., all options of YerSlider can be adapted via the ```YerSliderGlobals``` object.
 
