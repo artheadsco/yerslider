@@ -151,7 +151,7 @@ There is a themefolder with an default theme. Inside there is the stylesheet wit
 
 ### Adapting Options For Different Enviroments #########
 
-If you use enviroments for developing, staginging etc., all options of YerSlider can be adapted via the ```YerSliderGlobals``` object.
+If you use enviroments for developing, staging etc., all options of YerSlider can be adapted via the ```YerSliderGlobals``` object.
 
 ```php
 <?php
