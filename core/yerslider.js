@@ -354,10 +354,19 @@ function YerSlider() {
 
 		/* get default parameters */
 
-		t.param = t.helper.setDefaultParam({
+		t.param = t.helper.setDefaultParam( {
 			p: p,
 			d: t.param
-		});
+		} );
+
+		// get global parameters {
+
+			if ( typeof YerSliderGlobals !== 'undefined' ) {
+
+				jQuery.extend( true, t.param, YerSliderGlobals.param );
+			}
+
+		// }
 
 		// VALIDATE AUTOPLAYINTERVAL {
 

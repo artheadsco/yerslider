@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.4.4** *2014-05-27*
+	- NEW The YerSliderGlobals object can adapt options for different enviroments.
 * **1.4.3** *2014-05-26*
 	- FIX autoload
 * **1.4.2** *2014-05-26*
@@ -134,7 +136,7 @@ if ( jQuery('.yerslider').length > 0 ) {
 }
 ```
 
-### Define A Slider ######################
+### Define a Slider ######################
 
 ```javascript
 var myslider = new YerSlider();
@@ -146,6 +148,37 @@ myslider.init({
 ### Load the Slider Stylesheet ###########
 
 There is a themefolder with an default theme. Inside there is the stylesheet with basic styles. Just copy the theme and make your additions to the styles. Then load the styles in the head of your html or use a preprozessor to add this to your existing basic stylesheet.
+
+### ADAPTING OPTIONS FOR DIFFERENT ENVIROMENTS #########
+
+If you use enviroments for developing, staginging etc., all options of YerSlider can be adapted via the ```YerSliderGlobals``` object.
+
+```php
+<?php
+
+	// development enviroment
+	if ( stristr( $_SERVER['SERVER_ADDR'], '127.0.0.1' ) ) {
+
+		$autoplayinterval = 1000;
+	}
+
+	// production enviroment
+	elseif ( stristr( $_SERVER['SERVER_NAME'], 'production-domain' ) ) {
+
+		$autoplayinterval = 6000;
+	}
+
+?>
+<script>
+
+	YerSliderGlobals = {
+		param: {
+			autoplayinterval: <?php echo $autoplayinterval; ?>,
+		},
+	};
+
+</script>
+```
 
 Options
 -----------------------------------------
@@ -281,11 +314,11 @@ thumbsready: function( p ) {
 			}
 		}
 	*/
-	
+
 	/** An example from the default theme, 
 		that makes the thumbs scrolling 
 		by following the mouse */
-	
+
 	var yersliderthumbs = new YerSliderThumbs();
 	yersliderthumbs.init({
 		obj: p.obj,
