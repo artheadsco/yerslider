@@ -102,6 +102,7 @@ function YerSlider() {
 		thumbsclickable: true,
 		sliderwrapclasshasthumbs: '.yerslider-has-thumbs',
 		thumbswrapclass: '.yerslider-thumbs-wrap',
+		thumbsviewportclass: '.yerslider-thumbs-viewport',
 		thumbsmaskclass: '.yerslider-thumbs-mask',
 		thumbsitemsclass: '.yerslider-thumbs-items',
 		thumbsitemclass: '.yerslider-thumbs-item',
@@ -1724,7 +1725,7 @@ function YerSlider() {
 
 				if ( typeof t.obj.thumbswrap !== 'object' ) {
 
-					var html = '<div class="' + t.param.thumbswrapclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsmaskclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsitemsclass.replace( '.', '' ) + '"></div></div></div>';
+					var html = '<div class="' + t.param.thumbswrapclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsviewportclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsmaskclass.replace( '.', '' ) + '"><div class="' + t.param.thumbsitemsclass.replace( '.', '' ) + '"></div></div></div></div>';
 
 					if ( t.param.thumbslocation === 'inside' ) {
 
@@ -1737,8 +1738,9 @@ function YerSlider() {
 					}
 
 					t.obj.thumbswrap = t.obj.sliderwrap.find( t.param.thumbswrapclass );
-					t.obj.thumbsitems = t.obj.sliderwrap.find( t.param.thumbsitemsclass );
+					t.obj.thumbsviewport = t.obj.sliderwrap.find( t.param.thumbsviewportclass );
 					t.obj.thumbsmask = t.obj.sliderwrap.find( t.param.thumbsmaskclass );
+					t.obj.thumbsitems = t.obj.sliderwrap.find( t.param.thumbsitemsclass );
 				}
 
 				/* thumbs items */
@@ -1937,9 +1939,9 @@ function YerSlider() {
 
 	t.thumbs_autoplay = function () {
 
-		if ( typeof t.obj.thumbswrap === 'object' ) {
+		if ( t.param.autoplay && typeof t.obj.thumbswrap === 'object' ) {
 
-			t.obj.thumbsitems.on( 'mouseenter', function() {
+			t.obj.thumbsviewport.on( 'mouseenter', function() {
 
 				if ( ! t.stat.videoisplaying ) {
 
