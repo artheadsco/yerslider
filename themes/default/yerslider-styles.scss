@@ -20,6 +20,14 @@
 	box-sizing: border-box;
 	/* default end */
 }
+
+
+.js .yerslider-wrap {
+	opacity: 0;
+	position: absolute;
+	left: -9999px;
+}
+
 .yerslider-wrap * {
 	/* default begin */
 	-webkit-box-sizing: border-box;

@@ -116,12 +116,12 @@ grunt sass
 		},
 
 		watch: {
-			livereload: {
-				files: ['core/*','demo/**/*','themes/**/*'],
-				options: {
-					livereload: true,
-			    },
-			},
+			//livereload: {
+			//	files: ['core/*','demo/**/*','themes/**/*'],
+			//	options: {
+			//		livereload: true,
+			//    },
+			//},
 			demojs: {
 				files: ['core/*','dependencies/**/*','themes/**/*'],
 				tasks: ['concat:demojs'],

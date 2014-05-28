@@ -1,8 +1,8 @@
 /*
  * @package		YerSlider
- * @version		1.4.3
- * @date		2014-05-26
- * @time		15:54:44
+ * @version		1.4.4
+ * @date		2014-05-28
+ * @time		18:57:47
  * @license		MIT or GPL
  * @repository	https://github.com/johannheyne/yerslider.git
  * @homepage	http://demo.johannheyne.de/yerslider/demo/
@@ -20,6 +20,12 @@
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   /* default end */
+}
+
+.js .yerslider-wrap {
+  opacity: 0;
+  position: absolute;
+  left: -9999px;
 }
 
 .yerslider-wrap * {
