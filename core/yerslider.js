@@ -191,6 +191,8 @@ function YerSlider() {
 
 		t.init_get_browser_features();
 
+		t.init_touch();
+		
 		t.init_param_changin();
 
 		// is there a slider element
@@ -297,8 +299,6 @@ function YerSlider() {
 		t.init_loadyoutubeiframeapi();
 
 		t.init_animation();
-
-		t.init_touch();
 
 		t.init_isios();
 
@@ -2234,7 +2234,7 @@ function YerSlider() {
 
 			if ( t.stat.lasteventtype === 'click-next'
 			|| t.stat.lasteventtype === 'autoplay'
-			|| t.stat.lasteventtype === 'swipe-right' ) {
+			|| t.stat.lasteventtype === 'swipe-left' ) {
 
 				if ( t.stat.loop === 'none' ) {
 
@@ -2336,7 +2336,7 @@ function YerSlider() {
 		// PREV {
 
 			if ( t.stat.lasteventtype === 'click-prev'
-			|| t.stat.lasteventtype === 'swipe-left' ) {
+			|| t.stat.lasteventtype === 'swipe-right' ) {
 
 				if ( t.stat.loop === 'none' ) {
 
