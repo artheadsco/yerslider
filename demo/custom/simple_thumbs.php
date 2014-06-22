@@ -17,7 +17,7 @@
 
 		<div class="page-typo">
 
-			<h1>YerSlider</h1>
+			<h1><a href="../">YerSlider</a></h1>
             <p>This is a demopage of the YerSlider-Script hostet on <a href="https://github.com/johannheyne/yerslider" target="_blank">GitHub</a> by Johann Heyne.</p>
 			
 		</div>

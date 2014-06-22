@@ -18,7 +18,7 @@
 
 		<div class="page-typo">
 
-			<h1>YerSlider</h1>
+			<h1><a href="../">YerSlider</a></h1>
 
 		</div>
 

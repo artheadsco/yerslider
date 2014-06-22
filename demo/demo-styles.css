@@ -31,6 +31,10 @@ pre {
 	margin: 20px 0;
 	color: #525252;
 }
+.page-typo h1 a {
+	color: #525252;
+	text-decoration: none;
+}
 @media (min-width: 450px) {
 	.page-typo h1 {
 		font-size: 80px;

@@ -25,12 +25,18 @@
 
 		<div class="page-typo">
 
-			<h1>YerSlider Sublime Video</h1>
+			<h1><a href="../">YerSlider</a></h1>
 
 		</div>
 
 		<!-- end -->
+		
+		<!-- Sublime Video -->
 
+		<div class="page-typo">
+			<h2 id="sublimevideo">Sublime Video</h2>
+		</div>
+		
 		<div class="yerslider-wrap mysliderclass-sublimevideo">
 			<div class="yerslider-viewport">
 			    <div class="yerslider-mask">
