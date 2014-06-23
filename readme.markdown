@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.5.0** *2014-06-23*
+	- NEW Detachings, take some slide content and put it elsewhere.
 * **1.4.4** *2014-05-27*
 	- NEW The YerSliderGlobals object can adapt options for different enviroments.
 * **1.4.3** *2014-05-26*
@@ -372,4 +374,42 @@ Scrolls the page to the given distance from top <code>scrolltopval:</code> with 
 scrolltop: false,
 scrolltopval: 0,
 scrolltopspeed: 500,
+```
+
+### Detaching ############################
+
+Detaching gives the possibility to grab, hide and put slide content outside the slider items and may elsewhere in the document.
+
+```javascript
+detach: {
+    targets: {
+        '1': {
+            selector_wrap: '.detach-target', // selector
+            selector_item: '.detach-target-item', // selector
+            insert_selector: 'this', // 'this' (the current slider wrap element) / 'viewport' / 'bullets' / 'thumbs' / any class / any id
+            insert_method: 'after', // 'before', 'after', 'append', 'prepend'
+            template_wrap: '<div class="detach-target">{content}</div>', // html
+            template_item: '<div class="detach-target-item">{content}</div>', // html
+        }
+    ],
+    sources: {
+       '1': {
+            target_id: '1', // key of targets object
+            selector: '.detach-me p', // selector
+            source: 'element', // 'element' / 'content'
+            remove: '.detach-me', // selector
+            change: function( p ) {
+                
+                /*  This function is called on every slide event and
+                    is intended to show the current detachings.
+		
+                    p: {
+                        items: slider items objects,
+                        items_current: current slider items objects
+                    }
+                */
+            },
+        }
+    }
+}
 ```

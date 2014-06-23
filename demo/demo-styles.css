@@ -126,9 +126,13 @@ code {
 .code-focus {
 	display: inline;
 	color: DodgerBlue;
-	font-weight: bold;
 }
-
+.code-comment {
+    display: inline;
+    font-weight: normal;
+	color: #939393;
+	font-style: italic;
+}
 .alert {
 	color: red;
 }
@@ -170,3 +174,26 @@ code {
 	font-size: 12px;
 	color: #525252;
 }
+
+/* DETACH { */
+
+    .detach-target {
+        margin-top: 10px; 
+    }
+    .detach-target-table {
+        display: table;
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+    .detach-target-item {
+        display: table-cell;
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 25%; /* the width of a slide on max slidegroup */
+    }
+    .detach-target-item-inner {
+       padding: 1px 20px;
+       background-color: #eee;
+    }
+
+/* DETACH } */

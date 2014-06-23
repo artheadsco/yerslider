@@ -123,6 +123,9 @@ function YerSlider() {
 
 		// callbacks
 		sliderready: undefined,
+
+		// detachning
+		detach: undefined,
 	};
 
 	t.stat = {
@@ -192,7 +195,7 @@ function YerSlider() {
 		t.init_get_browser_features();
 
 		t.init_touch();
-		
+
 		t.init_param_changin();
 
 		// is there a slider element
@@ -305,16 +308,17 @@ function YerSlider() {
 		t.init_ojects();
 
 		t.init_css();
-		
+
 		t.obj.sliderwrap.css( {
 			'opacity': '0',
 		} );
-		
+
 		t.set_slidermaskwidth();
 		t.set_slidecount();
 		t.set_slidegroup();
 		t.set_slidegroupmax();
 		t.set_slidesinviewport();
+		t.set_currentslidesindexs();
 		t.set_slidewidth();
 		t.set_slideheight();
 
@@ -325,6 +329,8 @@ function YerSlider() {
 		t.thumbs();
 
 		t.bullets();
+
+		t.init_detach();
 
 		t.init_touchswipe();
 
@@ -349,6 +355,9 @@ function YerSlider() {
 
 					t.autoplayinit();
 				});
+
+				t.init_detach_show();
+
 			})
 
 		// }
@@ -566,7 +575,20 @@ function YerSlider() {
 					t.resize();
 				}
 			}, 100);
-		}); 
+
+		});
+
+		var doit;
+		jQuery(window).resize( function(){
+
+			clearTimeout(doit);
+
+			doit = setTimeout( function() {
+
+				t.resize_end();
+
+			}, 300 );
+		});
 	};
 
 	t.init_video = function () {
@@ -894,6 +916,315 @@ function YerSlider() {
 		*/
 	};
 
+	t.init_detach = function() {
+
+		if ( typeof t.param.detach === 'object' ) {
+
+			// TARGETS {
+
+				if ( typeof t.param.detach.targets === 'object' ) {
+
+					for ( var i in t.param.detach.targets ) {
+
+						/*
+						t.param.detach.targets[ i ].selector_wrap
+						t.param.detach.targets[ i ].selector_item
+						t.param.detach.targets[ i ].insert_selector
+						t.param.detach.targets[ i ].insert_method
+						t.param.detach.targets[ i ].template_wrap
+						t.param.detach.targets[ i ].template_item
+						*/
+
+						// DEFAULT INSERT OBJEKT {
+
+							var object = t.obj.sliderwrap;
+
+						// }
+
+						// CUSTOM INSERT OBJECT {
+
+							if ( typeof t.param.detach.targets[ i ].insert_selector === 'string' ) {
+
+								if (
+									t.param.detach.targets[ i ].insert_selector.search( /\./ ) === -1
+									&& t.param.detach.targets[ i ].insert_selector.search( /\#/ ) == -1
+								) {
+
+									if ( t.param.detach.targets[ i ].insert_selector == 'wrap' ) {
+
+										object = t.obj.sliderwrap;
+									}
+
+									if ( t.param.detach.targets[ i ].insert_selector == 'viewport' ) {
+
+										object = t.obj.sliderviewport;
+									}
+
+									if ( t.param.detach.targets[ i ].insert_selector == 'bullets' ) {
+
+										object = t.obj.bulletswrap;
+									}
+
+									if ( t.param.detach.targets[ i ].insert_selector == 'thumbs' ) {
+
+										object = t.obj.thumbswrap;
+									}
+
+								}
+								else {
+
+									object = jQuery( t.param.detach.targets[ i ].insert_selector );
+								}
+							}
+
+						// }
+
+						// INSERT TARGET WRAP HTML {
+
+							if (
+								typeof t.param.detach.targets[ i ].insert_method === 'string'
+								&& typeof t.param.detach.targets[ i ].template_wrap === 'string'
+								&& typeof t.param.detach.targets[ i ].template_item === 'string'
+							) {
+
+								if ( t.param.detach.targets[ i ].insert_method === 'before' ) {
+
+									object.before( t.param.detach.targets[ i ].template_wrap );
+								}
+
+								if ( t.param.detach.targets[ i ].insert_method === 'after' ) {
+
+									object.after( t.param.detach.targets[ i ].template_wrap );
+								}
+
+								if ( t.param.detach.targets[ i ].insert_method === 'append' ) {
+
+									object.append( t.param.detach.targets[ i ].template_wrap );
+								}
+
+								if ( t.param.detach.targets[ i ].insert_method === 'prepend' ) {
+
+									object.prepend( t.param.detach.targets[ i ].template_wrap );
+								}
+							}
+
+						// }
+
+					}
+				}
+
+			// }
+
+			// SOURCES {
+
+				if ( typeof t.param.detach.sources === 'object' ) {
+
+					var html = {};
+
+					// EACH SLIDE {
+
+						var targets = {};
+
+						t.obj.slide.each( function() {
+
+							var that = jQuery( this ),
+								targets_temp = {};
+
+							// SOURCES {
+
+								for ( var i in t.param.detach.sources ) {
+
+									/*
+									t.param.detach.sources[ i ].target
+									t.param.detach.sources[ i ].selector
+									t.param.detach.sources[ i ].source
+									t.param.detach.sources[ i ].remove
+									t.param.detach.sources[ i ].show
+									t.param.detach.sources[ i ].hide
+									*/
+
+									// GET TARGET DATA {
+
+										var target_id = t.param.detach.sources[ i ].target_id,
+											target = t.param.detach.targets[ target_id ];
+
+									// }
+
+									// DEFINE VARIABLE FOR TARGET HTML  {
+
+										if ( typeof targets_temp[ target_id ] === 'undefined' ) {
+
+											targets_temp[ target_id ] = '';
+										}
+
+									// }
+
+									// SET TARGET HTML {
+
+										if ( t.param.detach.sources[ i ].source === 'element' ) {
+
+											targets_temp[ target_id ] += that.find( t.param.detach.sources[ i ].selector ).clone().wrap( '<div>' ).parent().html();
+										}
+										else {
+
+											targets_temp[ target_id ] += that.find( t.param.detach.sources[ i ].selector ).html;
+										}
+
+									// }
+
+									// REMOVE {
+
+										if ( typeof t.param.detach.sources[ i ].remove === 'string' ) {
+
+											that.find( t.param.detach.sources[ i ].remove ).remove();
+										}
+
+									// }
+								}
+
+							// }
+
+							// TEMPLATE {
+
+								for ( var i in t.param.detach.sources ) {
+
+									var target_id = t.param.detach.sources[ i ].target_id,
+										target = t.param.detach.targets[ target_id ];
+
+									var template = target.template_item;
+
+									if ( typeof targets[ target_id ] === 'undefined' ) {
+
+										targets[ target_id  ] = '';
+									}
+
+									targets[ target_id  ] += template.replace( '{content}', targets_temp[ target_id ] );  
+								}
+
+							// }
+
+						} );
+
+						// INSERT TARGETS HTML {
+
+							for ( var target_id in targets ) {
+
+								var target = t.param.detach.targets[ target_id ],
+									obj_html = jQuery( target.selector_wrap ).html();
+
+								jQuery( target.selector_wrap )
+									.html( obj_html.replace( '{content}', targets[ target_id ] ) )
+									.hide()
+									.find( target.selector_item ) 
+									.hide();
+							}
+
+						// }
+
+					// }
+
+				}
+
+			// }
+		}
+	};
+
+	t.init_detach_show = function() {
+
+		if ( typeof t.param.detach === 'object' && typeof t.param.detach.targets === 'object' ) {
+
+			for ( var target_id in t.param.detach.targets ) {
+
+				var target = t.param.detach.targets[ target_id ],
+					obj_target_wrap = jQuery( target.selector_wrap ),
+					obj_target_item = obj_target_wrap.find( target.selector_item ),
+					obj_currents = undefined;
+
+				obj_currents = t.init_detach_get_obj_slides_in_viewport();
+
+				obj_currents.show();
+
+				obj_target_wrap.fadeIn( 'slow' );
+			}
+		}
+
+	};
+
+	t.init_detach_change_item = function() {
+
+		if ( typeof t.param.detach === 'object' && typeof t.param.detach.targets === 'object' ) {
+
+			for ( var target_id in t.param.detach.targets ) {
+
+				var target = t.param.detach.targets[ target_id ],
+					obj_target_wrap = jQuery( target.selector_wrap ),
+					obj_target_item = obj_target_wrap.find( target.selector_item )
+					obj_currents = undefined;
+
+				obj_currents = t.init_detach_get_obj_slides_in_viewport();
+
+				var p = {
+					items: obj_target_item,
+					items_current: obj_currents
+				};
+
+				target.change( p );
+			}
+		}
+
+	};
+
+	t.init_detach_resize = function() {
+
+		if ( typeof t.param.detach === 'object' && typeof t.param.detach.targets === 'object' ) {
+
+			for ( var target_id in t.param.detach.targets ) {
+
+				var target = t.param.detach.targets[ target_id ],
+					obj_target_wrap = jQuery( target.selector_wrap ),
+					obj_target_item = obj_target_wrap.find( target.selector_item )
+					obj_currents = undefined;
+
+				obj_currents = t.init_detach_get_obj_slides_in_viewport();
+
+				var root = obj_target_item.parents( '.detach-target' ),
+					height = root.height();
+
+				root.height( height );
+				obj_target_item.hide();
+				obj_currents.show();
+				root.height( 'auto' );
+
+			}
+		}
+
+	};
+
+	t.init_detach_get_obj_slides_in_viewport = function() {
+
+		if ( typeof t.param.detach === 'object' && typeof t.param.detach.targets === 'object' ) {
+
+			for ( var target_id in t.param.detach.targets ) {
+
+				var target = t.param.detach.targets[ target_id ],
+					obj_target_wrap = jQuery( target.selector_wrap ),
+					query_array = [],
+					query = '';
+
+				for ( var i in t.stat.currentslidesindexes ) {
+
+					query_array.push( target.selector_item + ':nth-child(' + t.stat.currentslidesindexes[ i ] + ')' );
+				}
+
+				query = query_array.join( ',');
+				obj_currents = jQuery( query );
+
+			}
+
+			return jQuery( query );
+		}
+	};
+
 	// }
 
 	// video players {
@@ -1126,6 +1457,32 @@ function YerSlider() {
 			}
 		}
 
+		t.stat.currentslidesindexes = [];
+
+		for ( i = 0; i < ( t.stat.slidecount + ( t.stat.slidegroup * 2 ) ); i++ ) {
+
+			if ( i >= t.stat.slidesinviewportindexbegin && i <= t.stat.slidesinviewportindexend ) {
+
+				var ii = i;
+
+				t.stat.currentslidesindexes.push( ii + 1 );
+			}
+		}
+	};
+
+	t.set_currentslidesindexs = function () {
+
+		t.stat.currentslidesindexes = [];
+
+		for ( i = 0; i < ( t.stat.slidecount + ( t.stat.slidegroup * 2 ) ); i++ ) {
+
+			if ( i >= t.stat.slidesinviewportindexbegin && i <= t.stat.slidesinviewportindexend ) {
+
+				var ii = i;
+
+				t.stat.currentslidesindexes.push( ii + 1 );
+			}
+		}
 	};
 	// }
 
@@ -2134,6 +2491,12 @@ function YerSlider() {
 			t.set_thumbs_current_class();
 
 		// }
+
+		// DETACH {
+
+			t.init_detach_change_item();
+
+		// }
 	};
 
 	// }
@@ -2437,6 +2800,13 @@ function YerSlider() {
 			});*/
 			t.stat.isresizing = false;
 		}
+
+		t.init_detach_resize();
+
+	};
+
+	t.resize_end = function () {
+
 	};
 
 	t.touchswipe = function () {
