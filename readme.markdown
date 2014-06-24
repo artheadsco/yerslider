@@ -390,6 +390,17 @@ detach: {
             insert_method: 'after', // 'before', 'after', 'append', 'prepend'
             template_wrap: '<div class="detach-target">{content}</div>', // html
             template_item: '<div class="detach-target-item">{content}</div>', // html
+            change: function( p ) {
+
+                /*  This function is called on every slide event and
+                    is intended to show the current detachings.
+
+                    p: {
+                        items: slider items objects,
+                        items_current: current slider items objects
+                    }
+                */
+            },
         }
     },
     sources: {
@@ -398,17 +409,6 @@ detach: {
             selector: '.detach-me p', // selector
             source: 'element', // 'element' / 'content'
             remove: '.detach-me', // selector
-            change: function( p ) {
-                
-                /*  This function is called on every slide event and
-                    is intended to show the current detachings.
-		
-                    p: {
-                        items: slider items objects,
-                        items_current: current slider items objects
-                    }
-                */
-            },
         }
     }
 }
