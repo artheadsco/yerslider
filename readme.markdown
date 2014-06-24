@@ -391,7 +391,7 @@ detach: {
             template_wrap: '<div class="detach-target">{content}</div>', // html
             template_item: '<div class="detach-target-item">{content}</div>', // html
         }
-    },
+    ],
     sources: {
        '1': {
             target_id: '1', // key of targets object
