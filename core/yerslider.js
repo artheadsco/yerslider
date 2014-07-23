@@ -2158,9 +2158,9 @@ function YerSlider() {
 							template_html = t.param.thumbstemplates[ template_key ].html;
 
 							// if class
-							if ( t.param.thumbstemplates[ template_key ].class ) {
+							if ( t.param.thumbstemplates[ template_key ].cssclass ) {
 
-								thumb_class = ' ' + t.param.thumbstemplates[ template_key ].class;
+								thumb_class = ' ' + t.param.thumbstemplates[ template_key ].cssclass;
 							}
 
 							// get the placeholders from the template in an array

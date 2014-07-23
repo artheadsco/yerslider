@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.5.1** *2014-07-23*
+	- FIX Changed object key name 'class' to 'cssclass' in the thumbstemplates setup object because class is a reserved keyword in older IE´s.
 * **1.5.0** *2014-06-23*
 	- NEW Detachings, take some slide content and put it elsewhere.
 * **1.4.4** *2014-05-27*
@@ -285,7 +287,7 @@ thumbshideiflessthan: 2,
 thumbstemplates: {
 	'1': {
 		'html': '<p>{{thumb-text}}</p>',
-		'class': 'my-thumb-template-class'
+		'cssclass': 'my-thumb-template-class'
 	}
 },
 thumbsclickable: true,

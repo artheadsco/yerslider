@@ -141,7 +141,7 @@ myslider.init({
 	thumbstemplates: {
 		'1': {
 			'html': '&#060;p&#062;{{thumb-text}}&#060;/p&#062;',
-			'class': 'thumb-template-1'
+			'cssclass': 'thumb-template-1'
 		}
 	},
 	thumbsclickable: true,
@@ -181,7 +181,7 @@ myslider.init({
 					thumbstemplates: {
 						'1': {
 							'html': '<p>{{thumb-text}}</p>',
-							'class': 'thumb-template-1'
+							'cssclass': 'thumb-template-1'
 						}
 					},
 					thumbsclickable: true,
