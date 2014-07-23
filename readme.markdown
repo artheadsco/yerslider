@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.5.2** *2014-07-23*
+	- FIX Removed using indexOf because it is not supported by older IE´s.
 * **1.5.1** *2014-07-23*
 	- FIX Changed object key name 'class' to 'cssclass' in the thumbstemplates setup object because class is a reserved keyword in older IE´s.
 * **1.5.0** *2014-06-23*

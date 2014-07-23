@@ -26,7 +26,7 @@
 				YerSlider is designed <strong>for developpers</strong>, <strong>high responsive</strong> and potentially <strong>can slide anything</strong>.</p>
 			<p class="alert">This page is casually under construction.</p>
             
-            <a class="download_btn" href="https://github.com/johannheyne/yerslider/archive/master.zip" target="_self"  title="">Download <span class="version">Version 1.5.1</span></a>
+            <a class="download_btn" href="https://github.com/johannheyne/yerslider/archive/master.zip" target="_self"  title="">Download <span class="version">Version 1.5.2</span></a>
             
             
 		</div>
@@ -533,7 +533,12 @@ myslider.init({
 		</div>
 
 		<ul class="changelog">
-		
+
+			<li>Version 1.5.2 <span class="date">2014-07-23</span>
+                <ul>
+                	<li>FIX Removed using indexOf because it is not supported by older IE´s.</li>
+                </ul>
+            </li>
 			<li>Version 1.5.1 <span class="date">2014-07-23</span>
                 <ul>
                 	<li>FIX Changed object key name 'class' to 'cssclass' in the thumbstemplates setup object because class is a reserved keyword in older IE´s.</li>

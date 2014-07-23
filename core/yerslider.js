@@ -261,7 +261,7 @@ function YerSlider() {
 				// TouchSwipe {
 
 					if ( typeof jQuery.fn.swipe == 'undefined' 
-					&& t.stat.browser_features.indexOf( 'touch' ) !== -1
+					&& jQuery.inArray( 'touch', t.stat.browser_features ) !== -1
 					&& t.param.swipe === true ) {
 
 						t.init_dependencies_path( {
