@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.5.3** *2014-07-24*
+	- FIX parameter autoplaycontinuouslyspeed calculation.
 * **1.5.2** *2014-07-23*
 	- FIX Removed using indexOf because it is not supported by older IE´s.
 * **1.5.1** *2014-07-23*
@@ -358,7 +360,7 @@ Continuosly scrolling like a ticker:
 
 ```javascript
 autoplaycontinuously: false,
-autoplaycontinuouslyspeed: 10000,
+autoplaycontinuouslyspeed: 4000, // milliseconds per slide
 autoplaycontinuouslystoponhover: true,
 ```
 
