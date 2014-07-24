@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.5.4** *2014-07-24*
+	- FIX missing slides on autoplaycontinuously on touch devices.
 * **1.5.3** *2014-07-24*
 	- FIX parameter autoplaycontinuouslyspeed calculation.
 * **1.5.2** *2014-07-23*
