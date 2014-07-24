@@ -362,9 +362,10 @@ Continuosly scrolling like a ticker:
 
 ```javascript
 autoplaycontinuously: false,
-autoplaycontinuouslyspeed: 4000, // milliseconds per slide
+autoplaycontinuouslyspeed: 4000, // milliseconds per slide distance
 autoplaycontinuouslystoponhover: true,
 ```
+Falls back to autoplay if css animation is not available.
 
 ### Swipe #################################
 
