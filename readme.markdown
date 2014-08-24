@@ -119,7 +119,7 @@ The basic html of the slider is what you should provide in your code, to make th
 					<!-- slide content -->
 				</li>
 			</ul>
-		<div>
+		</div>
 		<!-- buttons, bullets, thumbs appears here by …location: 'inside' -->
 	</div>
 	<!-- buttons, bullets, thumbs  appears here by …location: 'outside' -->
