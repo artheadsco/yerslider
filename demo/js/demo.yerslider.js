@@ -1970,9 +1970,9 @@
 
 /*
  * @package		YerSlider
- * @version		1.5.4
- * @date		2014-07-24
- * @time		8:59:05
+ * @version		1.5.5
+ * @date		2014-09-02
+ * @time		14:01:30
  * @license		MIT or GPL
  * @repository	https://github.com/johannheyne/yerslider.git
  * @homepage	http://demo.johannheyne.de/yerslider/demo/
@@ -1981,9 +1981,9 @@ function YerSliderThumbs(){var a=this;a.param={thumbswrapclass:".yerslider-thumb
 
 /*
  * @package		YerSlider
- * @version		1.5.4
- * @date		2014-07-24
- * @time		8:59:02
+ * @version		1.5.5
+ * @date		2014-09-02
+ * @time		14:01:28
  * @license		MIT or GPL
  * @repository	https://github.com/johannheyne/yerslider.git
  * @homepage	http://demo.johannheyne.de/yerslider/demo/

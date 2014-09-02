@@ -11,6 +11,9 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.5.5** *2014-09-02*
+	- Add IPv6 equivalent "::1" of the IPv4 "127.0.0.1".
+	If your are using the YerSliderGlobals variable to adapt YerSlider options for different enviroments, you may upgrade the local enviroment detection as decribed in the chapter "Adapting Options For Different Enviroments".
 * **1.5.4** *2014-07-24*
 	- FIX missing slides on autoplaycontinuously on touch devices.
 * **1.5.3** *2014-07-24*
@@ -167,7 +170,9 @@ If you use enviroments for developing, staging etc., all options of YerSlider ca
 <?php
 
 	// development enviroment
-	if ( stristr( $_SERVER['SERVER_ADDR'], '127.0.0.1' ) ) {
+	// Notice, "::1" is the IPv6 equivalent of the IPv4 127.0.0.1 address
+	
+	if ( stristr( $_SERVER['SERVER_ADDR'], '127.0.0.1' ) || stristr( $_SERVER['SERVER_ADDR'], '::1' ) ) {
 
 		$autoplayinterval = 1000;
 	}
