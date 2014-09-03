@@ -67,7 +67,7 @@ myslider.init({
 	slidegap: 10,
 	slidegroupresp: {
 		0: 1,
-		420: 2,
+		450: 2,
 		800: 3,
 		1000: 4,
 		1200: 5,
@@ -112,7 +112,7 @@ myslider.init({
 					slidegap: 10,
 					slidegroupresp: {
 						0: 1,
-						420: 2,
+						450: 2,
 						800: 3,
 						1000: 4,
 						1200: 5,
