@@ -43,7 +43,7 @@
 
 	for ( $i = 1; $i <= 18; $i++ ) {
 
-		//shuffle( $path );
+		shuffle( $path );
 ?>
     					<li class="yerslider-slide" data-thumb-template-key="1" data-thumb-img-src="../images/landscape/<?php echo str_pad( $i, 2, '0', STR_PAD_LEFT ); ?>-thumb.jpg">
 

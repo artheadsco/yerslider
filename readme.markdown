@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.6.0** *2014-09-03*
+	- New images loaded setup, improved images loaded.
 * **1.5.5** *2014-09-02*
 	- Add IPv6 equivalent "::1" of the IPv4 "127.0.0.1".
 	If your are using the YerSliderGlobals variable to adapt YerSlider options for different enviroments, you may upgrade the local enviroment detection as decribed in the chapter "Adapting Options For Different Enviroments".
@@ -204,6 +206,21 @@ Options
 sliderid: '.mysliderclass',
 ```
 
+### Images Loaded #########################
+
+With ```imagesloaded``` slider areas are defined, which are to be checked for loaded images before they are displayed. 
+```'slider'``` will display the sliderviewport when all images of all slides are loaded.
+```'slide'``` will display the sliderviewport when all images of the first slides in the viewport are loaded.
+This will also be pause sliding and displaying an new element inside the viewport with the class ```.slider-loading``` until the images of the next current slides are loaded.
+```'thumbs'``` will display the thumps when all images used in the thumbs are loaded.
+
+The ```loadingmessagedelay``` defines the time in milliseconds to wait, until the element with the class ```.slider-loading``` should be created while checking for loaded images.
+
+```javascript
+imagesloaded: [ 'slide', 'thumbs' ], // [ 'slider', 'slide', 'thumbs' ]
+loadingmessagedelay: 30,
+```
+
 ### CSS Classes #########################
 
 YerSlider uses some css classes you may could change.
@@ -237,6 +254,9 @@ thumbswrapclass: '.yerslider-thumbs-wrap',
 thumbsmaskclass: '.yerslider-thumbs-mask',
 thumbsitemsclass: '.yerslider-thumbs-items',
 thumbsitemclass: '.yerslider-thumbs-item',
+
+// slide is loading message element
+loadingclass: '.yerslider-loading',
 ```
 
 ### Group Slides #########################
