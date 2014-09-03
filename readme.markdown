@@ -208,18 +208,19 @@ sliderid: '.mysliderclass',
 
 ### Images Loaded #########################
 
-With ```imagesloaded``` slider areas are defined, which are to be checked for loaded images before they are displayed. 
-```'slider'``` will display the sliderviewport when all images of all slides are loaded.
-```'slide'``` will display the sliderviewport when all images of the first slides in the viewport are loaded.
-This will also be pause sliding and displaying an new element inside the viewport with the class ```.slider-loading``` until the images of the next current slides are loaded.
-```'thumbs'``` will display the thumps when all images used in the thumbs are loaded.
-
-The ```loadingmessagedelay``` defines the time in milliseconds to wait, until the element with the class ```.slider-loading``` should be created while checking for loaded images.
-
 ```javascript
 imagesloaded: [ 'slide', 'thumbs' ], // [ 'slider', 'slide', 'thumbs' ]
 loadingmessagedelay: 30,
 ```
+
+With ```imagesloaded``` slider areas are defined, which are to be checked for loaded images before they are displayed. 
+```'slider'``` will display the sliderviewport when all images of all slides are loaded.
+```'slide'``` will display the sliderviewport when all images of the first slides in the viewport are loaded.
+This also pauses sliding and creates an new element inside the viewport with the class ```.slider-loading``` until the images of the next current slides are loaded.
+
+```'thumbs'``` will display the thumps when all images used in the thumbs are loaded.
+
+The ```loadingmessagedelay``` defines the time in milliseconds to wait, until the element with the class ```.slider-loading``` should be created while checking for loaded images.
 
 ### CSS Classes #########################
 
