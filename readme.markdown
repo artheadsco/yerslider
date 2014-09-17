@@ -6,7 +6,7 @@ There are [Demos and Documentation](http://demo.johannheyne.de/yerslider/demo/) 
 
 The script was started to personel understand all the limitations and problems I had with other slider-scripts.
 
-Latest Version History
+Releases & Download
 ------------------------------------------
 
 You can read [the version history](https://github.com/johannheyne/yerslider/releases/) and [download the latest stable version](https://github.com/johannheyne/yerslider/releases/latest/) here on GitHub.
