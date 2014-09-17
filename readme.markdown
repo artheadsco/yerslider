@@ -6,43 +6,10 @@ There are [Demos and Documentation](http://demo.johannheyne.de/yerslider/demo/) 
 
 The script was started to personel understand all the limitations and problems I had with other slider-scripts.
 
-This documentation is still incomplete!
-
 Latest Version History
 ------------------------------------------
 
-* **1.6.1** *2014-09-17*
-	- FIX double loading youtube iframe api.
-* **1.6.0** *2014-09-03*
-	- New images loaded setup, improved images loaded.
-* **1.5.5** *2014-09-02*
-	- Add IPv6 equivalent "::1" of the IPv4 "127.0.0.1".
-	If your are using the YerSliderGlobals variable to adapt YerSlider options for different enviroments, you may upgrade the local enviroment detection as decribed in the chapter "Adapting Options For Different Enviroments".
-* **1.5.4** *2014-07-24*
-	- FIX missing slides on autoplaycontinuously on touch devices.
-* **1.5.3** *2014-07-24*
-	- FIX parameter autoplaycontinuouslyspeed calculation.
-* **1.5.2** *2014-07-23*
-	- FIX Removed using indexOf because it is not supported by older IE´s.
-* **1.5.1** *2014-07-23*
-	- FIX Changed object key name 'class' to 'cssclass' in the thumbstemplates setup object because class is a reserved keyword in older IE´s.
-* **1.5.0** *2014-06-23*
-	- NEW Detachings, take some slide content and put it elsewhere.
-* **1.4.4** *2014-05-27*
-	- NEW The YerSliderGlobals object can adapt options for different enviroments.
-* **1.4.3** *2014-05-26*
-	- FIX autoload
-* **1.4.2** *2014-05-26*
-	- New option slidingstep
-* **1.4.1** *2014-05-23*
-	- Autoload dependencies
-* **1.4.0** *2014-05-21*
-	- Basic support for images (images loaded?)
-	- Image Demo
-* **1.3.1** *2014-05-16*
-	- Viewport – there is a new html element, that wraps the slidermask element. The navigation elements were previously located physicaly below the slider. Now it is possible to position navigation elements inside and outside the slider viewport.
-* **1.2.0** *2014-05-15*
-	- Thumbs
+(All Releases…)[https://github.com/johannheyne/yerslider/releases/]
 
 Properties
 ------------------------------------------
