@@ -11,6 +11,8 @@ Latest Version History
 
 You can find [the version history](https://github.com/johannheyne/yerslider/releases/) and the [latest stable version](https://github.com/johannheyne/yerslider/releases/latest/) here on GitHub.
 
+[DOWNLOAD](https://github.com/johannheyne/yerslider/releases/latest/)
+
 Properties
 ------------------------------------------
 
