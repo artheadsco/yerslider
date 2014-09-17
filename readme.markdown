@@ -11,6 +11,8 @@ This documentation is still incomplete!
 Latest Version History
 ------------------------------------------
 
+* **1.6.0** *2014-09-17*
+	- FIX double loading youtube iframe api.
 * **1.6.0** *2014-09-03*
 	- New images loaded setup, improved images loaded.
 * **1.5.5** *2014-09-02*

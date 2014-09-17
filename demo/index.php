@@ -26,7 +26,7 @@
 				YerSlider is designed <strong>for developpers</strong>, <strong>high responsive</strong> and potentially <strong>can slide anything</strong>.</p>
 			<p class="alert">This page is casually under construction.</p>
             
-            <a class="download_btn" href="https://github.com/johannheyne/yerslider/archive/master.zip" target="_self"  title="">Download <span class="version">Version 1.6.0</span></a>
+            <a class="download_btn" href="https://github.com/johannheyne/yerslider/archive/master.zip" target="_self"  title="">Download <span class="version">Version 1.6.1</span></a>
             
             
 		</div>
@@ -533,12 +533,17 @@ myslider.init({
 		</div>
 
 		<ul class="changelog">
-			<li>Version 1.6.0 <span class="date">2014-07-24</span>
+			<li>Version 1.6.1 <span class="date">2014-09-17</span>
+				<ul>
+					<li>FIX double loading youtube iframe api.</li>
+				</ul>
+			</li>
+			<li>Version 1.6.0 <span class="date">2014-09-03</span>
 				<ul>
 					<li>New images loaded setup, improved images loaded.</li>
 				</ul>
 			</li>
-			<li>Version 1.5.5 <span class="date">2014-07-24</span>
+			<li>Version 1.5.5 <span class="date">2014-09-02</span>
 				<ul>
 					<li>Add IPv6 equivalent "::1" of the IPv4 "127.0.0.1".<br />
 					If your are using the YerSliderGlobals variable to adapt YerSlider options for different enviroments, you may upgrade the local enviroment detection as decribed in the chapter "Adapting Options For Different Enviroments" of the readme.markdown.</li>
