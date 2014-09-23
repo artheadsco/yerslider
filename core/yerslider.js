@@ -3199,7 +3199,7 @@ function YerSlider() {
 
 		setDefaultParam: function ( p ) {
 
-			var r = jQuery.extend( p.d, p.p );
+			var r = jQuery.extend( true, p.d, p.p );
 			
 
 			return r;
