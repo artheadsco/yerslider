@@ -91,6 +91,10 @@ function YerSlider() {
 		nextclassadd: '',
 		prevclassadd: '',
 
+		// keys
+		nextkey: 13,
+		prevkey: 14,
+		
 		// bullets
 		bullets: false,
 		bulletslocation: 'outside', // inside, outside,
@@ -334,7 +338,9 @@ function YerSlider() {
 		t.clon_slides();
 
 		t.set_prevnext();
-
+		
+		t.keynav();
+		
 		t.thumbs();
 
 		t.bullets();
@@ -1749,6 +1755,24 @@ function YerSlider() {
 		t.obj.slide.removeClass('current');
 		jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
 
+	};
+	
+	t.keynav = function () {
+
+	    jQuery( document ).on( 'keyup', function ( event ) {
+
+			if ( event.keyCode === 39 ) {
+				
+				t.stat.lasteventtype = 'click-next';
+				t.next_job();
+			}
+			
+			if ( event.keyCode === 37 ) {
+				
+				t.stat.lasteventtype = 'click-prev';
+				t.prev_job();
+			}
+		});
 	};
 
 	/*

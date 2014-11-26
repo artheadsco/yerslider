@@ -1983,7 +1983,7 @@ function YerSliderThumbs(){var a=this;a.param={thumbswrapclass:".yerslider-thumb
  * @package		YerSlider
  * @version		1.6.8
  * @date		2014-11-26
- * @time		11:50:27
+ * @time		11:50:35
  * @license		MIT or GPL
  * @repository	https://github.com/johannheyne/yerslider.git
  * @homepage	http://demo.johannheyne.de/yerslider/demo/
