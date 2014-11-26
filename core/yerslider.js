@@ -136,6 +136,8 @@ function YerSlider() {
 
 		// detachning
 		detach: undefined,
+		
+		sliderfadeinspeed: 'slow'
 	};
 
 	t.stat = {
@@ -351,7 +353,7 @@ function YerSlider() {
 
 		t.init_iosresizeclickbug();
 
-		// t.init_showslides();
+		t.init_showslides();
 
 		t.init_video();
 
@@ -910,7 +912,7 @@ function YerSlider() {
 			'opacity': '1',
 			'position': 'relative',
 			'left': '0',
-		} ).fadeIn( 'slow', function() {
+		} ).fadeIn( t.param.sliderfadeinspeed , function() {
 
 			t.init_slider_ready();
 
