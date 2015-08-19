@@ -2761,7 +2761,7 @@ function YerSlider() {
 
 						if ( t.stat.lasteventtype === 'click-next'
 						|| t.stat.lasteventtype === 'autoplay'
-						|| t.stat.lasteventtype === 'swipe-right' ) {
+						|| t.stat.lasteventtype === 'swipe-left' ) {
 
 							if ( t.stat.currentslideindex === t.stat.slidecount
 							|| t.stat.currentslideindex === t.stat.slidecount - t.stat.slidegroup + t.param.slidingstep ) {
@@ -2788,7 +2788,7 @@ function YerSlider() {
 
 						if ( t.stat.lasteventtype === 'click-next'
 						|| t.stat.lasteventtype === 'autoplay' 
-						|| t.stat.lasteventtype === 'swipe-right' ) {
+						|| t.stat.lasteventtype === 'swipe-left' ) {
 
 							if ( t.stat.currentslideindex == t.stat.slidecount ) {
 
