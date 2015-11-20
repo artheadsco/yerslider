@@ -1759,16 +1759,27 @@ function YerSlider() {
 
 		t.obj.slide.removeClass('current');
 		t.obj.slide.removeClass('slidegroup-current');
-		
+		t.obj.slide.removeClass('slidegroup-first');
+
 		for ( var i in t.stat.slidesinviewportindexes ) {
 
 			jQuery( t.obj.slide[ ( t.stat.slidesinviewportindexes[ i ] - 1 ) ] ).addClass( 'slidegroup-current' );
+
+			if ( i == 0 ) {
+
+				jQuery( t.obj.slide[ ( t.stat.slidesinviewportindexes[ i ] - 1 ) ] ).addClass( 'slidegroup-first' );
+			}
+
+			if ( i == t.stat.slidegroup - 1 ) {
+
+				jQuery( t.obj.slide[ ( t.stat.slidesinviewportindexes[ i ] - 1 ) ] ).addClass( 'slidegroup-last' );
+			}
 		}
-		
+
 		jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
 
 	};
-	
+
 	t.keynav = function () {
 
 	    jQuery( document ).on( 'keyup', function ( event ) {
