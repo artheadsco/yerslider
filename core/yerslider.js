@@ -1760,6 +1760,7 @@ function YerSlider() {
 		t.obj.slide.removeClass('current');
 		t.obj.slide.removeClass('slidegroup-current');
 		t.obj.slide.removeClass('slidegroup-first');
+		t.obj.slide.removeClass('slidegroup-last');
 
 		for ( var i in t.stat.slidesinviewportindexes ) {
 
