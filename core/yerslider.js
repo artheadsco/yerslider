@@ -1751,11 +1751,20 @@ function YerSlider() {
 				t.prevbtn_click_unbind();
 			}
 		}
+		
+		t.set_slide_current_class();
 	};
 
 	t.set_slide_current_class = function () {
 
 		t.obj.slide.removeClass('current');
+		t.obj.slide.removeClass('slidegroup-current');
+		
+		for ( var i in t.stat.slidesinviewportindexes ) {
+
+			jQuery( t.obj.slide[ ( t.stat.slidesinviewportindexes[ i ] - 1 ) ] ).addClass( 'slidegroup-current' );
+		}
+		
 		jQuery( t.obj.slide[ t.stat.currentslideindex ] ).addClass('current');
 
 	};
