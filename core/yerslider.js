@@ -1601,6 +1601,8 @@ function YerSlider() {
 				t.obj.prevbtn = undefined;
 				t.stat.prevbtnclickable = false;
 			}
+
+			t.set_slide_current_class();
 		}
 
 	};
@@ -2973,6 +2975,7 @@ function YerSlider() {
 
 	t.resize_end = function () {
 
+		t.set_slide_current_class();
 	};
 
 	t.touchswipe = function () {
