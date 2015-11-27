@@ -27,8 +27,11 @@ function YerSlider() {
 		// path
 		yersliderfolderabsolutepath: '/',
 
-		// sliderid
+		// slider id
 		sliderid: '.yerslider',
+
+		// slider object
+		sliderobj: undefined,
 
 		// images loaded
 		imagesloaded: [ 'slide', 'thumbs' ], /* [ 'slider', 'slide', 'thumbs' ] */
@@ -484,12 +487,25 @@ function YerSlider() {
 
 		/* define slider objects */
 
-		t.obj.sliderid = jQuery( t.param.sliderid );
-		t.obj.sliderwrap = jQuery( t.param.sliderid );
-		t.obj.sliderviewport = jQuery( t.param.sliderid + ' ' + t.param.sliderviewportclass );
-		t.obj.slidermask = jQuery( t.param.sliderid + ' ' + t.param.slidermaskclass );
-		t.obj.slider = jQuery( t.param.sliderid + ' ' + t.param.sliderclass );
-		t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+		if ( typeof t.param.sliderobj === 'undefined' ) {
+
+			t.obj.sliderid = jQuery( t.param.sliderid );
+			t.obj.sliderwrap = jQuery( t.param.sliderid );
+			t.obj.sliderviewport = jQuery( t.param.sliderid + ' ' + t.param.sliderviewportclass );
+			t.obj.slidermask = jQuery( t.param.sliderid + ' ' + t.param.slidermaskclass );
+			t.obj.slider = jQuery( t.param.sliderid + ' ' + t.param.sliderclass );
+			t.obj.slide = jQuery( t.param.sliderid + ' ' + t.param.slideclass );
+		}
+		else {
+
+			t.obj.sliderid = t.param.sliderobj;
+			t.obj.sliderwrap = t.param.sliderobj;
+			t.obj.sliderviewport = t.param.sliderobj.find( t.param.sliderviewportclass );
+			t.obj.slidermask = t.param.sliderobj.find( t.param.slidermaskclass );
+			t.obj.slider = t.param.sliderobj.find( t.param.sliderclass );
+			t.obj.slide = t.param.sliderobj.find( t.param.slideclass );
+		}
+
 	};
 
 	t.init_css = function () {
