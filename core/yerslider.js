@@ -95,7 +95,7 @@ function YerSlider() {
 		// keys
 		nextkey: 13,
 		prevkey: 14,
-		
+
 		// bullets
 		bullets: false,
 		bulletslocation: 'outside', // inside, outside,
@@ -137,7 +137,7 @@ function YerSlider() {
 
 		// detachning
 		detach: undefined,
-		
+
 		sliderfadeinspeed: 'slow'
 	};
 
@@ -341,9 +341,9 @@ function YerSlider() {
 		t.clon_slides();
 
 		t.set_prevnext();
-		
+
 		t.keynav();
-		
+
 		t.thumbs();
 
 		t.bullets();
@@ -1751,8 +1751,9 @@ function YerSlider() {
 				t.prevbtn_click_unbind();
 			}
 		}
-		
+
 		t.set_slide_current_class();
+
 	};
 
 	t.set_slide_current_class = function () {
@@ -1786,13 +1787,13 @@ function YerSlider() {
 	    jQuery( document ).on( 'keyup', function ( event ) {
 
 			if ( event.keyCode === 39 ) {
-				
+
 				t.stat.lasteventtype = 'click-next';
 				t.next_job();
 			}
-			
+
 			if ( event.keyCode === 37 ) {
-				
+
 				t.stat.lasteventtype = 'click-prev';
 				t.prev_job();
 			}
@@ -2995,14 +2996,14 @@ function YerSlider() {
 				  && t.stat.isanimating === false
 				)
 			) {
-				
+
 				t.stat.isswiping = true;
-				
+
 				if ( phase === 'start' ) {
 
 					event.preventDefault();
 				}
-				
+
 				//If we are moving before swipe, and we are going L or R, then manually drag the images
 
 				else if ( phase === 'move' ) {
@@ -3053,12 +3054,12 @@ function YerSlider() {
 
 						t.autoplayset();
 					}
-					
+
 				}
 
 				t.stat.isswiping = false;
 			}
-			
+
 		}
 
 		// init touch swipe
@@ -3268,7 +3269,6 @@ function YerSlider() {
 		setDefaultParam: function ( p ) {
 
 			var r = jQuery.extend( true, p.d, p.p );
-			
 
 			return r;
 		},
