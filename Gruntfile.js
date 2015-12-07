@@ -77,7 +77,7 @@ module.exports = function(grunt) {
 			expanded: {
 				options: {
 					style: 'expanded',
-					banner: setup.banner,
+					//banner: setup.banner,
 				},
 				files: [{
 					expand: true,
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
 			min: {
 				options: {
 					style: 'compressed',
-					banner: setup.banner,
+					//banner: setup.banner,
 				},
 				files: [{
 					expand: true,
