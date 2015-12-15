@@ -7,12 +7,17 @@
 
 			step 1
 
+				grunt uglify
+				grunt sass
+
+			step 2
+
 				grunt bump:patch	1.0.0 -> 1.0.1
 				grunt bump:minor	1.0.1 -> 1.1.0
 				grunt bump:major	1.1.0 -> 2.0.0
 				grunt bump --setversion=1.7.8
 
-			step 2
+			step 3
 
 				After bumping run following grunt tasks 
 				to update the version to all files:
