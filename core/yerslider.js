@@ -2655,8 +2655,6 @@ function YerSlider() {
 						prev_id = t.stat.lastslideindex,
 						prev = jQuery( t.obj.slide[ prev_id ] );
 
-					console.log( prev_id );
-
 				// }
 
 				// SHOW {
