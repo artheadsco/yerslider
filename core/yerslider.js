@@ -60,7 +60,7 @@ function YerSlider() {
 		// animation
 		animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
 		animationspeed: 1000,
-		animationspeed_height: 300,
+		animationspeed_adjustheight: 300,
 
 		// loop
 		loop: 'none', /* infinite, rollback */
@@ -947,7 +947,7 @@ function YerSlider() {
 				});
 
 				t.obj.slidermask.css({
-					'transition': ( t.param.animationspeed_height / 1000 ) + 's height',
+					'transition': ( t.param.animationspeed_adjustheight / 1000 ) + 's height',
 				});
 			}
 

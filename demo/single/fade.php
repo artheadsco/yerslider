@@ -80,10 +80,11 @@ myslider.init({
 	sliderid: '.mysliderclass',
 	loop: 'infinite',
 	<div class="code-focus">transitionstyle: 'fade',</div> // slide, fade
-	animationspeed: 1000,
+	<div class="code-focus">animationspeed: 1000,
+	animationspeed_adjustheight: 300,</div>
 	bullets: true,
 	autoplay: true,
-	autoplayinterval: 1000,
+	autoplayinterval: 2000,
 	autoplaydelaystart: 0,
 	autoplaystoponhover: true,
 });</pre>
@@ -94,14 +95,15 @@ myslider.init({
 		  jQuery.noConflict();
 		  jQuery(document).ready(function(){
 
-				var myslider4 = new YerSlider();
-				myslider4.init({
+				var myslider = new YerSlider();
+				myslider.init({
 					sliderid: '.mysliderclass',
-					loop: 'rollback',
+					loop: 'infinite',
 					transitionstyle: 'fade',
 					animationspeed: 1000,
+					animationspeed_adjustheight: 300,
 					bullets: true,
-					autoplay: false,
+					autoplay: true,
 					autoplayinterval: 2000,
 					autoplaydelaystart: 0,
 				    autoplaystoponhover: true,
