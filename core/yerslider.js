@@ -60,6 +60,7 @@ function YerSlider() {
 		// animation
 		animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
 		animationspeed: 1000,
+		animationspeed_height: 300,
 
 		// loop
 		loop: 'none', /* infinite, rollback */
@@ -151,6 +152,7 @@ function YerSlider() {
 		slidegroupmax: 1,
 		slidegroup: 1,
 		currentslideindex: 0,
+		lastslideindex: 0,
 		currentslideposition: 0,
 		slidecount: 0,
 		slidermaskwidth: 0,
@@ -188,12 +190,14 @@ function YerSlider() {
 		browser_features: [],
 		loadingtimeout: false,
 		isloading: false,
+		adjustsliderheightinit: false,
 	};
 
 	t.obj = {
 		sliderid: undefined,
 		sliderwrap: undefined,
 		sliderviewport: undefined,
+		slidermask: undefined,
 		slider: undefined,
 		slide: undefined,
 		bulletswrap: undefined,
@@ -546,26 +550,39 @@ function YerSlider() {
 			'font-size': 0
 		});
 
-		if ( t.param.transitionstyle == 'fade' ) {
+		// STYLES {
 
-			t.obj.slide.css({
-				display: 'inline-block',
-				'white-space': 'normal'/*,
-				'font-size': obj_slide_css.fontsize,
-				'line-height': obj_slide_css.lineheight*/
-			});
-		}
+			// SLIDE {
 
-		if ( t.param.transitionstyle == 'fade' ) {
+				if ( t.param.transitionstyle == 'slide' ) {
 
-			t.obj.slide.css({
-				'display': 'block',
-				'position': 'absolute',
-				'z-index': '0',
-				'top': '0',
-				'left': '0',
-			});
-		}
+					t.obj.slide.css({
+						display: 'inline-block',
+						'white-space': 'normal'/*,
+						'font-size': obj_slide_css.fontsize,
+						'line-height': obj_slide_css.lineheight*/
+					});
+				}
+
+			// }
+
+			// FADE {
+
+				if ( t.param.transitionstyle == 'fade' ) {
+
+					t.obj.slide.css({
+						'display': 'block',
+						'position': 'absolute',
+						'z-index': '0',
+						'top': '0',
+						'left': '0',
+					});
+				}
+
+			// }
+
+		// }
+
 	};
 
 	t.init_touchswipe = function () {
@@ -909,11 +926,30 @@ function YerSlider() {
 
 		if ( t.param.transitionstyle == 'fade' ) {
 
-			var that = jQuery( t.obj.slide[ t.stat.currentslideindex ] );
+			var first_slide = jQuery( t.obj.slide[ t.stat.currentslideindex ] );
 
-			that.css({
-				'z-index': '1',
+			t.obj.slide.css({
+				'z-index': '0',
+				'visibility': '0',
+				'opacity': '0',
 			});
+
+			first_slide.css({
+				'z-index': '1',
+				'visibility': '1',
+				'opacity': '1',
+			});
+
+			if ( t.stat.cssanimation ) {
+
+				t.obj.slide.css({
+					'transition': ( t.param.animationspeed / 1000 ) + 's opacity',
+				});
+
+				t.obj.slidermask.css({
+					'transition': ( t.param.animationspeed_height / 1000 ) + 's height',
+				});
+			}
 
 			t.adjust_slider_height();
 		}
@@ -1447,6 +1483,7 @@ function YerSlider() {
 		if ( temp >= t.stat.slidecount ) {
 
 			temp = t.stat.slidecount;
+			t.stat.lastslideindex = t.stat.currentslideindex;
 			t.stat.currentslideindex = 0;
 			t.move_slider_to_current_index();
 		}
@@ -1660,10 +1697,12 @@ function YerSlider() {
 
 		if ( t.param.slidingstep ) {
 
+			t.stat.lastslideindex = t.stat.currentslideindex;
 			t.stat.currentslideindex = t.stat.currentslideindex + t.param.slidingstep;
 		}
 		else {
 
+			t.stat.lastslideindex = t.stat.currentslideindex;
 			t.stat.currentslideindex = t.stat.currentslideindex + t.stat.slidegroup;
 		}
 
@@ -1673,10 +1712,12 @@ function YerSlider() {
 
 		if ( t.param.slidingstep ) {
 
+			t.stat.lastslideindex = t.stat.currentslideindex;
 			t.stat.currentslideindex = t.stat.currentslideindex - t.param.slidingstep;
 		}
 		else {
 
+			t.stat.lastslideindex = t.stat.currentslideindex;
 			t.stat.currentslideindex = t.stat.currentslideindex - t.stat.slidegroup;
 		}
 	};
@@ -2179,6 +2220,7 @@ function YerSlider() {
 
 					var currentbullet = jQuery(this).data('index');
 
+					t.stat.lastslideindex = t.stat.currentslideindex;
 					t.stat.currentslideindex = ( currentbullet - 1 ) * t.stat.slidegroup;
 
 					// JOB {
@@ -2420,6 +2462,7 @@ function YerSlider() {
 							t.stat.isanimating = true;
 							t.stat.slidingright = true;
 
+							t.lastslideid = t.stat.currentslideindex;
 							t.stat.currentslideindex = thumb_index;
 
 							// JOB {
@@ -2530,10 +2573,54 @@ function YerSlider() {
 
 		if ( t.param.transitionstyle == 'fade' ) {
 
-			console.log( 'fade js' );
+			// ANIMATE {
 
-			t.get_sliderposition();
-			t.stat.isanimating = false;
+				// SETUP {
+
+					var that = jQuery( t.obj.slide[ t.stat.currentslideindex ] ),
+						prev_id = t.stat.lastslideindex,
+						prev = jQuery( t.obj.slide[ prev_id ] );
+
+				// }
+
+				// SHOW {
+
+					prev.css({
+						'z-index': '0',
+					});
+
+					that.css({
+						'z-index': '1',
+					});
+
+					that.animate({
+						'opacity': '1',
+					}, t.param.animationspeed );
+
+					t.adjust_slider_height();
+
+					window.setTimeout( function () {
+
+						// RESET LAST SLIDE {
+
+							prev.css({
+								'opacity': '0',
+							});
+
+						// }
+
+						// ANIMATING ENDS {
+
+							t.stat.isanimating = false;
+							t.animation_finshed();
+
+						// }
+
+					}, t.param.animationspeed );
+
+				// }
+
+			// }
 		}
 
 	};
@@ -2560,50 +2647,59 @@ function YerSlider() {
 
 		if ( t.param.transitionstyle == 'fade' ) {
 
-			console.log( 'fade css' );
-
-			t.stat.isanimating = false;
-			t.animation_finshed();
-
 			// ANIMATE {
 
-				console.log( t.stat.currentslideindex );
-				//console.log( t.stat );
+				// SETUP {
 
-				// SHOW {
+					var that = jQuery( t.obj.slide[ t.stat.currentslideindex ] ),
+						prev_id = t.stat.lastslideindex,
+						prev = jQuery( t.obj.slide[ prev_id ] );
 
-					if ( t.stat.currentslideindex > 0 ) {
-
-						var that = jQuery( t.obj.slide[ t.stat.currentslideindex ] );
-
-						that.css({
-							'z-index': '1',
-						});
-					}
-
-					t.adjust_slider_height();
+					console.log( prev_id );
 
 				// }
 
-				// RESET LAST SLIDE {
+				// SHOW {
 
-					var prev_id = t.stat.currentslideindex - 1;
+					// set the current slider above the previous
+					prev.css({
+						'z-index': '0',
+					});
 
-					if ( prev_id === -1  ) {
+					that.css({
+						'z-index': '1',
+						'opacity': '1',
+					});
 
-						prev_id = t.stat.slidecount - 1;
-					}
+					t.adjust_slider_height();
 
-					if ( prev_id !== 0 ) {
+					window.setTimeout( function () {
 
-						//console.log( prev_id );
+						// RESET LAST SLIDE {
 
-						var prev = jQuery( t.obj.slide[ prev_id ] );
+							prev.css({
+								'transition': '',
+								'opacity': '0',
+							});
 
-						prev.css({
-							'z-index': '0',
-						});
-					}
+							// give the browser time to render the opacity before turning on transition
+							window.setTimeout( function () {
+
+								prev.css({
+									'transition': ( t.param.animationspeed / 1000 ) + 's opacity',
+								});
+							}, 100 );
+
+						// }
+
+						// ANIMATING ENDS {
+
+							t.stat.isanimating = false;
+							t.animation_finshed();
+
+						// }
+
+					}, t.param.animationspeed );
 
 				// }
 
@@ -2788,7 +2884,25 @@ function YerSlider() {
 		var that = jQuery( t.obj.slide[ t.stat.currentslideindex ] ),
 			height = that.height();
 
-		t.obj.slidermask.height( height );
+		if ( ! t.stat.adjustsliderheightinit ) {
+
+			t.obj.slidermask.height( height );
+			t.stat.adjustsliderheightinit = true;
+		}
+		else {
+
+			if ( t.stat.cssanimation ) {
+
+				t.obj.slidermask.height( height );
+			}
+			else {
+
+				t.obj.slidermask.animate({
+				 	'height': height + 'px',
+				}, t.param.animationspeed );
+			}
+		}
+
 	};
 
 	// }
@@ -3498,6 +3612,7 @@ function YerSlider() {
 
 				if ( curr_index ) {
 
+					t.stat.lastslideindex = t.stat.currentslideindex;
 					t.stat.currentslideindex = curr_index;
 
 					t.check_slider_current_index();

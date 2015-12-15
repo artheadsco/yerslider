@@ -1,4 +1,4 @@
-<script src="<?php echo $path; ?>../dependencies/modernizr.js" type="text/javascript"></script>
+<!--<script src="<?php echo $path; ?>../dependencies/modernizr.js" type="text/javascript"></script>-->
 <script src="<?php echo $path; ?>../dependencies/jquery.js"></script>
 
 <?php

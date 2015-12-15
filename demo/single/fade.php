@@ -41,7 +41,7 @@
     					</li>
     					<li class="yerslider-slide">
     						<div class="yerslider-slide-inner demo-typo">
-    							<p>2</p>
+    							<p>2<br>Adjust Slider Height</p>
     						</div>
     					</li>
     					<li class="yerslider-slide">
@@ -101,7 +101,7 @@ myslider.init({
 					transitionstyle: 'fade',
 					animationspeed: 1000,
 					bullets: true,
-					autoplay: true,
+					autoplay: false,
 					autoplayinterval: 2000,
 					autoplaydelaystart: 0,
 				    autoplaystoponhover: true,
