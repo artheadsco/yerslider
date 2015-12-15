@@ -62,6 +62,7 @@
 				<li><a href="single/images.php">Images</a></li>
 				<li><a href="single/youtube.php">YouTube</a></li>
 				<li><a href="single/detaching.php">Detaching</a></li>
+				<li><a href="single/fade.php">Fade</a></li>
 				<!--<li><a href="single/sublimevideo.php">SublimeVideo</a></li>-->
 			</ul>
 

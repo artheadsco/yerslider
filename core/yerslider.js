@@ -54,6 +54,9 @@ function YerSlider() {
 		swipeanimationspeed: 300,
 		allowpagescroll: 'auto', // auto, horizontal, vertical, none
 
+		// transition style
+		transitionstyle: 'slide', // slide, fade
+
 		// animation
 		animationtype: 'ease', /* ease, ease-in-out, ease-in, ease-out, linear */
 		animationspeed: 1000,

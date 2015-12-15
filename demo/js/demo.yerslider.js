@@ -1,12 +1,3 @@
-/*
- * @package		YerSlider
- * @version		1.7.13
- * @date		2015-12-07
- * @time		20:41:40
- * @license		MIT or GPL
- * @repository	https://github.com/johannheyne/yerslider.git
- * @homepage	http://demo.johannheyne.de/yerslider/demo/
- */
 /*!
  * imagesLoaded PACKAGED v3.1.6
  * JavaScript is all like "You images are done yet or what?"
@@ -1991,8 +1982,8 @@ function YerSliderThumbs(){var a=this;a.param={thumbswrapclass:".yerslider-thumb
 /*
  * @package		YerSlider
  * @version		1.7.13
- * @date		2015-12-07
- * @time		20:36:44
+ * @date		2015-12-15
+ * @time		8:20:21
  * @license		MIT or GPL
  * @repository	https://github.com/johannheyne/yerslider.git
  * @homepage	http://demo.johannheyne.de/yerslider/demo/
