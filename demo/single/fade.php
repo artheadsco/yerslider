@@ -97,7 +97,7 @@ myslider.init({
 				var myslider4 = new YerSlider();
 				myslider4.init({
 					sliderid: '.mysliderclass',
-					loop: 'infinite',
+					loop: 'rollback',
 					transitionstyle: 'fade',
 					animationspeed: 1000,
 					bullets: true,
