@@ -28,6 +28,10 @@
 
 				grunt uglify
 				grunt sass
+				
+			step 5
+
+				ame the bump changes to the last commit
 
 	*/
 
